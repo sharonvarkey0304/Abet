@@ -14,39 +14,35 @@ class MailVarification extends StatelessWidget {
     //final controller = Get.put(MailVarificationController());
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Container(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                height: 280, //
-                child: Image.asset(
-                  'assets/images/emailverification.gif',
-                  fit: BoxFit.fill,
-                ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 280, //
+              child: Image.asset(
+                'assets/images/emailverification.gif',
+                fit: BoxFit.fill,
               ),
-              GestureDetector(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'Note: Verify your email id and tap here to continue',
-                      style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 18,
-                          color: Colors.lightBlue),
-                      textAlign: TextAlign.center,
-                    ),
+            ),
+            GestureDetector(
+                onTap: checkVerified,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Note: Verify your email id and tap here to continue',
+                    style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 18,
+                        color: Colors.lightBlue),
+                    textAlign: TextAlign.center,
                   ),
-                  onTap: () {
-                    checkVerified();
-                  }),
-              Text(
-                '(Check your email)',
-                style: GoogleFonts.poppins(fontSize: 12, color: Colors.grey),
-              ),
-            ],
-          ),
+                )),
+            Text(
+              '(Check your email)',
+              style: GoogleFonts.poppins(fontSize: 12, color: Colors.grey),
+            ),
+          ],
         ),
       ),
     );

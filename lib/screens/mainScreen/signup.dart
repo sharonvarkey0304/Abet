@@ -6,7 +6,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:loginpage/controler/signupctr.dart';
 import 'package:loginpage/model/user_model.dart';
 import 'package:loginpage/screens/mainScreen/login.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});

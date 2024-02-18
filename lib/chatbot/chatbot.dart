@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:loginpage/chatbot/api_key.dart';
 
-class chatbot extends StatefulWidget {
-  const chatbot({super.key});
+class Chatbot extends StatefulWidget {
+  const Chatbot({super.key});
 
   @override
-  State<chatbot> createState() => _chatbotState();
+  State<Chatbot> createState() => _ChatbotState();
 }
 
-class _chatbotState extends State<chatbot> {
+class _ChatbotState extends State<Chatbot> {
   final _question = TextEditingController();
   String _answerText = '';
   bool _loading = false;

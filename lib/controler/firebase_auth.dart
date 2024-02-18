@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -12,7 +11,6 @@ import 'package:loginpage/screens/mainScreen/emailVarification.dart';
 import 'package:loginpage/screens/mainScreen/onboarding1.dart';
 import 'package:loginpage/screens/userscreen/userNav.dart';
 import 'package:loginpage/widgets/snackbar.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Authentication extends GetxController {
   static Authentication get instance => Get.find();
@@ -38,7 +36,7 @@ class Authentication extends GetxController {
 
   setInitialScreen(User? user) {
     user == null
-        ? Get.offAll(() => Onboarding())
+        ? Get.offAll(Onboarding.new)
         : user.emailVerified
             ? Get.offAll(() => const UserNav())
             : Get.offAll(() => const MailVarification());
@@ -119,7 +117,7 @@ class Authentication extends GetxController {
   Future<Usermodel> getUserDetails(String email) async {
     final snapshot =
         await _db.collection("Users").where("Email", isEqualTo: email).get();
-    final userdata = snapshot.docs.map((e) => Usermodel.fromSnapshot(e)).single;
+    final userdata = snapshot.docs.map(Usermodel.fromSnapshot).single;
     return userdata;
   }
 

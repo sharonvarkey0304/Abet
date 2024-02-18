@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:loginpage/controler/firebase_auth.dart';
 
 class MailVarificationController extends GetxController {
+  // ignore: unused_field
   late Timer _timer;
   @override
   void onInit() {
@@ -15,7 +16,6 @@ class MailVarificationController extends GetxController {
 
   Future<void> sendVarificationEmail() async {
     try {
-      print('hello');
       await Authentication.instance.sendEmailVerification();
     } catch (e) {
       Get.snackbar('error', '$e');
@@ -23,7 +23,7 @@ class MailVarificationController extends GetxController {
   }
 
   void setTimerForAutoRedirect() {
-    _timer = Timer.periodic(Duration(seconds: 3), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
       FirebaseAuth.instance.currentUser?.reload();
       final user = FirebaseAuth.instance.currentUser;
       if (user!.emailVerified) {

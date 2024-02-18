@@ -8,12 +8,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:loginpage/controler/profile_ctr.dart';
 import 'package:loginpage/model/user_model.dart';
 
-class Profile_edit extends StatelessWidget {
-  const Profile_edit({super.key});
+class ProfileEdit extends StatelessWidget {
+  const ProfileEdit({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(profileCtr());
+    final controller = Get.put(ProfileController());
     return Scaffold(
       appBar: AppBar(),
       body: Container(

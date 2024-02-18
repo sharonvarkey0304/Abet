@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:loginpage/screens/sidebar/semester/sem.dart';
 import 'package:loginpage/screens/sidebar/store/navigation.dart';
 
-class sidenav extends StatelessWidget {
-  const sidenav({super.key});
+class Sidenav extends StatelessWidget {
+  const Sidenav({super.key});
 
   @override
   Widget build(BuildContext context) {

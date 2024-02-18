@@ -1,10 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loginpage/controler/firebase_auth.dart';
 import 'package:loginpage/model/user_model.dart';
 
-class profileCtr extends GetxController {
-  static profileCtr get instance => Get.find();
+class ProfileController extends GetxController {
+  static ProfileController get instance => Get.find();
 //
 
 //

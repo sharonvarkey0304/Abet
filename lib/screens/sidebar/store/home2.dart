@@ -171,7 +171,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20),
-              Container(
+              SizedBox(
                 height: 280,
                 child: ListView.builder(
                   itemCount: imageList.length,
@@ -247,7 +247,7 @@ class HomeScreen extends StatelessWidget {
                                 size: 22,
                               ),
                               Text(
-                                '(' + reviwes[index] + ')',
+                                '(${reviwes[index]})',
                               ),
                               SizedBox(width: 10),
                               Text(
@@ -346,7 +346,7 @@ class HomeScreen extends StatelessWidget {
                                 size: 22,
                               ),
                               Text(
-                                '(' + reviwes[index] + ')',
+                                '(${reviwes[index]})',
                               ),
                               SizedBox(width: 10),
                               Text(

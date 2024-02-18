@@ -11,7 +11,7 @@ class ScreenHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const sidenav(),
+      drawer: const Sidenav(),
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(70),
         child: AppBar(
@@ -25,7 +25,7 @@ class ScreenHome extends StatelessWidget {
             IconButton(
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const chatbot()));
+                      MaterialPageRoute(builder: (context) => const Chatbot()));
                 },
                 icon: const Icon(EvaIcons.messageCircleOutline))
           ],

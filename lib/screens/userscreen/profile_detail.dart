@@ -15,7 +15,7 @@ class ProfileDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(profileCtr());
+    final controller = Get.put(ProfileController());
     return Scaffold(
       appBar: AppBar(
           // actions: [
@@ -46,7 +46,7 @@ class ProfileDetail extends StatelessWidget {
                     return Column(children: [
                       Stack(
                         children: [
-                          Container(
+                          SizedBox(
                             height: 190,
                             width: 170,
                             child: ClipRRect(
@@ -90,7 +90,7 @@ class ProfileDetail extends StatelessWidget {
                             padding: EdgeInsets.symmetric(horizontal: 8),
                             child: ElevatedButton(
                                 onPressed: () {
-                                  Get.to(() => Profile_edit());
+                                  Get.to(ProfileEdit.new);
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors

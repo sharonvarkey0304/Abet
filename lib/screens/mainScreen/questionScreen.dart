@@ -20,7 +20,7 @@ class _ScreenLoginState extends State<QuestionScreen> {
         child: Form(
           child: ListView(
             children: [
-              Container(
+              SizedBox(
                 height: 330,
                 width: MediaQuery.of(context).size.width,
                 child: Image.asset(
@@ -90,7 +90,7 @@ class _ScreenLoginState extends State<QuestionScreen> {
               const SizedBox(height: 30),
               TextButton(
                 onPressed: () {
-                  Get.to(() => SignUp());
+                  Get.to(SignUp.new);
                 },
                 child: const Align(
                   alignment: Alignment.bottomRight,

@@ -16,7 +16,7 @@ class ContentScreen extends StatelessWidget {
               centerTitle: true,
             ),
           ),
-          body: Column(children: [
+          body: Column(children: const [
             TabBar(
               tabs: [
                 Tab(
@@ -34,14 +34,12 @@ class ContentScreen extends StatelessWidget {
                   text: 'M C Q',
                 ),
               ],
-              indicatorColor: const Color.fromARGB(255, 255, 196, 59),
+              indicatorColor: Color.fromARGB(255, 255, 196, 59),
             ),
             Expanded(
               child: TabBarView(children: [
-                Container(
-                  child: Center(
-                    child: Text('1'),
-                  ),
+                Center(
+                  child: Text('1'),
                 ),
                 McqScreen(),
               ]),

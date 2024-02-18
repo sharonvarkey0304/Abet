@@ -43,88 +43,86 @@ class CartScreen extends StatelessWidget {
           padding: EdgeInsets.all(15),
           child: Column(
             children: [
-              Container(
-                child: ListView.builder(
-                    itemCount: imagesList.length,
-                    shrinkWrap: true,
-                    scrollDirection: Axis.vertical,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return Container(
-                        margin: EdgeInsets.symmetric(vertical: 15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Checkbox(
-                                splashRadius: 20,
-                                activeColor: Color.fromARGB(255, 255, 238, 4),
-                                value: true,
-                                onChanged: (val) {}),
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.asset(
-                                imagesList[index],
-                                height: 80,
-                                width: 80,
-                                fit: BoxFit.cover,
+              ListView.builder(
+                  itemCount: imagesList.length,
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return Container(
+                      margin: EdgeInsets.symmetric(vertical: 15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Checkbox(
+                              splashRadius: 20,
+                              activeColor: Color.fromARGB(255, 255, 238, 4),
+                              value: true,
+                              onChanged: (val) {}),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.asset(
+                              imagesList[index],
+                              height: 80,
+                              width: 80,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                productTitles[index],
+                                style: TextStyle(
+                                  color: Colors.black87,
+                                  fontWeight: FontWeight.w900,
+                                  fontSize: 18,
+                                ),
                               ),
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  productTitles[index],
-                                  style: TextStyle(
-                                    color: Colors.black87,
-                                    fontWeight: FontWeight.w900,
-                                    fontSize: 18,
-                                  ),
+                              SizedBox(height: 10),
+                              Text(
+                                "Books",
+                                style: TextStyle(
+                                  color: Colors.black26,
+                                  fontSize: 16,
                                 ),
-                                SizedBox(height: 10),
-                                Text(
-                                  "Books",
-                                  style: TextStyle(
-                                    color: Colors.black26,
-                                    fontSize: 16,
-                                  ),
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                prices[index],
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w900,
                                 ),
-                                SizedBox(height: 10),
-                                Text(
-                                  prices[index],
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w900,
-                                  ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: const [
+                              Icon(
+                                CupertinoIcons.minus,
+                                color: Colors.green,
+                              ),
+                              SizedBox(width: 20),
+                              Text(
+                                "1",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
                                 ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Icon(
-                                  CupertinoIcons.minus,
-                                  color: Colors.green,
-                                ),
-                                SizedBox(width: 20),
-                                Text(
-                                  "1",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                SizedBox(width: 5),
-                                Icon(
-                                  CupertinoIcons.plus,
-                                  color: Colors.red,
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      );
-                    }),
-              ),
+                              ),
+                              SizedBox(width: 5),
+                              Icon(
+                                CupertinoIcons.plus,
+                                color: Colors.red,
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    );
+                  }),
               SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -150,7 +148,7 @@ class CartScreen extends StatelessWidget {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+                children: const [
                   Text(
                     "Total Payment",
                     style: TextStyle(

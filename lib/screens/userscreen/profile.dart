@@ -16,28 +16,26 @@ class Profile extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 235, 223, 115),
         toolbarHeight: 250,
-        title: Container(
-          child: Center(
-            child: Column(children: [
-              SizedBox(
-                height: 120,
-                width: 120,
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(300),
-                    child: Image.asset(
-                        fit: BoxFit.cover, 'assets/images/default.png')),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text('abin',
-                  style: GoogleFonts.poppins(
-                    letterSpacing: 2,
-                    fontSize: 30,
-                    fontWeight: FontWeight.w500,
-                  )),
-            ]),
-          ),
+        title: Center(
+          child: Column(children: [
+            SizedBox(
+              height: 120,
+              width: 120,
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(300),
+                  child: Image.asset(
+                      fit: BoxFit.cover, 'assets/images/default.png')),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text('abin',
+                style: GoogleFonts.poppins(
+                  letterSpacing: 2,
+                  fontSize: 30,
+                  fontWeight: FontWeight.w500,
+                )),
+          ]),
         ),
       ),
       body: SingleChildScrollView(
@@ -97,7 +95,7 @@ class Profile extends StatelessWidget {
                       color: Colors.white30),
                   child: const Icon(Icons.arrow_forward_sharp),
                 ),
-                onTap: () => Get.to(() => ProfileDetail()),
+                onTap: () => Get.to(ProfileDetail.new),
               ),
               SizedBox(
                 height: 10,

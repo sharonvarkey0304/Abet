@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 
 class ContainerButton extends StatelessWidget {
   final Color? bgcolor;
-  final double? ContainerWidth;
+  final double? containerWidth;
   final String itext;
 
-  const ContainerButton(
-      {super.key,
-      this.bgcolor,
-      this.ContainerWidth,
-      required this.itext,
-      required double containerWidth});
+  const ContainerButton({
+    super.key,
+    this.bgcolor,
+    required this.itext,
+    required this.containerWidth,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 60,
-      width: ContainerWidth,
+      width: containerWidth,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: bgcolor,

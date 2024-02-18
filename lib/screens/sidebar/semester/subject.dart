@@ -28,52 +28,50 @@ class SubjectPage extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Container(
-            child: Column(
-              children: [
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(16),
-                      child: Icon(
-                        Icons.arrow_back, // Replace with your desired icon
-                        color: Colors.black,
-                      ),
+          Column(
+            children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    child: Icon(
+                      Icons.arrow_back, // Replace with your desired icon
+                      color: Colors.black,
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      height: 50,
-                      margin: const EdgeInsets.all(10),
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage("assets/images/bck.jpg")),
-                        //color: Colors.yellow,
+              ),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 50,
+                    margin: const EdgeInsets.all(10),
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage("assets/images/bck.jpg")),
+                      //color: Colors.yellow,
 
-                        ///shape: BoxShape.circle,
-                      ),
-                      child: Image.asset(
-                        "assets/images/abet.png",
-                      ),
+                      ///shape: BoxShape.circle,
                     ),
-                  ],
-                ),
-                SizedBox(height: 20),
-                Text(
-                  'SUBJECT',
-                  style: GoogleFonts.poppins(color: Colors.black, fontSize: 30),
-                ),
-                SizedBox(height: 30),
-              ],
-            ),
+                    child: Image.asset(
+                      "assets/images/abet.png",
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
+              Text(
+                'SUBJECT',
+                style: GoogleFonts.poppins(color: Colors.black, fontSize: 30),
+              ),
+              SizedBox(height: 30),
+            ],
           ),
           Expanded(
             child: Container(
@@ -104,7 +102,7 @@ class SubjectPage extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
-                      Get.to(() => ContentScreen());
+                      Get.to(ContentScreen.new);
                       print('Item tapped at index $index');
                     },
                     child: Container(

@@ -33,13 +33,13 @@ class _NavigationScreenState extends State<NavigationScreen> {
       floatingActionButton: SafeArea(
         child: FloatingActionButton(
           onPressed: () {
-            Get.to(() => AddProduct());
+            Get.to(AddProduct.new);
           },
+          backgroundColor: const Color.fromARGB(255, 255, 238, 4),
           child: Icon(
             Icons.add,
             size: 40,
           ),
-          backgroundColor: const Color.fromARGB(255, 255, 238, 4),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

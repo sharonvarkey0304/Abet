@@ -46,7 +46,7 @@ class ProductScreen extends StatelessWidget {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+                children: const [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -72,7 +72,7 @@ class ProductScreen extends StatelessWidget {
                     ],
                   ),
                   Text(
-                    "\Rs 200",
+                    "Rs 200",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 25,
