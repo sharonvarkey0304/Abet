@@ -20,7 +20,7 @@ class SignupCtr extends GetxController {
     super.onClose();
   }
 
-  void registeruser(String email, String password) async {
+  Future<void> registeruser(String email, String password) async {
     // final auth = Authentication.instance;
     await Authentication.instance
         .createUserWithEmailAndPassword(email, password);
@@ -28,7 +28,7 @@ class SignupCtr extends GetxController {
     // auth.setInitialScreen(auth.firebaseUser);
   }
 
-  void createUser(Usermodel user) async {
+  Future<void> createUser(Usermodel user) async {
     await Authentication.instance.createUser(user);
   }
 }

@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -11,6 +12,7 @@ import 'package:loginpage/screens/mainScreen/emailVarification.dart';
 import 'package:loginpage/screens/mainScreen/onboarding1.dart';
 import 'package:loginpage/screens/userscreen/userNav.dart';
 import 'package:loginpage/widgets/snackbar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Authentication extends GetxController {
   static Authentication get instance => Get.find();
@@ -58,10 +60,10 @@ class Authentication extends GetxController {
         colorText: Colors.black,
         snackPosition: SnackPosition.BOTTOM,
         borderRadius: 30,
-        margin: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(10),
         borderColor: Colors.green,
         borderWidth: 2,
-        duration: Duration(seconds: 3),
+        duration: const Duration(seconds: 3),
       );
     }
   }
@@ -72,7 +74,6 @@ class Authentication extends GetxController {
 
       Get.offAll(() => const UserNav());
       Get.snackbar("Welcome", "Successfully logged in");
-
       //Get.offAll(() => const UserVav());
     } catch (e) {
       Get.snackbar(
@@ -82,10 +83,10 @@ class Authentication extends GetxController {
         colorText: Colors.red,
         snackPosition: SnackPosition.TOP,
         borderRadius: 30,
-        margin: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(10),
         borderColor: Colors.green,
         borderWidth: 2,
-        duration: Duration(seconds: 3),
+        duration: const Duration(seconds: 3),
       );
     }
   }
@@ -95,13 +96,22 @@ class Authentication extends GetxController {
 //store data in firebase
 
   createUser(Usermodel user) async {
-    await _db.collection("Users").add(user.toJson()).then((_) {
+    String uuid = _auth.currentUser?.uid ?? '-';
+
+    await _db.collection("Users").doc(uuid).set(user.toJson()).then((_) {
       Get.snackbar("Email", "Tap to varify your email");
     }).catchError((error, stackTrace) {
-      CommonWidget.snackBar(
-        isSuccsess: false,
-        title: "Error",
-        subtitle: "Something went wrong",
+      Get.snackbar(
+        "Error",
+        "Something went wrong",
+        backgroundColor: Colors.white12,
+        colorText: Colors.red,
+        snackPosition: SnackPosition.TOP,
+        borderRadius: 30,
+        margin: const EdgeInsets.all(10),
+        borderColor: Colors.green,
+        borderWidth: 2,
+        duration: const Duration(seconds: 3),
       );
     });
   }
@@ -113,31 +123,58 @@ class Authentication extends GetxController {
     return userdata;
   }
 
-  Future<void> UpdateUserRecord(Usermodel user) async {
+  Future<void> updateUserRecord(Usermodel user) async {
     //doc(user.id)
-    await _db.collection("Users").doc(user.id).update(user.toJson()).then((_) {
-      CommonWidget.snackBar(
-        isSuccsess: true,
-        title: "Success",
-        subtitle: "Your account has been changed",
-      );
-    }).catchError((error, stackTrace) {
-      CommonWidget.snackBar(
-        isSuccsess: false,
-        title: "Error",
-        subtitle: "$error",
-      );
-    });
+
+    String uuid = _auth.currentUser?.uid ?? '-';
+    try {
+      await _db.collection("Users").doc(uuid).update(user.toJson()).then((_) {
+        Get.snackbar(
+          "Success",
+          "Your account has been changed",
+          backgroundColor: Colors.white12,
+          colorText: Colors.blue,
+          snackPosition: SnackPosition.TOP,
+          borderRadius: 30,
+          margin: const EdgeInsets.all(10),
+          borderColor: Colors.green,
+          borderWidth: 2,
+          duration: const Duration(seconds: 3),
+        );
+      }).catchError((error, stackTrace) {
+        Get.snackbar(
+          "Error",
+          "$error",
+          backgroundColor: Colors.white12,
+          colorText: Colors.red,
+          snackPosition: SnackPosition.TOP,
+          borderRadius: 30,
+          margin: const EdgeInsets.all(10),
+          borderColor: Colors.green,
+          borderWidth: 2,
+          duration: const Duration(seconds: 3),
+        );
+      });
+    } catch (e) {
+      debugPrint('error on updating user profile: $e');
+    }
   }
 
   Future<void> sendEmailVerification() async {
     try {
       await _auth.currentUser?.sendEmailVerification();
     } catch (e) {
-      CommonWidget.snackBar(
-        isSuccsess: false,
-        title: "Error",
-        subtitle: "$e",
+      Get.snackbar(
+        "Error",
+        "$e",
+        backgroundColor: Colors.white12,
+        colorText: Colors.red,
+        snackPosition: SnackPosition.TOP,
+        borderRadius: 30,
+        margin: const EdgeInsets.all(10),
+        borderColor: Colors.green,
+        borderWidth: 2,
+        duration: const Duration(seconds: 3),
       );
     }
   }
