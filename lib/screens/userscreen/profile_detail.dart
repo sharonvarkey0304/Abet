@@ -93,7 +93,7 @@ class ProfileDetail extends StatelessWidget {
                                   Get.to(() => Profile_edit());
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  primary: Colors
+                                  backgroundColor: Colors
                                       .yellow, // Change the color to your desired color
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(
@@ -112,7 +112,7 @@ class ProfileDetail extends StatelessWidget {
                             child: ElevatedButton(
                               onPressed: () {},
                               style: ElevatedButton.styleFrom(
-                                primary: Colors
+                                backgroundColor: Colors
                                     .yellow, // Change the color to your desired color
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(

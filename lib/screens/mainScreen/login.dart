@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loginpage/controler/firebase_auth.dart';
 import 'package:loginpage/screens/mainScreen/questionScreen.dart';
+import 'package:loginpage/widgets/snackbar.dart';
 
 class ScreenLogin extends StatefulWidget {
   const ScreenLogin({super.key});
@@ -13,153 +13,153 @@ class ScreenLogin extends StatefulWidget {
 
 class _ScreenLoginState extends State<ScreenLogin> {
   final _email = TextEditingController();
-
+  final _resetEmail = TextEditingController();
   final _password = TextEditingController();
+
+  bool isResetLoading = false;
+  bool isLoginLoading = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Form(
-          // key: _formKey,
-          child: ListView(
-            children: [
-              Container(
-                height: 330,
-                width: MediaQuery.of(context).size.width, // +#
-                child: Image.asset(
-                  'assets/images/login.jpg',
-                  fit: BoxFit.cover,
-                ),
+      body: Form(
+        // key: _formKey,
+        child: ListView(
+          children: [
+            SizedBox(
+              height: 330,
+              width: MediaQuery.of(context).size.width, // +#
+              child: Image.asset(
+                'assets/images/login.jpg',
+                fit: BoxFit.cover,
               ),
-              const SizedBox(
-                height: 20,
-              ),
-              Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                      padding: EdgeInsets.only(left: 9),
-                      child: Text(
-                        "Welcome 👋",
-                        style: GoogleFonts.poppins(fontSize: 30),
-                      ))),
-              SizedBox(height: 10),
-              Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                      padding: EdgeInsets.only(left: 9),
-                      child: Text(
-                        "Sign in to your account",
-                        style: GoogleFonts.poppins(fontSize: 20),
-                      ))),
-              const SizedBox(height: 30),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  children: [
-                    TextFormField(
-                      controller: _email,
-                      //keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
-                          prefixIcon: const Icon(
-                            Icons.email,
-                          ),
-                          label: Text(
-                            'Email Id',
-                            style: GoogleFonts.poppins(),
-                          ),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15))),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    TextFormField(
-                      controller: _password,
-                      obscureText: true,
-                      //keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
-                          prefixIcon: const Icon(
-                            Icons.lock_outline,
-                          ),
-                          label: Text(
-                            'Password',
-                            style: GoogleFonts.poppins(),
-                          ),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15))),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'value is empty';
-                        } else {
-                          return null;
-                        }
-                      },
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        TextButton(
-                            onPressed: () {
-                              popUpBox(context);
-                            },
-                            child: Text(
-                              'forgot password ',
-                              style: GoogleFonts.poppins(),
-                            )),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                    padding: EdgeInsets.only(left: 9),
+                    child: Text(
+                      "Welcome 👋",
+                      style: GoogleFonts.poppins(fontSize: 30),
+                    ))),
+            SizedBox(height: 10),
+            Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                    padding: EdgeInsets.only(left: 9),
+                    child: Text(
+                      "Sign in to your account",
+                      style: GoogleFonts.poppins(fontSize: 20),
+                    ))),
+            const SizedBox(height: 30),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                children: [
+                  TextFormField(
+                    controller: _email,
+                    //keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
+                        prefixIcon: const Icon(
+                          Icons.email,
+                        ),
+                        label: Text(
+                          'Email Id',
+                          style: GoogleFonts.poppins(),
+                        ),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15))),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TextFormField(
+                    controller: _password,
+                    obscureText: true,
+                    //keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
+                        prefixIcon: const Icon(
+                          Icons.lock_outline,
+                        ),
+                        label: Text(
+                          'Password',
+                          style: GoogleFonts.poppins(),
+                        ),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15))),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'value is empty';
+                      } else {
+                        return null;
+                      }
+                    },
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
                           onPressed: () {
-                            _signin();
+                            popUpBox(context);
                           },
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors
-                                .yellow, // Set the background color to yellow
-                          ),
                           child: Text(
-                            'LOGIN',
-                            style: TextStyle(color: Colors.black),
-                          ),
-                        )),
-                    const SizedBox(
-                      height: 20,
+                            'forgot password ',
+                            style: GoogleFonts.poppins(),
+                          )),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: _signin,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors
+                              .yellow, // Set the background color to yellow
+                        ),
+                        child: Text(
+                          'LOGIN',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      )),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (ctx) => QuestionScreen()));
+                    },
+                    child: const Text.rich(
+                      TextSpan(
+                          text: 'Dont have an account?  ',
+                          style: TextStyle(color: Colors.black45),
+                          children: [
+                            TextSpan(
+                                text: 'Sign up',
+                                style: TextStyle(color: Colors.black)),
+                          ]),
                     ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (ctx) => QuestionScreen()));
-                      },
-                      child: const Text.rich(
-                        TextSpan(
-                            text: 'Dont have an account?  ',
-                            style: TextStyle(color: Colors.black45),
-                            children: [
-                              TextSpan(
-                                  text: 'Singn up',
-                                  style: TextStyle(color: Colors.black)),
-                            ]),
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
+                  ),
+                ],
+              ),
+            )
+          ],
         ),
       ),
     );
   }
 
   Future popUpBox(BuildContext ctx) async {
-    return showDialog(
-        context: ctx,
-        builder: (ctx1) {
+    return await showDialog(
+      context: ctx,
+      builder: (ctx1) {
+        return StatefulBuilder(builder: (context, setState) {
           return AlertDialog(
             titlePadding: const EdgeInsets.only(top: 22, bottom: 5),
             actionsPadding:
@@ -172,27 +172,50 @@ class _ScreenLoginState extends State<ScreenLogin> {
             actions: [
               Column(
                 children: [
+                  SizedBox(
+                    height: 8,
+                  ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () async {
+                      setState(() {
+                        isResetLoading = true;
+                      });
+                      await Future.delayed(Duration(seconds: 2));
+                      await Authentication.instance
+                          .resetPassword(email: _resetEmail.text)
+                          .then((value) {
+                        setState(() {
+                          isResetLoading = false;
+                        });
+                      }).onError((error, stackTrace) {
+                        setState(() {
+                          isResetLoading = false;
+                        });
+                      });
+                    },
                     child: Container(
                       height: 50,
                       decoration: BoxDecoration(
                           color: const Color.fromARGB(255, 39, 183, 240),
                           borderRadius: BorderRadius.circular(12)),
                       child: Center(
-                          child: Text(
-                        'Send Reset Link',
-                        style: GoogleFonts.poppins(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 15),
-                      )),
+                        child: isResetLoading
+                            ? CommonWidget.loadingIndicator()
+                            : Text(
+                                'Send Reset Link',
+                                style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15),
+                              ),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 2),
                   TextButton(
                       onPressed: () {
                         Navigator.of(ctx).pop();
+                        _resetEmail.clear();
                       },
                       child: Text(
                         'Close',
@@ -207,33 +230,43 @@ class _ScreenLoginState extends State<ScreenLogin> {
               width: MediaQuery.of(ctx).size.width,
               height: 100,
               color: Colors.white,
-              child: ListView(padding: EdgeInsets.zero, children: [
-                const SizedBox(
-                  height: 15,
-                ),
-                TextFormField(
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(
-                      Icons.email,
-                    ),
-                    label: Text(
-                      'Email Id',
-                      style: GoogleFonts.poppins(),
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: [
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  TextFormField(
+                    keyboardType: TextInputType.emailAddress,
+                    controller: _resetEmail,
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(
+                        Icons.email,
+                      ),
+                      label: Text(
+                        'Email Id',
+                        style: GoogleFonts.poppins(),
+                      ),
                     ),
                   ),
-                ),
-              ]),
+                ],
+              ),
             ),
           );
         });
+      },
+    );
   }
 
   void _signin() async {
     String password = _password.text;
     String email = _email.text;
 
-    Authentication.instance.signInWithEmailAndPassword(email, password);
+    try {
+      await Authentication.instance.signInWithEmailAndPassword(email, password);
+    } catch (e) {
+      print(e.toString());
+    }
     //Authentication.instance.setInitialScreen(user);
   }
 }

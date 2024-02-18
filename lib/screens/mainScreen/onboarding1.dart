@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:loginpage/screens/mainScreen/login.dart';
 
-// ignore: use_key_in_widget_constructors
 class Onboarding extends StatelessWidget {
   final intorKey = GlobalKey<IntroductionScreenState>();
 
   @override
   Widget build(BuildContext context) {
-    final pageDecoration = const PageDecoration(
+    final pageDecoration =  PageDecoration(
       titleTextStyle: TextStyle(
         fontSize: 28,
         fontWeight: FontWeight.w700,
@@ -60,18 +59,18 @@ class Onboarding extends StatelessWidget {
                       MaterialPageRoute(
                           builder: (context) => const ScreenLogin()));
                 },
-                child: const Text(
-                  "Let's Start The Journey",
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
-                ),
                 style: ElevatedButton.styleFrom(
                     minimumSize: Size.fromHeight(55),
                     backgroundColor: Color.fromARGB(255, 255, 238, 4),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     )),
+                child:  Text(
+                  "Let's Start The Journey",
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
               ),
             ))
       ],

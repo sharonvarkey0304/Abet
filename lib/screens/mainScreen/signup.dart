@@ -167,8 +167,7 @@ class _SignUpState extends State<SignUp> {
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        primary:
-                            Colors.yellow, // Set the background color to yellow
+                        backgroundColor: Colors.yellow, // Set the background color to yellow
                       ),
                       child: const Text('SIGN IN',
                           style: TextStyle(color: Colors.black)),

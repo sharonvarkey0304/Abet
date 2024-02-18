@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -8,12 +10,21 @@ import 'package:loginpage/screens/mainScreen/emailVarification.dart';
 
 import 'package:loginpage/screens/mainScreen/onboarding1.dart';
 import 'package:loginpage/screens/userscreen/userNav.dart';
+import 'package:loginpage/widgets/snackbar.dart';
 
 class Authentication extends GetxController {
   static Authentication get instance => Get.find();
   final _auth = FirebaseAuth.instance;
   final _db = FirebaseFirestore.instance;
   late final Rx<User?> firebaseUser;
+  // @override
+  // void onInit() {
+  //   firebaseUser = Rx<User?>(_auth.currentUser);
+  //   firebaseUser.bindStream(_auth.userChanges());
+  //   setInitialScreen(firebaseUser.value);
+  //   super.onInit();
+  // }
+
   @override
   void onReady() {
     //ScreenSplash.remove();
@@ -87,17 +98,10 @@ class Authentication extends GetxController {
     await _db.collection("Users").add(user.toJson()).then((_) {
       Get.snackbar("Email", "Tap to varify your email");
     }).catchError((error, stackTrace) {
-      Get.snackbar(
-        "Error",
-        "Something went wrong",
-        backgroundColor: Colors.white12,
-        colorText: Colors.red,
-        snackPosition: SnackPosition.TOP,
-        borderRadius: 30,
-        margin: EdgeInsets.all(10),
-        borderColor: Colors.green,
-        borderWidth: 2,
-        duration: Duration(seconds: 3),
+      CommonWidget.snackBar(
+        isSuccsess: false,
+        title: "Error",
+        subtitle: "Something went wrong",
       );
     });
   }
@@ -112,30 +116,16 @@ class Authentication extends GetxController {
   Future<void> UpdateUserRecord(Usermodel user) async {
     //doc(user.id)
     await _db.collection("Users").doc(user.id).update(user.toJson()).then((_) {
-      Get.snackbar(
-        "Success",
-        "Your account has been changed",
-        backgroundColor: Colors.white12,
-        colorText: Colors.blue,
-        snackPosition: SnackPosition.TOP,
-        borderRadius: 30,
-        margin: EdgeInsets.all(10),
-        borderColor: Colors.green,
-        borderWidth: 2,
-        duration: Duration(seconds: 3),
+      CommonWidget.snackBar(
+        isSuccsess: true,
+        title: "Success",
+        subtitle: "Your account has been changed",
       );
     }).catchError((error, stackTrace) {
-      Get.snackbar(
-        "Error",
-        "$error",
-        backgroundColor: Colors.white12,
-        colorText: Colors.red,
-        snackPosition: SnackPosition.TOP,
-        borderRadius: 30,
-        margin: EdgeInsets.all(10),
-        borderColor: Colors.green,
-        borderWidth: 2,
-        duration: Duration(seconds: 3),
+      CommonWidget.snackBar(
+        isSuccsess: false,
+        title: "Error",
+        subtitle: "$error",
       );
     });
   }
@@ -144,19 +134,30 @@ class Authentication extends GetxController {
     try {
       await _auth.currentUser?.sendEmailVerification();
     } catch (e) {
-      Get.snackbar(
-        "Error",
-        "$e",
-        backgroundColor: Colors.white12,
-        colorText: Colors.red,
-        snackPosition: SnackPosition.TOP,
-        borderRadius: 30,
-        margin: EdgeInsets.all(10),
-        borderColor: Colors.green,
-        borderWidth: 2,
-        duration: Duration(seconds: 3),
+      CommonWidget.snackBar(
+        isSuccsess: false,
+        title: "Error",
+        subtitle: "$e",
       );
     }
+  }
+
+  Future<void> resetPassword({required String email}) async {
+    await _auth.sendPasswordResetEmail(email: email).then((_) {
+      log("success ");
+      CommonWidget.snackBar(
+        isSuccsess: true,
+        title: "Send a link to your email",
+        subtitle: "Click the link and change the password",
+      );
+    }).catchError((e) {
+      log("error e");
+      CommonWidget.snackBar(
+        isSuccsess: false,
+        title: "Error",
+        subtitle: "Something went wrong",
+      );
+    });
   }
 
   // Future<List<Usermodel>> allUser() async {
