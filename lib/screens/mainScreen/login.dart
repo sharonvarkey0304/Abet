@@ -122,10 +122,12 @@ class _ScreenLoginState extends State<ScreenLogin> {
                           backgroundColor: Colors
                               .yellow, // Set the background color to yellow
                         ),
-                        child: Text(
-                          'LOGIN',
-                          style: TextStyle(color: Colors.black),
-                        ),
+                        child: isLoginLoading
+                            ? CommonWidget.loadingIndicator()
+                            : Text(
+                                'LOGIN',
+                                style: TextStyle(color: Colors.black),
+                              ),
                       )),
                   const SizedBox(
                     height: 20,
@@ -176,27 +178,31 @@ class _ScreenLoginState extends State<ScreenLogin> {
                     height: 8,
                   ),
                   GestureDetector(
-                    onTap: () async {
-                      setState(() {
-                        isResetLoading = true;
-                      });
-                      await Future.delayed(Duration(seconds: 2));
-                      await Authentication.instance
-                          .resetPassword(email: _resetEmail.text)
-                          .then((value) {
-                        setState(() {
-                          isResetLoading = false;
-                        });
-                      }).onError((error, stackTrace) {
-                        setState(() {
-                          isResetLoading = false;
-                        });
-                      });
-                    },
+                    onTap: _resetEmail.text.isEmpty
+                        ? null
+                        : () async {
+                            setState(() {
+                              isResetLoading = true;
+                            });
+                            await Future.delayed(Duration(seconds: 2));
+                            await Authentication.instance
+                                .resetPassword(email: _resetEmail.text)
+                                .then((value) {
+                              setState(() {
+                                isResetLoading = false;
+                              });
+                            }).onError((error, stackTrace) {
+                              setState(() {
+                                isResetLoading = false;
+                              });
+                            });
+                          },
                     child: Container(
                       height: 50,
                       decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 39, 183, 240),
+                          color: _resetEmail.text.isEmpty
+                              ? const Color.fromARGB(55, 39, 183, 240)
+                              : const Color.fromARGB(255, 39, 183, 240),
                           borderRadius: BorderRadius.circular(12)),
                       child: Center(
                         child: isResetLoading
@@ -239,6 +245,9 @@ class _ScreenLoginState extends State<ScreenLogin> {
                   TextFormField(
                     keyboardType: TextInputType.emailAddress,
                     controller: _resetEmail,
+                    onChanged: (value) {
+                      setState(() {});
+                    },
                     decoration: InputDecoration(
                       prefixIcon: const Icon(
                         Icons.email,
@@ -261,12 +270,14 @@ class _ScreenLoginState extends State<ScreenLogin> {
   void _signin() async {
     String password = _password.text;
     String email = _email.text;
+    setState(() {
+      isLoginLoading = true;
+    });
+    await Authentication.instance.signInWithEmailAndPassword(email, password);
+    setState(() {
+      isLoginLoading = false;
+    });
 
-    try {
-      await Authentication.instance.signInWithEmailAndPassword(email, password);
-    } catch (e) {
-      print(e.toString());
-    }
     //Authentication.instance.setInitialScreen(user);
   }
 }

@@ -17,29 +17,35 @@ class Authentication extends GetxController {
   final _auth = FirebaseAuth.instance;
   final _db = FirebaseFirestore.instance;
   late final Rx<User?> firebaseUser;
-  // @override
-  // void onInit() {
-  //   firebaseUser = Rx<User?>(_auth.currentUser);
-  //   firebaseUser.bindStream(_auth.userChanges());
-  //   setInitialScreen(firebaseUser.value);
-  //   super.onInit();
-  // }
-
   @override
-  void onReady() {
-    //ScreenSplash.remove();
+  void onInit() {
     firebaseUser = Rx<User?>(_auth.currentUser);
     firebaseUser.bindStream(_auth.userChanges());
     setInitialScreen(firebaseUser.value);
-    //ever(firebaseUser, _setInitialScreen);
+    super.onInit();
   }
 
+  // @override
+  // void onReady() {
+  //   //ScreenSplash.remove();
+  //   log("called");
+  //   firebaseUser = Rx<User?>(_auth.currentUser);
+  //   firebaseUser.bindStream(_auth.userChanges());
+  //   setInitialScreen(firebaseUser.value);
+  //   //ever(firebaseUser, _setInitialScreen);
+  // }
+
   setInitialScreen(User? user) {
-    user == null
-        ? Get.offAll(Onboarding.new)
-        : user.emailVerified
-            ? Get.offAll(() => const UserNav())
-            : Get.offAll(() => const MailVarification());
+    Future.delayed(
+      Duration(seconds: 3),
+      () {
+        user == null
+            ? Get.offAll(Onboarding.new)
+            : user.emailVerified
+                ? Get.offAll(() => const UserNav())
+                : Get.offAll(() => const MailVarification());
+      },
+    );
   }
 
   Future<void> createUserWithEmailAndPassword(
@@ -183,14 +189,14 @@ class Authentication extends GetxController {
       CommonWidget.snackBar(
         isSuccsess: true,
         title: "Send a link to your email",
-        subtitle: "Click the link and change the password",
+        subtitle: "Click the link and change the password.",
       );
     }).catchError((e) {
       log("error e");
       CommonWidget.snackBar(
         isSuccsess: false,
         title: "Error",
-        subtitle: "Something went wrong",
+        subtitle: "Entered Email is not registered.",
       );
     });
   }
