@@ -20,10 +20,9 @@ class _Screen1State extends State<ScreenSplash>
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
 
-    Future.delayed(const Duration(seconds: 3), () {
+    
       Get.put(Authentication());
-    });
-  }
+    }
 
   @override
   Widget build(BuildContext context) {

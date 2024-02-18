@@ -17,7 +17,7 @@ class ProfileDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(ProfileController());
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppBar(surfaceTintColor: Colors.transparent
           // actions: [
           //   IconButton(
           //       onPressed: () {
