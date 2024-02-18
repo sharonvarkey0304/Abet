@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -33,7 +34,7 @@ class Profile_edit extends StatelessWidget {
                     return Column(children: [
                       Stack(
                         children: [
-                          Container(
+                          SizedBox(
                             height: 190,
                             width: 170,
                             child: ClipRRect(
@@ -58,10 +59,10 @@ class Profile_edit extends StatelessWidget {
                               )),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       Padding(
@@ -143,15 +144,18 @@ class Profile_edit extends StatelessWidget {
                               ElevatedButton(
                                   onPressed: () async {
                                     final userData = Usermodel(
-                                        email: email.text.trim(),
-                                        password: password.text.trim(),
-                                        name: name.text.trim(),
-                                        phone: phone.text.trim());
+                                      email: email.text.trim(),
+                                      password: password.text.trim(),
+                                      name: name.text.trim(),
+                                      phone: phone.text.trim(),
+                                      id: FirebaseAuth
+                                          .instance.currentUser?.uid,
+                                    );
                                     await controller.updateRecord(userData);
                                   },
                                   style: ElevatedButton.styleFrom(
-                                      fixedSize: Size(200, 50)),
-                                  child: Text('submit'))
+                                      fixedSize: const Size(200, 50)),
+                                  child: const Text('submit'))
                             ],
                           )
                         ]),
@@ -160,7 +164,7 @@ class Profile_edit extends StatelessWidget {
                   } else if (snapshot.hasError) {
                     return Center(child: Text(snapshot.error.toString()));
                   } else {
-                    return Center(child: Text('something went wrong'));
+                    return const Center(child: Text('something went wrong'));
                   }
                 } else {
                   return const Center(child: CircularProgressIndicator());

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -5,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:loginpage/controler/signupctr.dart';
 import 'package:loginpage/model/user_model.dart';
 import 'package:loginpage/screens/mainScreen/login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -17,11 +19,11 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(SignupCtr());
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
     return Scaffold(
         body: SafeArea(
       child: Form(
-        key: _formKey,
+        key: formKey,
         child: SingleChildScrollView(
             child: Column(
           children: [
@@ -38,16 +40,16 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
-                    padding: EdgeInsets.only(left: 9),
+                    padding: const EdgeInsets.only(left: 9),
                     child: Text(
                       "Create an account",
                       style: GoogleFonts.poppins(fontSize: 30),
                     ))),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             const SizedBox(
               height: 10,
             ),
@@ -153,21 +155,26 @@ class _SignUpState extends State<SignUp> {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          SignupCtr.instance.registeruser(
+                      onPressed: () async {
+                        if (formKey.currentState!.validate()) {
+                          await SignupCtr.instance.registeruser(
                               controller.email.text.trim(),
                               controller.password.text.trim());
+                          String uuid =
+                              FirebaseAuth.instance.currentUser?.uid ?? '-';
+
                           final user = Usermodel(
-                              email: controller.email.text.trim(),
-                              password: controller.password.text.trim(),
-                              name: controller.name.text.trim(),
-                              phone: controller.phone.text.trim());
-                          SignupCtr.instance.createUser(user);
+                            email: controller.email.text.trim(),
+                            password: controller.password.text.trim(),
+                            name: controller.name.text.trim(),
+                            phone: controller.phone.text.trim(),
+                            id: uuid,
+                          );
+                          await SignupCtr.instance.createUser(user);
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        primary:
+                        backgroundColor:
                             Colors.yellow, // Set the background color to yellow
                       ),
                       child: const Text('SIGN IN',
@@ -179,7 +186,7 @@ class _SignUpState extends State<SignUp> {
                   ),
                   TextButton(
                     onPressed: () {
-                      Get.off(ScreenLogin());
+                      Get.off(const ScreenLogin());
                     },
                     child: const Text.rich(
                       TextSpan(

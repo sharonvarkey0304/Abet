@@ -19,6 +19,6 @@ class profileCtr extends GetxController {
   }
 
   updateRecord(Usermodel user) async {
-    await _authrep.UpdateUserRecord(user);
+    await _authrep.updateUserRecord(user);
   }
 }

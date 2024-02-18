@@ -20,6 +20,7 @@ class Usermodel {
       "Email": email,
       "Password": password,
       "Phone": phone,
+      "uuid": id,
     };
   }
 
