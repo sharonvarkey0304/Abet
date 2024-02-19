@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:loginpage/controler/store_controller.dart';
 import 'package:loginpage/screens/sidebar/semester/sem.dart';
 import 'package:loginpage/screens/sidebar/store/navigation.dart';
 
 class Sidenav extends StatelessWidget {
-  const Sidenav({super.key});
+  Sidenav({super.key});
+
+  // injecting store controller
+  // ignore: unused_field
+  final _storeController = Get.put(StoreController());
 
   @override
   Widget build(BuildContext context) {

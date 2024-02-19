@@ -26,7 +26,7 @@ class _ScreenHomeState extends State<ScreenHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const Sidenav(),
+      drawer: Sidenav(),
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(70),
         child: AppBar(
