@@ -3,7 +3,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:loginpage/screens/userscreen/home.dart';
 
-import 'package:loginpage/screens/userscreen/add.dart';
+import 'package:loginpage/screens/userscreen/add_contribution.dart';
 import 'package:loginpage/screens/userscreen/profile_detail.dart';
 
 class UserNav extends StatefulWidget {
