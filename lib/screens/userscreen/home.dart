@@ -2,11 +2,26 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:loginpage/chatbot/chatbot.dart';
+import 'package:loginpage/controler/contribution_controller.dart';
 import 'package:loginpage/screens/sidebar/navbar.dart';
 
-class ScreenHome extends StatelessWidget {
+class ScreenHome extends StatefulWidget {
   const ScreenHome({super.key});
+
+  @override
+  State<ScreenHome> createState() => _ScreenHomeState();
+}
+
+class _ScreenHomeState extends State<ScreenHome> {
+  final contributionController = Get.put(ContributionController());
+
+  @override
+  void initState() {
+    contributionController.getContributionList();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

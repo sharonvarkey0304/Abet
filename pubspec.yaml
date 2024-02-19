@@ -53,6 +53,7 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   eva_icons_flutter: ^3.1.0
   webview_flutter: ^4.7.0
+  uuid: ^4.3.3
   image_picker: ^1.0.7
 
 dev_dependencies:
