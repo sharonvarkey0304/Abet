@@ -1,3 +1,7 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +26,7 @@ class StoreController extends GetxController {
   final auth = FirebaseAuth.instance;
   final fbReference = FirebaseFirestore.instance.collection('Products');
   List<ProductDataList> productList = <ProductDataList>[];
-  String? image;
+  List<String> images = <String>[];
   AddProductStatus addProductStatus = AddProductStatus.initial;
 
   Future<void> getProductsFromFB() async {
@@ -77,10 +81,11 @@ class StoreController extends GetxController {
   Future<void> addProductBtnOntap(GlobalKey<FormState> formKey) async {
     bool isFormKeyValidated = formKey.currentState?.validate() ?? true;
     bool isNotLoading = addProductStatus != AddProductStatus.loading;
-    if (isFormKeyValidated && image != null && isNotLoading) {
+    if (isFormKeyValidated && images.isNotEmpty && isNotLoading) {
       addProductStatus = AddProductStatus.loading;
       productList.clear();
-      getProductsFromFB();
+      await getProductsFromFB();
+
       productList.add(
         ProductDataList(
           contactNumber: productContactNumController.text.trim(),
@@ -88,14 +93,15 @@ class StoreController extends GetxController {
           email: productEmailController.text.trim(),
           name: productNameController.text.trim(),
           price: productPriceController.text.trim(),
-          image: image,
+          image: images,
         ),
       );
+
       //this delay is used only for showing the loading indicator on the add product button.
       await Future.delayed(Duration(seconds: 2));
       await addProduct(productList);
       update();
-    } else if (image == null) {
+    } else if (images.isNotEmpty && isFormKeyValidated) {
       CommonWidget.snackBar(
         isSuccsess: false,
         title: 'Missing field',
@@ -106,14 +112,50 @@ class StoreController extends GetxController {
 
   Future<void> pickImage() async {
     final picker = ImagePicker();
+    images.clear();
     try {
-      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+      final pickedFile = await picker.pickMultiImage();
+      for (var e in pickedFile) {
+        var tempImg = File(e.path).readAsBytesSync();
 
-      image = pickedFile?.path;
+        images.add(base64Encode(tempImg));
+      }
+
       update();
     } catch (e) {
       print('Error while picking an image: $e');
     }
+  }
+  // Future<void> pickImage() async {
+  //   final picker = ImagePicker();
+  //   try {
+  //     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+  //     if (pickedFile != null) {
+  //       var tempImg = File(pickedFile.path).readAsBytesSync();
+  //       image = base64Encode(tempImg);
+  //     }
+  //     update();
+  //   } catch (e) {
+  //     print('Error while picking an image: $e');
+  //   }
+  // }
+
+  List<String> convertUint8ListToTempFiles(List<Uint8List> images) {
+    List<String> tempFilePaths = [];
+
+    for (var image in images) {
+      // Create a temporary file
+      File tempFile = File('${DateTime.now().millisecondsSinceEpoch}.png');
+
+      // Write the bytes of the image to the file
+      tempFile.writeAsBytesSync(image);
+
+      // Add the file path to the list
+      tempFilePaths.add(tempFile.path);
+    }
+
+    return tempFilePaths;
   }
 
   void clearProductForm() {
@@ -122,7 +164,7 @@ class StoreController extends GetxController {
     productPriceController.clear();
     productContactNumController.clear();
     productEmailController.clear();
-    image = null;
+    images.clear();
     update();
   }
 
