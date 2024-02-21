@@ -1,137 +1,121 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:loginpage/controler/contribution_controller.dart';
 import 'package:loginpage/screens/sidebar/semester/content.dart';
+import 'package:loginpage/widgets/sliver_appbar.dart';
 
-class SubjectPage extends StatelessWidget {
-  SubjectPage({Key? key}) : super(key: key);
+class SubjectPage extends StatefulWidget {
+  const SubjectPage({Key? key, required this.semIndex}) : super(key: key);
+  final int semIndex;
 
-  // List of texts for each grid item
-  final List<String> gridItemTexts = [
-    'Subject 1',
-    'Subject 2',
-    'Subject 3',
-    'Subject 4',
-    'Subject 5',
-    'Subject 6',
-  ];
+  @override
+  State<SubjectPage> createState() => _SubjectPageState();
+}
 
+class _SubjectPageState extends State<SubjectPage> {
   final contributionCntrller = Get.put(ContributionController());
 
   @override
+  void initState() {
+    contributionCntrller.setSubjectList(widget.semIndex);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return GetBuilder<ContributionController>(builder: (contributionCntrller) {
-      return Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/bck.jpg"),
-            fit: BoxFit.cover,
-          ),
-          //color: Colors.yellow,
-        ),
-        child: Column(
-          children: [
-            Column(
-              children: [
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(16),
-                      child: Icon(
-                        Icons.arrow_back, // Replace with your desired icon
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+    return GetBuilder<ContributionController>(
+      builder: (contributionCntrller) {
+        return Scaffold(
+          extendBodyBehindAppBar: true,
+          backgroundColor: Colors.white,
+          body: CustomScrollView(
+            physics: ScrollPhysics(),
+            slivers: [
+              SliverAppBarWidget(
+                image: "assets/images/bck.jpg",
+                title: 'SEMESTER ${widget.semIndex}',
+              ),
+              SliverToBoxAdapter(
+                child: Column(
                   children: [
                     Container(
-                      height: 50,
-                      margin: const EdgeInsets.all(10),
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage("assets/images/bck.jpg")),
-                        //color: Colors.yellow,
-
-                        ///shape: BoxShape.circle,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          topRight: Radius.circular(30),
+                        ),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.white24,
+                            blurRadius: 10,
+                            offset: Offset(2, -2),
+                          )
+                        ],
                       ),
-                      child: Image.asset(
-                        "assets/images/abet.png",
-                      ),
+                      child: contributionCntrller.subjectList.isEmpty
+                          ? Center(
+                              child: Text("NO SUBJECT"),
+                            )
+                          : GridView.builder(
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                childAspectRatio: 1.1,
+                                mainAxisSpacing: 25,
+                              ),
+                              shrinkWrap: true,
+                              physics: ScrollPhysics(),
+                              itemCount:
+                                  contributionCntrller.subjectList.length,
+                              itemBuilder: (context, index) {
+                                final item =
+                                    contributionCntrller.subjectList[index];
+                                return GestureDetector(
+                                  onTap: () {
+                                    Get.to(ContentScreen(
+                                        subjectName:
+                                            item.subjectName.toString()));
+                                    print('Item tapped at index $index');
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.symmetric(
+                                        vertical: 8, horizontal: 20),
+                                    decoration: BoxDecoration(
+                                      color: Color.fromARGB(255, 238, 241, 162),
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        item.subjectName ?? "No name",
+                                        style: TextStyle(
+                                            fontSize: 16, color: Colors.black),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
                     ),
                   ],
                 ),
-                SizedBox(height: 20),
-                Text(
-                  'SUBJECT',
-                  style: GoogleFonts.poppins(color: Colors.black, fontSize: 30),
-                ),
-                SizedBox(height: 30),
-              ],
-            ),
-            Expanded(
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
-                  ),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.white24,
-                      blurRadius: 10,
-                      offset: Offset(2, -2),
-                    )
-                  ],
-                ),
-                child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 1.1,
-                    mainAxisSpacing: 25,
-                  ),
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: contributionCntrller.contributionList.length,
-                  itemBuilder: (context, index) {
-                    final item = contributionCntrller.contributionList[index];
-                    return GestureDetector(
-                      onTap: () {
-                        Get.to(ContentScreen.new);
-                        print('Item tapped at index $index');
-                      },
-                      child: Container(
-                        margin:
-                            EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-                        decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 238, 241, 162),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Center(
-                          child: Text(
-                            item.subject ?? "No name",
-                            style: TextStyle(fontSize: 16, color: Colors.black),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    });
+              )
+            ],
+          ),
+        );
+
+        // Container(
+        //   decoration: const BoxDecoration(
+        //     image: DecorationImage(
+        //       image: AssetImage("assets/images/bck.jpg"),
+        //       fit: BoxFit.cover,
+        //     ),
+        //     //color: Colors.yellow,
+        //   ),
+        //   child:
+        // );
+      },
+    );
   }
 }
