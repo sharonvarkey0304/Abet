@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loginpage/controler/contribution_controller.dart';
+import 'package:loginpage/screens/sidebar/semester/content_details.dart';
 import 'package:loginpage/screens/sidebar/semester/mcq.dart/mcqScreen.dart';
 
 class ContentScreen extends StatefulWidget {
@@ -64,41 +65,51 @@ class _ContentScreenState extends State<ContentScreen> {
                           contributionCntrller.itemsInsideSubjectList[index];
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          height: 60,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.amber.withOpacity(0.1)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 15),
-                                    child: Container(
-                                      width: 30,
-                                      height: 30,
-                                      color: Colors.amber,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    item.title.toString(),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ],
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ContentDetailsPage(item: item,),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 15),
-                                child: Icon(
-                                  Icons.arrow_forward_ios_rounded,
-                                  size: 16,
+                            );
+                          },
+                          child: Container(
+                            height: 60,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.amber.withOpacity(0.1)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 15),
+                                      child: Container(
+                                        width: 30,
+                                        height: 30,
+                                        color: Colors.amber,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      item.title.toString(),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
                                 ),
-                              )
-                            ],
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 15),
+                                  child: Icon(
+                                    Icons.arrow_forward_ios_rounded,
+                                    size: 16,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       );
