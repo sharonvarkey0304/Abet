@@ -32,7 +32,7 @@ class ProductDataList {
   final String price;
   final String contactNumber;
   final String email;
-  final String? image;
+  final List<String> image;
 
   ProductDataList({
     required this.contactNumber,
@@ -50,7 +50,7 @@ class ProductDataList {
         details: json["details"],
         contactNumber: json["contactNumber"],
         price: json["price"],
-        image: json["image"],
+        image: List<String>.from(json["image"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
@@ -59,6 +59,6 @@ class ProductDataList {
         "details": details,
         "contactNumber": contactNumber,
         "price": price,
-        "image": image,
+        "image": List<dynamic>.from(image.map((x) => x)),
       };
 }

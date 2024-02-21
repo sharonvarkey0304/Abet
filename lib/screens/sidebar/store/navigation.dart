@@ -2,7 +2,7 @@ import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.da
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:loginpage/screens/sidebar/store/add2.dart';
+import 'package:loginpage/screens/sidebar/store/add_product.dart';
 import 'package:loginpage/screens/sidebar/store/cart.dart';
 import 'package:loginpage/screens/sidebar/store/favScreen.dart';
 import 'package:loginpage/screens/sidebar/store/home2.dart';
