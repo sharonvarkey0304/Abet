@@ -22,19 +22,13 @@ class ContributionDataModel {
 
 class ContributionDatum {
     String? id;
-    String? title;
-    String? semester;
-    String? subject;
-    String? details;
-    String? imageBase64;
+    String? semesterName;
+    List<Semester>? semester;
 
     ContributionDatum({
         this.id,
-        this.title,
+        this.semesterName,
         this.semester,
-        this.subject,
-        this.details,
-        this.imageBase64,
     });
 
     factory ContributionDatum.fromRawJson(String str) => ContributionDatum.fromJson(json.decode(str));
@@ -43,9 +37,61 @@ class ContributionDatum {
 
     factory ContributionDatum.fromJson(Map<String, dynamic> json) => ContributionDatum(
         id: json["id"],
+        semesterName: json["semester_name"],
+        semester: json["semester"] == null ? [] : List<Semester>.from(json["semester"]!.map((x) => Semester.fromJson(x))),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "semester_name": semesterName,
+        "semester": semester == null ? [] : List<dynamic>.from(semester!.map((x) => x.toJson())),
+    };
+}
+
+class Semester {
+    String? subjectName;
+    List<Subject>? subject;
+
+    Semester({
+        this.subjectName,
+        this.subject,
+    });
+
+    factory Semester.fromRawJson(String str) => Semester.fromJson(json.decode(str));
+
+    String toRawJson() => json.encode(toJson());
+
+    factory Semester.fromJson(Map<String, dynamic> json) => Semester(
+        subjectName: json["subject_name"],
+        subject: json["subject"] == null ? [] : List<Subject>.from(json["subject"]!.map((x) => Subject.fromJson(x))),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "subject_name": subjectName,
+        "subject": subject == null ? [] : List<dynamic>.from(subject!.map((x) => x.toJson())),
+    };
+}
+
+class Subject {
+    String? id;
+    String? title;
+    String? details;
+    String? imageBase64;
+
+    Subject({
+        this.id,
+        this.title,
+        this.details,
+        this.imageBase64,
+    });
+
+    factory Subject.fromRawJson(String str) => Subject.fromJson(json.decode(str));
+
+    String toRawJson() => json.encode(toJson());
+
+    factory Subject.fromJson(Map<String, dynamic> json) => Subject(
+        id: json["id"],
         title: json["title"],
-        semester: json["semester"],
-        subject: json["subject"],
         details: json["details"],
         imageBase64: json["image_base_64"],
     );
@@ -53,8 +99,6 @@ class ContributionDatum {
     Map<String, dynamic> toJson() => {
         "id": id,
         "title": title,
-        "semester": semester,
-        "subject": subject,
         "details": details,
         "image_base_64": imageBase64,
     };
