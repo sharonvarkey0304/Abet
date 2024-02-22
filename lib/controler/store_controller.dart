@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -9,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loginpage/model/product_model.dart';
 import 'package:loginpage/widgets/snackbar.dart';
+import 'package:uuid/uuid.dart';
 
 enum AddProductStatus {
   initial,
@@ -30,18 +32,23 @@ class StoreController extends GetxController {
   AddProductStatus addProductStatus = AddProductStatus.initial;
 
   Future<void> getProductsFromFB() async {
-    String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
-    var fbRef = FirebaseFirestore.instance.collection('Products').doc(userId);
-    DocumentSnapshot snapshot = await fbRef.get();
-    final data = ProductModel.fromJson(snapshot.data() as Map<String, dynamic>);
-    productList = data.productDataList ?? [];
-    update();
+    try {
+      String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
+      var fbRef = FirebaseFirestore.instance.collection('Products').doc(userId);
+      DocumentSnapshot snapshot = await fbRef.get();
+      final data =
+          ProductModel.fromJson(snapshot.data() as Map<String, dynamic>);
+      productList = data.productDataList ?? [];
+      update();
+    } catch (e) {
+      log('error in getting products list: $e');
+    }
   }
 
   Future<void> addProduct(List<ProductDataList> product) async {
     try {
       List<Map<String, dynamic>> serializedList =
-          product.map((obj) => obj.toJson()).toList();
+          product.map((x) => x.toJson()).toList();
       var userId = auth.currentUser?.uid;
 
       await fbReference.doc(userId).set(
@@ -79,34 +86,40 @@ class StoreController extends GetxController {
   }
 
   Future<void> addProductBtnOntap(GlobalKey<FormState> formKey) async {
-    bool isFormKeyValidated = formKey.currentState?.validate() ?? true;
-    bool isNotLoading = addProductStatus != AddProductStatus.loading;
-    if (isFormKeyValidated && images.isNotEmpty && isNotLoading) {
-      addProductStatus = AddProductStatus.loading;
-      productList.clear();
-      await getProductsFromFB();
+    try {
+      bool isFormKeyValidated = formKey.currentState?.validate() ?? true;
+      bool isNotLoading = addProductStatus != AddProductStatus.loading;
+      if (isFormKeyValidated && images.isNotEmpty && isNotLoading) {
+        addProductStatus = AddProductStatus.loading;
+        productList.clear();
+        await getProductsFromFB();
 
-      productList.add(
-        ProductDataList(
-          contactNumber: productContactNumController.text.trim(),
-          details: productDetailsController.text.trim(),
-          email: productEmailController.text.trim(),
-          name: productNameController.text.trim(),
-          price: productPriceController.text.trim(),
-          image: images,
-        ),
-      );
+        productList.add(
+          ProductDataList(
+            contactNumber: productContactNumController.text.trim(),
+            details: productDetailsController.text.trim(),
+            email: productEmailController.text.trim(),
+            name: productNameController.text.trim(),
+            price: productPriceController.text.trim(),
+            id: Uuid().v4(),
+            image: images,
+            isFavourite: false,
+          ),
+        );
 
-      //this delay is used only for showing the loading indicator on the add product button.
-      await Future.delayed(Duration(seconds: 2));
-      await addProduct(productList);
-      update();
-    } else if (images.isNotEmpty && isFormKeyValidated) {
-      CommonWidget.snackBar(
-        isSuccsess: false,
-        title: 'Missing field',
-        subtitle: 'Please select an image to continue',
-      );
+        //this delay is used only for showing the loading indicator on the add product button.
+        await Future.delayed(Duration(seconds: 2));
+        await addProduct(productList);
+        update();
+      } else if (images.isEmpty && isFormKeyValidated) {
+        CommonWidget.snackBar(
+          isSuccsess: false,
+          title: 'Missing field',
+          subtitle: 'Please select an image to continue',
+        );
+      }
+    } catch (e) {
+      log('error1: $e');
     }
   }
 
@@ -126,36 +139,57 @@ class StoreController extends GetxController {
       print('Error while picking an image: $e');
     }
   }
-  // Future<void> pickImage() async {
-  //   final picker = ImagePicker();
-  //   try {
-  //     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-
-  //     if (pickedFile != null) {
-  //       var tempImg = File(pickedFile.path).readAsBytesSync();
-  //       image = base64Encode(tempImg);
-  //     }
-  //     update();
-  //   } catch (e) {
-  //     print('Error while picking an image: $e');
-  //   }
-  // }
 
   List<String> convertUint8ListToTempFiles(List<Uint8List> images) {
     List<String> tempFilePaths = [];
 
     for (var image in images) {
-      // Create a temporary file
       File tempFile = File('${DateTime.now().millisecondsSinceEpoch}.png');
 
-      // Write the bytes of the image to the file
       tempFile.writeAsBytesSync(image);
 
-      // Add the file path to the list
       tempFilePaths.add(tempFile.path);
     }
 
     return tempFilePaths;
+  }
+
+  Future<void> likeProduct({required ProductDataList item}) async {
+    try {
+      var uid = auth.currentUser?.uid;
+      DocumentReference productRef =
+          FirebaseFirestore.instance.collection('Products').doc(uid);
+
+      item.isFavourite = !item.isFavourite;
+
+      productRef.update(
+        {
+          'product_list': productList.map((x) => x.toJson()).toList(),
+        },
+      );
+      update();
+    } catch (e) {
+      log('Error in liking image: $e');
+    }
+  }
+
+  Future<void> deleteProduct({required ProductDataList item}) async {
+    try {
+      var uid = auth.currentUser?.uid;
+      DocumentReference productRef =
+          FirebaseFirestore.instance.collection('Products').doc(uid);
+
+      productList.remove(item);
+
+      productRef.update(
+        {
+          'product_list': productList.map((x) => x.toJson()).toList(),
+        },
+      );
+      update();
+    } catch (e) {
+      log('Error in deleting image: $e');
+    }
   }
 
   void clearProductForm() {
