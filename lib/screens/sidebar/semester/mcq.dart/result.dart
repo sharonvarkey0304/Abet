@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:loginpage/screens/sidebar/semester/content.dart';
-
 import 'package:loginpage/screens/sidebar/semester/mcq.dart/nextButton.dart';
 import 'package:loginpage/screens/sidebar/semester/mcq.dart/question.dart';
 import 'package:loginpage/screens/sidebar/semester/sem.dart';
@@ -50,7 +48,7 @@ class ResultScreen extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      score.toString() + "/10",
+                      "$score/10",
                       style: const TextStyle(
                         fontSize: 80,
                         color: Colors.black,

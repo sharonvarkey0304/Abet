@@ -20,13 +20,13 @@ class CommonWidget {
     );
   }
 
-  static Widget loadingIndicator() {
+  static Widget loadingIndicator({Color? color}) {
    return SizedBox(
       height: 15,
       width: 15,
       child: CircularProgressIndicator(
         strokeWidth: 3,
-        color: Colors.white,
+        color:color?? Colors.white,
       ),
     );
   }
