@@ -142,21 +142,34 @@ class _AddProductState extends State<AddProduct> {
                         child: Stack(
                           children: [
                             //image container
-                            SizedBox(
-                              height: 190,
-                              width: 170,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(30),
-                                child: controller.images.isNotEmpty
-                                    ? Image.network(controller.images[0])
-                                    : Image.asset(
-                                        height: 100,
-                                        width: 100,
-                                        'assets/images/nophoto.png',
-                                        fit: BoxFit.cover,
+                            controller.imageLoading
+                                ? SizedBox(
+                                    height: 50,
+                                    width: 50,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: CommonWidget.loadingIndicator(
+                                        color: Colors.black,
                                       ),
-                              ),
-                            ),
+                                    ),
+                                  )
+                                : SizedBox(
+                                    height: 190,
+                                    width: 170,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(30),
+                                      child: controller.images.isNotEmpty
+                                          ? Image.network(
+                                              controller.images[0],
+                                            )
+                                          : Image.asset(
+                                              height: 100,
+                                              width: 100,
+                                              'assets/images/nophoto.png',
+                                              fit: BoxFit.cover,
+                                            ),
+                                    ),
+                                  ),
 
                             //image add icon
                             Positioned(

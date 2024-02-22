@@ -28,6 +28,7 @@ class StoreController extends GetxController {
   List<ProductDataList> productList = <ProductDataList>[];
   List<String> images = <String>[];
   AddProductStatus addProductStatus = AddProductStatus.initial;
+  bool imageLoading = false;
 
   final cloudinary = Cloudinary.signedConfig(
     apiKey: "379449483728479",
@@ -132,15 +133,21 @@ class StoreController extends GetxController {
     images.clear();
     try {
       final pickedFile = await picker.pickMultiImage();
+      setImageLoading(true);
       for (var e in pickedFile) {
         var tempImg = await cloudinaryImage(File(e.path));
         images.add(tempImg ?? '');
       }
-
-      update();
+      setImageLoading(false);
     } catch (e) {
+      setImageLoading(false);
       print('Error while picking an image: $e');
     }
+  }
+
+  setImageLoading(value) {
+    imageLoading = value;
+    update();
   }
 
   Future<String?> cloudinaryImage(File file) async {
