@@ -1,13 +1,9 @@
-import 'dart:developer';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:loginpage/controler/contribution_controller.dart';
-import 'package:loginpage/model/contribution_model.dart';
-import 'package:uuid/uuid.dart';
+import 'package:loginpage/widgets/snackbar.dart';
 
 class AddMaterial extends StatefulWidget {
   const AddMaterial({Key? key}) : super(key: key);
@@ -18,8 +14,14 @@ class AddMaterial extends StatefulWidget {
 
 class _AddMaterialState extends State<AddMaterial> {
   final contributionController = Get.put(ContributionController());
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String _requiredFieldtext = "This field is required";
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final String _requiredFieldtext = "This field is required";
+
+  @override
+  void initState() {
+    contributionController.clearAllController();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -170,19 +172,32 @@ class _AddMaterialState extends State<AddMaterial> {
                             SizedBox(
                               height: 190,
                               width: 170,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: contributionController.image != null
-                                    ? Image.file(
-                                        File(
-                                            contributionController.image ?? ""),
-                                        fit: BoxFit.cover,
-                                      )
-                                    : Image.asset(
-                                        'assets/images/nophoto.png',
-                                        fit: BoxFit.cover,
-                                      ),
-                              ),
+                              child: contributionController.isImageLoading
+                                  ? Center(
+                                      child: CommonWidget.loadingIndicator(
+                                          color: Colors.amber.withOpacity(0.5)),
+                                    )
+                                  : ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: contributionController.image !=
+                                              null
+                                          ? Image.network(
+                                              contributionController.image ??
+                                                  "",
+                                              fit: BoxFit.cover,
+                                              errorBuilder:
+                                                  (context, error, stackTrace) {
+                                                return Image.asset(
+                                                  'assets/images/nophoto.png',
+                                                  fit: BoxFit.cover,
+                                                );
+                                              },
+                                            )
+                                          : Image.asset(
+                                              'assets/images/nophoto.png',
+                                              fit: BoxFit.cover,
+                                            ),
+                                    ),
                             ),
 
                             //image add icon
@@ -212,109 +227,12 @@ class _AddMaterialState extends State<AddMaterial> {
                                   borderRadius: BorderRadius.circular(4))),
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
-                              List<Subject>? subjectTempList = [];
-                              List<Semester>? semesterTemplist = [];
-
-                              if (contributionController.subjectList.any(
-                                  (element) =>
-                                      element.subjectName ==
-                                      contributionController
-                                          .subjectController.text)) {
-                                log("first");
-                                subjectTempList = contributionController
-                                    .subjectList
-                                    .firstWhere((element) =>
-                                        element.subjectName ==
-                                        contributionController
-                                            .subjectController.text)
-                                    .subject;
-                                subjectTempList?.clear();
-                                subjectTempList?.add(Subject(
-                                  id: Uuid().v4(),
-                                  details: contributionController
-                                      .detailsController.text,
-                                  imageBase64: "11111",
-                                  title: contributionController
-                                      .titleController.text,
-                                ));
-                              } else {
-                                log("second");
-                                subjectTempList = [
-                                  Subject(
-                                    id: Uuid().v4(),
-                                    details: contributionController
-                                        .detailsController.text,
-                                    imageBase64: "11111",
-                                    title: contributionController
-                                        .titleController.text,
-                                  )
-                                ];
-                              }
-
-                              if (contributionController.contributionList.any(
-                                  (element) =>
-                                      element.semesterName ==
-                                      contributionController
-                                          .semesterController.text)) {
-                                semesterTemplist = contributionController
-                                    .contributionList
-                                    .firstWhere((element) =>
-                                        element.semesterName ==
-                                        contributionController
-                                            .semesterController.text)
-                                    .semester;
-                                semesterTemplist?.add(Semester(
-                                  subjectName: contributionController
-                                      .subjectController.text,
-                                  subject: subjectTempList,
-                                ));
-                              } else {
-                                semesterTemplist = [
-                                  Semester(
-                                    subjectName: contributionController
-                                        .subjectController.text,
-                                    subject: subjectTempList,
-                                  )
-                                ];
-                              }
-
-                              contributionController.contributionList.add(
-                                ContributionDatum(
-                                    id: Uuid().v1(),
-                                    semesterName: contributionController
-                                        .semesterController.text,
-                                    semester: semesterTemplist),
-                              );
-
-                              // contributionController.contributionList
-                              //       .add(ContributionDatum(
-                              //     id: Uuid().v1(),
-                              //     semesterName: contributionController
-                              //         .semesterController.text,
-                              //     semester: [
-                              //       Semester(
-                              //         subjectName: contributionController
-                              //             .subjectController.text,
-                              //         subject: [
-                              //           Subject(
-                              //             id: Uuid().v4(),
-                              //             details: contributionController
-                              //                 .detailsController.text,
-                              //             imageBase64: "11111",
-                              //             title: contributionController
-                              //                 .titleController.text,
-                              //           )
-                              //         ],
-                              //       )
-                              //     ],
-                              //   ));
-
-                              contributionController.setContributiontoFirestore(
-                                  contributionList:
-                                      contributionController.contributionList);
+                              contributionController.onSubmitButton();
                             }
                           },
-                          child: const Text('Submit'),
+                          child: contributionController.isSubmitLoading
+                              ? CommonWidget.loadingIndicator()
+                              : const Text('Submit'),
                         ),
                       ),
                       SizedBox(
