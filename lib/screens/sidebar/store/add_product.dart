@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -149,12 +148,7 @@ class _AddProductState extends State<AddProduct> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(30),
                                 child: controller.images.isNotEmpty
-                                    ? Image(
-                                        image: MemoryImage(
-                                          const Base64Decoder()
-                                              .convert(controller.images[0]),
-                                        ),
-                                      )
+                                    ? Image.network(controller.images[0])
                                     : Image.asset(
                                         height: 100,
                                         width: 100,

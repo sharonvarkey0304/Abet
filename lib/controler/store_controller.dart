@@ -1,9 +1,7 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloudinary/cloudinary.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -30,6 +28,12 @@ class StoreController extends GetxController {
   List<ProductDataList> productList = <ProductDataList>[];
   List<String> images = <String>[];
   AddProductStatus addProductStatus = AddProductStatus.initial;
+
+  final cloudinary = Cloudinary.signedConfig(
+    apiKey: "379449483728479",
+    apiSecret: "P84yD201T01-JblVWczdP-1GB_Q",
+    cloudName: "dkd1urq1v",
+  );
 
   Future<void> getProductsFromFB() async {
     try {
@@ -129,9 +133,8 @@ class StoreController extends GetxController {
     try {
       final pickedFile = await picker.pickMultiImage();
       for (var e in pickedFile) {
-        var tempImg = File(e.path).readAsBytesSync();
-
-        images.add(base64Encode(tempImg));
+        var tempImg = await cloudinaryImage(File(e.path));
+        images.add(tempImg ?? '');
       }
 
       update();
@@ -140,18 +143,16 @@ class StoreController extends GetxController {
     }
   }
 
-  List<String> convertUint8ListToTempFiles(List<Uint8List> images) {
-    List<String> tempFilePaths = [];
-
-    for (var image in images) {
-      File tempFile = File('${DateTime.now().millisecondsSinceEpoch}.png');
-
-      tempFile.writeAsBytesSync(image);
-
-      tempFilePaths.add(tempFile.path);
+  Future<String?> cloudinaryImage(File file) async {
+    final response = await cloudinary.upload(
+      file: file.path,
+      fileBytes: file.readAsBytesSync(),
+      resourceType: CloudinaryResourceType.image,
+    );
+    if (response.isSuccessful) {
+      return response.secureUrl;
     }
-
-    return tempFilePaths;
+    return null;
   }
 
   Future<void> likeProduct({required ProductDataList item}) async {
