@@ -27,12 +27,14 @@ class ProductModel {
 }
 
 class ProductDataList {
-  final String name;
-  final String details;
-  final String price;
-  final String contactNumber;
-  final String email;
-  final List<String> image;
+  String name;
+  String details;
+  String price;
+  String contactNumber;
+  String email;
+  List<String> image;
+  bool isFavourite;
+  String id;
 
   ProductDataList({
     required this.contactNumber,
@@ -41,6 +43,8 @@ class ProductDataList {
     required this.name,
     required this.price,
     required this.image,
+    required this.isFavourite,
+    required this.id,
   });
 
   factory ProductDataList.fromJson(Map<String, dynamic> json) =>
@@ -50,6 +54,8 @@ class ProductDataList {
         details: json["details"],
         contactNumber: json["contactNumber"],
         price: json["price"],
+        id: json["id"],
+        isFavourite: json["isFavourite"],
         image: List<String>.from(json["image"].map((x) => x)),
       );
 
@@ -59,6 +65,8 @@ class ProductDataList {
         "details": details,
         "contactNumber": contactNumber,
         "price": price,
+        "id": id,
+        "isFavourite": isFavourite,
         "image": List<dynamic>.from(image.map((x) => x)),
       };
 }

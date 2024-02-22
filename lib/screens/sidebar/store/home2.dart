@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loginpage/controler/store_controller.dart';
@@ -8,34 +7,6 @@ import 'package:loginpage/screens/sidebar/store/product.dart';
 
 class HomeScreen extends StatelessWidget {
   final List tabs = ["All", "Category", "Top", "Recommend"];
-
-  // List imageList = [
-  //   "assets/images/book1.jpg",
-  //   "assets/images/book2.jpg",
-  //   "assets/images/book3.jpg",
-  //   "assets/images/book4.jpg",
-  // ];
-
-  // List productTitles = [
-  //   "Maths",
-  //   "Opreating System",
-  //   "Java",
-  //   "Python",
-  // ];
-
-  // List prices = [
-  //   "\$100",
-  //   "\$200",
-  //   "\$150",
-  //   "\$180",
-  // ];
-
-  // List reviwes = [
-  //   "234",
-  //   "12",
-  //   "829",
-  //   "231",
-  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -174,7 +145,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 20),
-                SizedBox(
+                /*  SizedBox(
                   height: 280,
                   child: ListView.builder(
                     itemCount: controller.productList.length,
@@ -210,7 +181,7 @@ class HomeScreen extends StatelessWidget {
                                           Image(
                                         image: MemoryImage(
                                           const Base64Decoder()
-                                              .convert(item.image[0] ?? ''),
+                                              .convert(item.image[0]),
                                         ),
                                       ),
                                     ),
@@ -225,10 +196,22 @@ class HomeScreen extends StatelessWidget {
                                         color: Colors.transparent,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
-                                      child: Center(
-                                        child: Icon(
-                                          Icons.favorite,
-                                          color: Colors.red,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          controller.updateImageFavouriteStatus(
+                                            index: index,
+                                          );
+                                        },
+                                        child: Center(
+                                          child: Icon(
+                                            item.isFavourite
+                                                ? Icons.favorite
+                                                : Icons
+                                                    .favorite_outline_outlined,
+                                            color: item.isFavourite
+                                                ? Colors.red
+                                                : Colors.black,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -271,7 +254,7 @@ class HomeScreen extends StatelessWidget {
                     },
                   ),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 20), */
                 GridView.builder(
                     itemCount: controller.productList.length,
                     shrinkWrap: true,
@@ -298,6 +281,9 @@ class HomeScreen extends StatelessWidget {
                               child: Stack(
                                 children: [
                                   InkWell(
+                                    onDoubleTap: () {
+                                      controller.likeProduct(item: item);
+                                    },
                                     onTap: () {
                                       Get.to(() => ProductScreen(item: item));
                                     },
@@ -310,31 +296,55 @@ class HomeScreen extends StatelessWidget {
                                         width: 150,
                                       ), */
                                           Image(
+                                        height: 180,
+                                        width: 150,
                                         image: MemoryImage(
                                           const Base64Decoder()
-                                              .convert(item.image[0] ?? ''),
+                                              .convert(item.image[0]),
                                         ),
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
                                   ),
                                   Positioned(
-                                    right: 10,
-                                    top: 10,
-                                    child: Container(
-                                      height: 30,
-                                      width: 30,
-                                      decoration: BoxDecoration(
-                                        color: Colors.transparent,
-                                        borderRadius: BorderRadius.circular(20),
+                                    right: 0,
+                                    top: 0,
+                                    child: CircleAvatar(
+                                      backgroundColor:
+                                          Colors.white.withOpacity(0.5),
+                                      radius: 19,
+                                      child: IconButton(
+                                        onPressed: () {
+                                          controller.likeProduct(item: item);
+                                        },
+                                        icon: Icon(
+                                          item.isFavourite
+                                              ? Icons.favorite
+                                              : Icons.favorite_outline_outlined,
+                                        ),
+                                        color: item.isFavourite
+                                            ? Colors.red
+                                            : Colors.black,
                                       ),
-                                      child: Center(
-                                        child: Icon(
-                                          Icons.favorite,
-                                          color: Colors.red,
+                                    ),
+                                  ),
+                                  Positioned(
+                                    right: 0,
+                                    top: 50,
+                                    child: CircleAvatar(
+                                      backgroundColor:
+                                          Colors.white.withOpacity(0.5),
+                                      radius: 19,
+                                      child: IconButton(
+                                        onPressed: () {
+                                          controller.deleteProduct(item: item);
+                                        },
+                                        icon: Icon(
+                                          Icons.delete,
                                         ),
                                       ),
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
                             ),
