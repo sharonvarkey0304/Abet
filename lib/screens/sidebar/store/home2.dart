@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loginpage/controler/store_controller.dart';
@@ -288,23 +287,18 @@ class HomeScreen extends StatelessWidget {
                                       Get.to(() => ProductScreen(item: item));
                                     },
                                     child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: /* Image.file(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: /* Image.file(
                                         File(item.image ?? ''),
                                         fit: BoxFit.cover,
                                         height: 180,
                                         width: 150,
                                       ), */
-                                          Image(
-                                        height: 180,
-                                        width: 150,
-                                        image: MemoryImage(
-                                          const Base64Decoder()
-                                              .convert(item.image[0]),
-                                        ),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
+                                            Image.network(
+                                          height: 180,
+                                          width: 150,
+                                          item.image[0],
+                                        )),
                                   ),
                                   Positioned(
                                     right: 0,

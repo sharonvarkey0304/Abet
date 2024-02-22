@@ -55,6 +55,7 @@ dependencies:
   webview_flutter: ^4.7.0
   uuid: ^4.3.3
   image_picker: ^1.0.7
+  cloudinary: ^1.2.0
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loginpage/controler/store_controller.dart';
@@ -78,15 +76,12 @@ class FavoritesScreen extends StatelessWidget {
                             //   onChanged: (val){}
                             //   ),
                             ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image(
-                                height: 80,
-                                width: 80,
-                                image: MemoryImage(
-                                  const Base64Decoder().convert(item.image[0]),
-                                ),
-                              ),
-                            ),
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.network(
+                                  item.image[0],
+                                  height: 80,
+                                  width: 80,
+                                )),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.end,
                               crossAxisAlignment: CrossAxisAlignment.start,

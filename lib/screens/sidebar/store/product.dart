@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -47,18 +46,15 @@ class ProductScreen extends StatelessWidget {
                         return Builder(
                           builder: (BuildContext context) {
                             return Container(
-                              width: MediaQuery.of(context).size.width,
-                              margin: EdgeInsets.symmetric(horizontal: 5.0),
-                              decoration: BoxDecoration(
-                                color: Colors.transparent,
-                              ),
-                              child: Image(
-                                image: MemoryImage(
-                                  const Base64Decoder().convert(url),
+                                width: MediaQuery.of(context).size.width,
+                                margin: EdgeInsets.symmetric(horizontal: 5.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.transparent,
                                 ),
-                                fit: BoxFit.contain,
-                              ),
-                            );
+                                child: Image.network(
+                                  url,
+                                  fit: BoxFit.contain,
+                                ));
                           },
                         );
                       }).toList(),
