@@ -182,7 +182,7 @@ class ProfileDetail extends StatelessWidget {
                               color: Colors.yellow),
                           child: const Icon(Icons.feedback),
                         ),
-                        title: Text('feddback'),
+                        title: Text('feedback'),
                         trailing: Container(
                           width: 30,
                           height: 30,
