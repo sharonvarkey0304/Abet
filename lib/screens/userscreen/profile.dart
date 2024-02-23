@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:loginpage/controler/firebase_auth.dart';
 
 import 'package:loginpage/screens/mainScreen/splash.dart';
+import 'package:loginpage/screens/userscreen/profile/youruploads.dart';
 import 'package:loginpage/screens/userscreen/profile_detail.dart';
 
 class Profile extends StatelessWidget {
@@ -78,25 +79,24 @@ class Profile extends StatelessWidget {
                 height: 10,
               ),
               ListTile(
-                leading: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
-                      color: Colors.yellow),
-                  child: const Icon(Icons.verified_user),
-                ),
-                title: Text('profile details'),
-                trailing: Container(
-                  width: 30,
-                  height: 30,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
-                      color: Colors.white30),
-                  child: const Icon(Icons.arrow_forward_sharp),
-                ),
-                onTap: () => Get.to(ProfileDetail.new),
-              ),
+                  leading: Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        color: Colors.yellow),
+                    child: const Icon(Icons.verified_user),
+                  ),
+                  title: Text('profile details'),
+                  trailing: Container(
+                    width: 30,
+                    height: 30,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        color: Colors.white30),
+                    child: const Icon(Icons.arrow_forward_sharp),
+                  ),
+                  onTap: () {}),
               SizedBox(
                 height: 10,
               ),
@@ -118,7 +118,7 @@ class Profile extends StatelessWidget {
                       color: Colors.white30),
                   child: const Icon(Icons.arrow_forward_sharp),
                 ),
-                onTap: () {},
+                onTap: () => Get.to(Uploads()),
               ),
               SizedBox(
                 height: 10,

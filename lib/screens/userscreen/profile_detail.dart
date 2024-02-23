@@ -9,6 +9,7 @@ import 'package:loginpage/model/user_model.dart';
 import 'package:loginpage/screens/mainScreen/login.dart';
 
 import 'package:loginpage/screens/userscreen/profile/profile_edit.dart';
+import 'package:loginpage/screens/userscreen/profile/youruploads.dart';
 
 class ProfileDetail extends StatelessWidget {
   const ProfileDetail({super.key});
@@ -110,7 +111,9 @@ class ProfileDetail extends StatelessWidget {
                               child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 10),
                             child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Get.to(Uploads.new);
+                              },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors
                                     .yellow, // Change the color to your desired color
