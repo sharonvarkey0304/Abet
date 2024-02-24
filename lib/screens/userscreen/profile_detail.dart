@@ -143,10 +143,10 @@ class ProfileDetail extends StatelessWidget {
                           title: 'course',
                           content: '',
                           cardicon: const Icon(Icons.school)),
-                      card(
-                          title: 'password',
-                          content: userData.password,
-                          cardicon: const Icon(Icons.lock)),
+                      // card(
+                      //     title: 'password',
+                      //     content: userData.password,
+                      //     cardicon: const Icon(Icons.lock)),
                       SizedBox(
                         height: 10,
                       ),
