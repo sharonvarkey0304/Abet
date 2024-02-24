@@ -207,11 +207,7 @@ class ProfileDetail extends StatelessWidget {
                         ),
                         title: Text('logout'),
                         onTap: () {
-                          Authentication.instance.logout();
-                          Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(
-                                  builder: (context) => ScreenLogin()),
-                              (route) => false);
+                          showLogoutDialog(context);
                         },
                       ),
                     ]);
@@ -250,6 +246,35 @@ class ProfileDetail extends StatelessWidget {
               Text(content!, style: GoogleFonts.poppins()),
             ]),
           ])),
+    );
+  }
+
+  void showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Center(child: Text('Logout')),
+          content: Text('Do you want to log out?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Authentication.instance.logout();
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => ScreenLogin()),
+                    (route) => false);
+              },
+              child: Text('Yes'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('No'),
+            ),
+          ],
+        );
+      },
     );
   }
 }
