@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:loginpage/controler/profile_ctr.dart';
 import 'package:loginpage/controler/store_controller.dart';
 import 'package:loginpage/model/contribution_model.dart';
 import 'package:loginpage/widgets/snackbar.dart';
@@ -16,6 +17,8 @@ class ContributionController extends GetxController {
   static FirebaseAuth get _auth => FirebaseAuth.instance;
   static CollectionReference<Map<String, dynamic>> get _contribution =>
       FirebaseFirestore.instance.collection("contribution");
+
+      final userProfilecntrl = Get.put(ProfileController());
 
   List<ContributionDatum> contributionList = [];
   List<Semester> subjectList = [];
@@ -110,13 +113,15 @@ class ContributionController extends GetxController {
 
   Future<void> setContributiontoFirestore(
       {required List<ContributionDatum> contributionList}) async {
-    final userId = _auth.currentUser?.uid;
+    // final userId = _auth.currentUser?.uid;
+
+    final userCourseId = userProfilecntrl.userData?.course;
     setSubmitLoad(true);
     try {
       List<Map<String, dynamic>> serializedList =
           contributionList.map((obj) => obj.toJson()).toList();
 
-      await _contribution.doc(userId).set(
+      await _contribution.doc(userCourseId).set(
         {'contribution_data': serializedList},
         SetOptions(merge: true),
       );
@@ -163,13 +168,14 @@ class ContributionController extends GetxController {
   }
 
   Future<void> getContributionList() async {
-    final userId = _auth.currentUser?.uid;
+    // final userId = _auth.currentUser?.uid;
+    final userCourseId = userProfilecntrl.userData?.course;
     ContributionDataModel? data;
 
     try {
        setContributionStatus(status: ContributionStatus.loading);
-      if (userId != null) {
-        DocumentSnapshot querySnapshot = await _contribution.doc(userId).get();
+      if (userCourseId != null) {
+        DocumentSnapshot querySnapshot = await _contribution.doc(userCourseId).get();
         if (querySnapshot.data() != null) {
           data = ContributionDataModel.fromJson(
               querySnapshot.data() as Map<String, dynamic>);

@@ -67,10 +67,21 @@ class _ProfileDetailState extends State<ProfileDetail> {
                           height: 190,
                           width: 170,
                           child: ClipRRect(
-                              borderRadius: BorderRadius.circular(300),
-                              child: Image.asset(
-                                  fit: BoxFit.cover,
-                                  'assets/images/default.png')),
+                            borderRadius: BorderRadius.circular(300),
+                            child: userData.userImage == null
+                                ? Image.asset(
+                                    fit: BoxFit.cover,
+                                    'assets/images/default.png')
+                                : Image.network(
+                                    userData.userImage ?? "",
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return Image.asset(
+                                          fit: BoxFit.cover,
+                                          'assets/images/default.png');
+                                    },
+                                  ),
+                          ),
                         ),
                         // Positioned(
                         //     bottom: 0,
