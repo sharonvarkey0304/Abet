@@ -21,11 +21,12 @@ class FavoritesScreen extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.all(15),
           child: GetBuilder<StoreController>(builder: (controller) {
-            List<ProductDataList> favouriteProducts = controller.productList
-                .where(
-                  (e) => e.isFavourite,
-                )
-                .toList();
+            List<ProductDataList> favouriteProducts =
+                controller.filteredProductList
+                    .where(
+                      (e) => e.isFavourite,
+                    )
+                    .toList();
             return Column(
               children: [
                 favouriteProducts.isEmpty

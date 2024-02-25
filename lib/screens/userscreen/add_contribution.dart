@@ -30,7 +30,7 @@ class _AddMaterialState extends State<AddMaterial> {
       body: SafeArea(
         child: GetBuilder<ContributionController>(
           builder: (controller) {
-            String userCourse = prifileController.userData!.course;
+            String userCourse = prifileController.userData?.course ?? '';
             return SingleChildScrollView(
               child: Form(
                 key: _formKey,
@@ -238,7 +238,7 @@ class _AddMaterialState extends State<AddMaterial> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(4))),
                             onPressed: () {
-                              if (_formKey.currentState!.validate()) {
+                              if (_formKey.currentState?.validate() ?? true) {
                                 contributionController.onSubmitButton();
                               }
                             },
