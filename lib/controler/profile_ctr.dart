@@ -4,6 +4,7 @@ import 'package:loginpage/model/user_model.dart';
 
 class ProfileController extends GetxController {
   static ProfileController get instance => Get.find();
+  bool isLoadingUpdateProfile = false;
 //
 
 //
@@ -18,6 +19,17 @@ class ProfileController extends GetxController {
   }
 
   updateRecord(Usermodel user) async {
+    isLoadingUpdateProfile = true;
+    update();
+    await Future.delayed(Duration(seconds: 3));
     await _authrep.updateUserRecord(user);
+    isLoadingUpdateProfile = false;
+    update();
+  }
+
+  String? commonValidator(String? value) {
+    if (value == null) return null;
+    if (value.isEmpty) return 'This Field is required';
+    return null;
   }
 }

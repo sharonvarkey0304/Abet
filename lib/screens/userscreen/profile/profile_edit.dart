@@ -7,10 +7,17 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:loginpage/controler/profile_ctr.dart';
 import 'package:loginpage/model/user_model.dart';
+import 'package:loginpage/widgets/snackbar.dart';
 
-class ProfileEdit extends StatelessWidget {
+class ProfileEdit extends StatefulWidget {
   const ProfileEdit({super.key});
 
+  @override
+  State<ProfileEdit> createState() => _ProfileEditState();
+}
+
+class _ProfileEditState extends State<ProfileEdit> {
+  GlobalKey<FormState> fomrKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(ProfileController());
@@ -19,159 +26,181 @@ class ProfileEdit extends StatelessWidget {
       body: Container(
         color: Colors.white,
         child: SafeArea(
-          child: ListView(physics: const BouncingScrollPhysics(), children: [
-            FutureBuilder(
-              future: controller.getUserData(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.hasData) {
-                    Usermodel userData = snapshot.data as Usermodel;
-                    final email = TextEditingController(text: userData.email);
-                    final password =
-                        TextEditingController(text: userData.password);
-                    final name = TextEditingController(text: userData.name);
-                    final phone = TextEditingController(text: userData.phone);
-                    return Column(children: [
-                      Stack(
-                        children: [
-                          SizedBox(
-                            height: 190,
-                            width: 170,
-                            child: ClipRRect(
-                                borderRadius: BorderRadius.circular(300),
-                                child: Image.asset(
-                                    fit: BoxFit.cover,
-                                    'assets/images/default.png')),
-                          ),
-                          Positioned(
-                              bottom: 0,
-                              right: -20,
-                              child: RawMaterialButton(
-                                onPressed: () {},
-                                elevation: 2.0,
-                                fillColor: const Color(0xFFF5F6F9),
-                                padding: const EdgeInsets.all(10.0),
-                                shape: const CircleBorder(),
-                                child: const Icon(
-                                  Icons.camera_alt_outlined,
-                                  color: Colors.black,
-                                ),
-                              )),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Column(children: [
-                          TextFormField(
-                            //initialValue: userData.name,
-                            controller: name,
-                            decoration: InputDecoration(
-                                prefixIcon: const Icon(
-                                  Icons.person,
-                                ),
-                                label: Text(
-                                  'Username',
-                                  style: GoogleFonts.poppins(),
-                                ),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(15))),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          TextFormField(
-                            // initialValue: userData.email,
-                            controller: email,
-                            keyboardType: TextInputType.emailAddress,
-                            decoration: InputDecoration(
-                                prefixIcon: const Icon(
-                                  Icons.email,
-                                ),
-                                label: Text(
-                                  'Email',
-                                  style: GoogleFonts.poppins(),
-                                ),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(15))),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          TextFormField(
-                            // initialValue: userData.phone,
-                            controller: phone,
-                            keyboardType: TextInputType.phone,
-                            decoration: InputDecoration(
-                                prefixIcon: const Icon(
-                                  Icons.phone,
-                                ),
-                                label: Text(
-                                  'Phone no',
-                                  style: GoogleFonts.poppins(),
-                                ),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(15))),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          TextFormField(
-                            // initialValue: userData.password,
-                            controller: password,
-                            decoration: InputDecoration(
-                                prefixIcon: const Icon(
-                                  Icons.lock,
-                                ),
-                                label: Text(
-                                  'Password',
-                                  style: GoogleFonts.poppins(),
-                                ),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(15))),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              ElevatedButton(
-                                  onPressed: () async {
-                                    final userData = Usermodel(
-                                      email: email.text.trim(),
-                                      password: password.text.trim(),
-                                      name: name.text.trim(),
-                                      phone: phone.text.trim(),
-                                      id: FirebaseAuth
-                                          .instance.currentUser?.uid,
-                                    );
-                                    await controller.updateRecord(userData);
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                      fixedSize: const Size(200, 50)),
-                                  child: const Text('submit'))
-                            ],
-                          )
-                        ]),
-                      ),
-                    ]);
-                  } else if (snapshot.hasError) {
-                    return Center(child: Text(snapshot.error.toString()));
+          child: Form(
+            key: fomrKey,
+            child: ListView(physics: const BouncingScrollPhysics(), children: [
+              FutureBuilder(
+                future: controller.getUserData(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.hasData) {
+                      Usermodel userData = snapshot.data as Usermodel;
+                      final email = TextEditingController(text: userData.email);
+                      final password =
+                          TextEditingController(text: userData.password);
+                      final name = TextEditingController(text: userData.name);
+                      final phone = TextEditingController(text: userData.phone);
+                      return Column(children: [
+                        Stack(
+                          children: [
+                            SizedBox(
+                              height: 190,
+                              width: 170,
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(300),
+                                  child: Image.asset(
+                                      fit: BoxFit.cover,
+                                      'assets/images/default.png')),
+                            ),
+                            Positioned(
+                                bottom: 0,
+                                right: -20,
+                                child: RawMaterialButton(
+                                  onPressed: () {},
+                                  elevation: 2.0,
+                                  fillColor: const Color(0xFFF5F6F9),
+                                  padding: const EdgeInsets.all(10.0),
+                                  shape: const CircleBorder(),
+                                  child: const Icon(
+                                    Icons.camera_alt_outlined,
+                                    color: Colors.black,
+                                  ),
+                                )),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Column(children: [
+                            TextFormField(
+                              //initialValue: userData.name,
+                              controller: name,
+                              decoration: InputDecoration(
+                                  prefixIcon: const Icon(
+                                    Icons.person,
+                                  ),
+                                  label: Text(
+                                    'Username',
+                                    style: GoogleFonts.poppins(),
+                                  ),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15))),
+                              validator: controller.commonValidator,
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            TextFormField(
+                              // initialValue: userData.email,
+                              controller: email,
+                              keyboardType: TextInputType.emailAddress,
+                              decoration: InputDecoration(
+                                  prefixIcon: const Icon(
+                                    Icons.email,
+                                  ),
+                                  label: Text(
+                                    'Email',
+                                    style: GoogleFonts.poppins(),
+                                  ),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15))),
+                              validator: controller.commonValidator,
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            TextFormField(
+                              // initialValue: userData.phone,
+                              controller: phone,
+                              keyboardType: TextInputType.phone,
+                              decoration: InputDecoration(
+                                  prefixIcon: const Icon(
+                                    Icons.phone,
+                                  ),
+                                  label: Text(
+                                    'Phone no',
+                                    style: GoogleFonts.poppins(),
+                                  ),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15))),
+                              validator: controller.commonValidator,
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            TextFormField(
+                              // initialValue: userData.password,
+                              controller: password,
+                              decoration: InputDecoration(
+                                  prefixIcon: const Icon(
+                                    Icons.lock,
+                                  ),
+                                  label: Text(
+                                    'Password',
+                                    style: GoogleFonts.poppins(),
+                                  ),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15))),
+                              validator: controller.commonValidator,
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            GetBuilder<ProfileController>(
+                                builder: (controller) {
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  ElevatedButton(
+                                    onPressed: controller.isLoadingUpdateProfile
+                                        ? null
+                                        : () async {
+                                            bool isvalidated = fomrKey
+                                                    .currentState
+                                                    ?.validate() ??
+                                                true;
+                                            if (isvalidated) {
+                                              final userData = Usermodel(
+                                                email: email.text.trim(),
+                                                password: password.text.trim(),
+                                                name: name.text.trim(),
+                                                phone: phone.text.trim(),
+                                                id: FirebaseAuth
+                                                    .instance.currentUser?.uid,
+                                              );
+                                              await controller
+                                                  .updateRecord(userData);
+                                            }
+                                          },
+                                    style: ElevatedButton.styleFrom(
+                                        fixedSize: const Size(200, 50)),
+                                    child: controller.isLoadingUpdateProfile
+                                        ? CommonWidget.loadingIndicator()
+                                        : const Text('submit'),
+                                  )
+                                ],
+                              );
+                            })
+                          ]),
+                        ),
+                      ]);
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text(snapshot.error.toString()));
+                    } else {
+                      return const Center(child: Text('something went wrong'));
+                    }
                   } else {
-                    return const Center(child: Text('something went wrong'));
+                    return const Center(child: CircularProgressIndicator());
                   }
-                } else {
-                  return const Center(child: CircularProgressIndicator());
-                }
-              },
-            ),
-          ]),
+                },
+              ),
+            ]),
+          ),
         ),
       ),
     );
