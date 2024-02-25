@@ -6,6 +6,7 @@ import 'package:loginpage/screens/sidebar/store/add_product.dart';
 import 'package:loginpage/screens/sidebar/store/cart.dart';
 import 'package:loginpage/screens/sidebar/store/favScreen.dart';
 import 'package:loginpage/screens/sidebar/store/home2.dart';
+import 'package:loginpage/screens/sidebar/store/useruploads.dart';
 
 class NavigationScreen extends StatefulWidget {
   const NavigationScreen({super.key});
@@ -21,7 +22,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
     HomeScreen(),
     CartScreen(),
     FavoritesScreen(),
-    AddProduct(),
+    ProductUploads(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -48,7 +49,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
           CupertinoIcons.home,
           CupertinoIcons.cart,
           CupertinoIcons.heart,
-          CupertinoIcons.chat_bubble_2,
+          CupertinoIcons.upload_circle_fill,
         ],
         inactiveColor: Colors.black.withOpacity(0.5),
         activeColor: const Color.fromARGB(255, 255, 238, 4),
