@@ -7,8 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:loginpage/controler/profile_ctr.dart';
 import 'package:loginpage/model/user_model.dart';
-
-import '../../../widgets/snackbar.dart';
+import 'package:loginpage/widgets/snackbar.dart';
 
 class ProfileEdit extends StatefulWidget {
   const ProfileEdit({super.key});
@@ -18,6 +17,7 @@ class ProfileEdit extends StatefulWidget {
 }
 
 class _ProfileEditState extends State<ProfileEdit> {
+  GlobalKey<FormState> fomrKey = GlobalKey();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController name = TextEditingController();
@@ -62,160 +62,188 @@ class _ProfileEditState extends State<ProfileEdit> {
             color: Colors.white,
             child: SafeArea(
               child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Stack(
-                      children: [
-                        SizedBox(
-                          height: 190,
-                          width: 170,
-                          child: ClipRRect(
-                              borderRadius: BorderRadius.circular(300),
-                              child: controller.isImageLoading
-                                  ? Center(
-                                      child: CommonWidget.loadingIndicator(
-                                          color: Colors.amber))
-                                  : controller.selectedImage == null
-                                      ? Image.asset(
-                                          fit: BoxFit.cover,
-                                          'assets/images/default.png')
-                                      : Image.network(
-                                          controller.selectedImage ?? "",
-                                          fit: BoxFit.cover,
-                                          errorBuilder:
-                                              (context, error, stackTrace) {
-                                            return Image.asset(
-                                                fit: BoxFit.cover,
-                                                'assets/images/default.png');
-                                          },
-                                        )),
-                        ),
-                        Positioned(
-                            bottom: 0,
-                            right: -20,
-                            child: RawMaterialButton(
-                              onPressed: () {
-                                controller.pickImage();
-                              },
-                              elevation: 2.0,
-                              fillColor: const Color(0xFFF5F6F9),
-                              padding: const EdgeInsets.all(10.0),
-                              shape: const CircleBorder(),
-                              child: const Icon(
-                                Icons.camera_alt_outlined,
-                                color: Colors.black,
-                              ),
-                            )),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Column(
+                child: Form(
+                  key: fomrKey,
+                  child: Column(
+                    children: [
+                      Stack(
                         children: [
-                          TextFormField(
-                            //initialValue: userData.name,
-                            controller: name,
-                            decoration: InputDecoration(
-                                prefixIcon: const Icon(
-                                  Icons.person,
-                                ),
-                                label: Text(
-                                  'Username',
-                                  style: GoogleFonts.poppins(),
-                                ),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(15))),
+                          SizedBox(
+                            height: 190,
+                            width: 170,
+                            child: ClipRRect(
+                                borderRadius: BorderRadius.circular(300),
+                                child: controller.isImageLoading
+                                    ? Center(
+                                        child: CommonWidget.loadingIndicator(
+                                            color: Colors.amber))
+                                    : controller.selectedImage == null
+                                        ? Image.asset(
+                                            fit: BoxFit.cover,
+                                            'assets/images/default.png')
+                                        : Image.network(
+                                            controller.selectedImage ?? "",
+                                            fit: BoxFit.cover,
+                                            errorBuilder:
+                                                (context, error, stackTrace) {
+                                              return Image.asset(
+                                                  fit: BoxFit.cover,
+                                                  'assets/images/default.png');
+                                            },
+                                          )),
                           ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          TextFormField(
-                            // initialValue: userData.email,
-                            controller: email,
-                            readOnly: true,
-                            keyboardType: TextInputType.emailAddress,
-                            decoration: InputDecoration(
-                                prefixIcon: const Icon(
-                                  Icons.email,
+                          Positioned(
+                              bottom: 0,
+                              right: -20,
+                              child: RawMaterialButton(
+                                onPressed: () {
+                                  controller.pickImage();
+                                },
+                                elevation: 2.0,
+                                fillColor: const Color(0xFFF5F6F9),
+                                padding: const EdgeInsets.all(10.0),
+                                shape: const CircleBorder(),
+                                child: const Icon(
+                                  Icons.camera_alt_outlined,
+                                  color: Colors.black,
                                 ),
-                                label: Text(
-                                  'Email',
-                                  style: GoogleFonts.poppins(),
-                                ),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(15))),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          TextFormField(
-                            // initialValue: userData.phone,
-                            controller: phone,
-                            keyboardType: TextInputType.phone,
-                            decoration: InputDecoration(
-                                prefixIcon: const Icon(
-                                  Icons.phone,
-                                ),
-                                label: Text(
-                                  'Phone no',
-                                  style: GoogleFonts.poppins(),
-                                ),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(15))),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          TextFormField(
-                            // initialValue: userData.password,
-                            controller: password,
-                            decoration: InputDecoration(
-                                prefixIcon: const Icon(
-                                  Icons.lock,
-                                ),
-                                label: Text(
-                                  'Password',
-                                  style: GoogleFonts.poppins(),
-                                ),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(15))),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              ElevatedButton(
-                                  onPressed: () async {
-                                    final userdata = Usermodel(
-                                        email: email.text.trim(),
-                                        password: password.text.trim(),
-                                        name: name.text.trim(),
-                                        phone: phone.text.trim(),
-                                        userImage: controller.selectedImage,
-                                        id: FirebaseAuth
-                                            .instance.currentUser?.uid,
-                                        course: userData?.course ?? "");
-                                    await controller.updateRecord(userdata);
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                      fixedSize: const Size(200, 50)),
-                                  child: controller.isSubmitLoading
-                                      ? CommonWidget.loadingIndicator()
-                                      : const Text('submit'))
-                            ],
-                          )
+                              )),
                         ],
                       ),
-                    ),
-                  ],
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Column(
+                          children: [
+                            TextFormField(
+                              //initialValue: userData.name,
+                              controller: name,
+                              decoration: InputDecoration(
+                                  prefixIcon: const Icon(
+                                    Icons.person,
+                                  ),
+                                  label: Text(
+                                    'Username',
+                                    style: GoogleFonts.poppins(),
+                                  ),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15))),
+                              validator: controller.commonValidator,
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            TextFormField(
+                              // initialValue: userData.email,
+                              controller: email,
+                              readOnly: true,
+                              keyboardType: TextInputType.emailAddress,
+                              decoration: InputDecoration(
+                                  prefixIcon: const Icon(
+                                    Icons.email,
+                                  ),
+                                  label: Text(
+                                    'Email',
+                                    style: GoogleFonts.poppins(),
+                                  ),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15))),
+                              validator: controller.commonValidator,
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            TextFormField(
+                              // initialValue: userData.phone,
+                              controller: phone,
+                              keyboardType: TextInputType.phone,
+                              decoration: InputDecoration(
+                                  prefixIcon: const Icon(
+                                    Icons.phone,
+                                  ),
+                                  label: Text(
+                                    'Phone no',
+                                    style: GoogleFonts.poppins(),
+                                  ),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15))),
+                              validator: controller.commonValidator,
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            TextFormField(
+                              // initialValue: userData.password,
+                              controller: password,
+                              decoration: InputDecoration(
+                                  prefixIcon: const Icon(
+                                    Icons.lock,
+                                  ),
+                                  label: Text(
+                                    'Password',
+                                    style: GoogleFonts.poppins(),
+                                  ),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15))),
+                              validator: (String? val) {
+                                if (val == null) {
+                                  return null;
+                                }
+                                if (val.isEmpty) {
+                                  return 'This field is required';
+                                }
+                                if (val.length < 6) {
+                                  return 'Password should be at least 6 characters';
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                ElevatedButton(
+                                    onPressed: controller.isSubmitLoading
+                                        ? null
+                                        : () async {
+                                            if (fomrKey.currentState
+                                                    ?.validate() ??
+                                                true) {
+                                              final userdata = Usermodel(
+                                                  email: email.text.trim(),
+                                                  password:
+                                                      password.text.trim(),
+                                                  name: name.text.trim(),
+                                                  phone: phone.text.trim(),
+                                                  userImage:
+                                                      controller.selectedImage,
+                                                  id: FirebaseAuth.instance
+                                                      .currentUser?.uid,
+                                                  course:
+                                                      userData?.course ?? "");
+                                              await controller
+                                                  .updateRecord(userdata);
+                                            }
+                                          },
+                                    style: ElevatedButton.styleFrom(
+                                        fixedSize: const Size(200, 50)),
+                                    child: controller.isSubmitLoading
+                                        ? CommonWidget.loadingIndicator()
+                                        : const Text('submit'))
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

@@ -2,6 +2,7 @@ import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.da
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:loginpage/controler/store_controller.dart';
 import 'package:loginpage/screens/sidebar/store/add_product.dart';
 import 'package:loginpage/screens/sidebar/store/cart.dart';
 import 'package:loginpage/screens/sidebar/store/favScreen.dart';
@@ -15,6 +16,7 @@ class NavigationScreen extends StatefulWidget {
 }
 
 class _NavigationScreenState extends State<NavigationScreen> {
+  var storeController = Get.put(StoreController());
   int pageIndex = 0;
 
   List<Widget> pages = [
@@ -60,6 +62,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
         rightCornerRadius: 10,
         elevation: 0,
         onTap: (index) {
+          storeController.searchProduct('');
+          storeController.productSearchController.clear();
           setState(() {
             pageIndex = index;
           });
