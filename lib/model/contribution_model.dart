@@ -94,12 +94,14 @@ class Semester {
 
 class Subject {
   String? id;
+  String? useruid;
   String? title;
   String? details;
   String? imageBase64;
 
   Subject({
     this.id,
+    this.useruid,
     this.title,
     this.details,
     this.imageBase64,
@@ -111,6 +113,7 @@ class Subject {
 
   factory Subject.fromJson(Map<String, dynamic> json) => Subject(
         id: json["id"],
+        useruid: json["useruid"],
         title: json["title"],
         details: json["details"],
         imageBase64: json["image_base_64"],
@@ -118,6 +121,7 @@ class Subject {
 
   Map<String, dynamic> toJson() => {
         "id": id,
+        "useruid": useruid,
         "title": title,
         "details": details,
         "image_base_64": imageBase64,
