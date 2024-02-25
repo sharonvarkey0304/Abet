@@ -74,10 +74,12 @@ class _SubjectPageState extends State<SubjectPage> {
                                     contributionCntrller.subjectList[index];
                                 return GestureDetector(
                                   onTap: () {
-                                    Get.to(ContentScreen(
+                                    Get.to(
+                                      ContentScreen(
                                         subjectName:
-                                            item.subjectName.toString()));
-                                    print('Item tapped at index $index');
+                                            item.subjectName.toString(),
+                                      ),
+                                    );
                                   },
                                   child: Container(
                                     margin: EdgeInsets.symmetric(
@@ -89,6 +91,9 @@ class _SubjectPageState extends State<SubjectPage> {
                                     child: Center(
                                       child: Text(
                                         item.subjectName ?? "No name",
+                                        textAlign: TextAlign.center,
+                                        maxLines: 4,
+                                        overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                             fontSize: 16, color: Colors.black),
                                       ),
@@ -105,16 +110,6 @@ class _SubjectPageState extends State<SubjectPage> {
           ),
         );
 
-        // Container(
-        //   decoration: const BoxDecoration(
-        //     image: DecorationImage(
-        //       image: AssetImage("assets/images/bck.jpg"),
-        //       fit: BoxFit.cover,
-        //     ),
-        //     //color: Colors.yellow,
-        //   ),
-        //   child:
-        // );
       },
     );
   }

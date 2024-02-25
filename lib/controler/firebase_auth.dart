@@ -120,12 +120,23 @@ class Authentication extends GetxController {
     });
   }
 
-  Future<Usermodel> getUserDetails(String email) async {
-    final snapshot =
-        await _db.collection("Users").where("Email", isEqualTo: email).get();
-    final userdata = snapshot.docs.map(Usermodel.fromSnapshot).single;
-    return userdata;
+  Future<Usermodel?> getUserDetails(String email) async {
+  try {
+    final snapshot = await _db.collection("Users").where("Email", isEqualTo: email).get();
+    if (snapshot.docs.isNotEmpty) {
+      // If there are documents matching the query, return the first one
+      final userdata = Usermodel.fromSnapshot(snapshot.docs.first);
+      return userdata;
+    } else {
+      // If no documents match the query criteria, return null or handle the case accordingly
+      return null;
+    }
+  } catch (e) {
+    log("Error: $e");
+    rethrow;
   }
+}
+
 
   Future<void> updateUserRecord(Usermodel user) async {
     //doc(user.id)
