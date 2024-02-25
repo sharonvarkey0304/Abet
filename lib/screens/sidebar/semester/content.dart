@@ -36,7 +36,7 @@ class _ContentScreenState extends State<ContentScreen> {
         body: Column(
           children: [
             TabBar(
-              tabs: [
+              tabs: const [
                 Tab(
                   icon: Icon(
                     Icons.book_outlined,
@@ -70,7 +70,9 @@ class _ContentScreenState extends State<ContentScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => ContentDetailsPage(item: item,),
+                                builder: (context) => ContentDetailsPage(
+                                  item: item,
+                                ),
                               ),
                             );
                           },
@@ -89,7 +91,20 @@ class _ContentScreenState extends State<ContentScreen> {
                                       child: Container(
                                         width: 30,
                                         height: 30,
-                                        color: Colors.amber,
+                                        color: Colors.grey.withOpacity(0.5),
+                                        child: Image.network(
+                                          item.imageBase64 ?? "",
+                                          fit: BoxFit.cover,
+                                          errorBuilder:
+                                              (context, error, stackTrace) {
+                                            return Container(
+                                              width: 30,
+                                              height: 30,
+                                              color:
+                                                  Colors.grey.withOpacity(0.5),
+                                            );
+                                          },
+                                        ),
                                       ),
                                     ),
                                     SizedBox(

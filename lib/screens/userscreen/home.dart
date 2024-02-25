@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loginpage/chatbot/chatbot.dart';
 import 'package:loginpage/controler/contribution_controller.dart';
+import 'package:loginpage/controler/profile_ctr.dart';
 import 'package:loginpage/screens/sidebar/navbar.dart';
 import 'package:loginpage/screens/userscreen/banner/aptitude.dart';
 import 'package:loginpage/screens/userscreen/banner/job.dart';
@@ -19,10 +20,18 @@ class ScreenHome extends StatefulWidget {
 
 class _ScreenHomeState extends State<ScreenHome> {
   final contributionController = Get.put(ContributionController());
+  final profileController = Get.put(ProfileController());
 
   @override
   void initState() {
-    contributionController.getContributionList();
+    if (contributionController.contributionStatus !=
+        ContributionStatus.loaded) {
+      contributionController.getContributionList();
+    }
+    if (profileController.userProfileStatus != UserProfileStatus.loaded) {
+      profileController.getUserData();
+    }
+
     super.initState();
   }
 

@@ -14,6 +14,9 @@ class Sidenav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      shape: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(0),
+          borderSide: BorderSide(width: 0)),
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
