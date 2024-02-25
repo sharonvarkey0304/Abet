@@ -5,15 +5,20 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:loginpage/controler/profile_ctr.dart';
 import 'package:loginpage/controler/store_controller.dart';
 import 'package:loginpage/model/contribution_model.dart';
 import 'package:loginpage/widgets/snackbar.dart';
 import 'package:uuid/uuid.dart';
 
+enum ContributionStatus { initial, loading, loaded, error }
+
 class ContributionController extends GetxController {
   static FirebaseAuth get _auth => FirebaseAuth.instance;
   static CollectionReference<Map<String, dynamic>> get _contribution =>
       FirebaseFirestore.instance.collection("contribution");
+
+      final userProfilecntrl = Get.put(ProfileController());
 
   List<ContributionDatum> contributionList = [];
   List<Semester> subjectList = [];
@@ -25,18 +30,98 @@ class ContributionController extends GetxController {
   TextEditingController detailsController = TextEditingController();
   String? image;
 
+  Map<String, Map<String, List<String>>> semesterMap = {
+    'Semester 1': {
+      "BBA": [
+        "Management theory and practices",
+        "Managerial economics",
+      ],
+      "BCA": [
+        "Computer fundamentals and html",
+        "Mathematical foundation",
+        "Discrete mathematics",
+      ],
+    },
+    'Semester 2': {
+      "BBA": [
+        "Financial accounting",
+        "Marketing management",
+      ],
+      "BCA": [
+        "Problem solving using c",
+        "Financial and management accounting",
+        "Operation research",
+      ],
+    },
+    'Semester 3': {
+      "BBA": [
+        "Corporate accounting",
+        "Financial management",
+      ],
+      "BCA": [
+        "Data structure using c",
+        "Python programming",
+        "Computer oriented numerical and statistical methods",
+        "Data communication and optical fibers",
+        "Theory of computation",
+      ],
+    },
+    'Semester 4': {
+      "BBA": [
+        "Cost and management accounting",
+        "Corporate regulations",
+      ],
+      "BCA": [
+        "Microprocessors architecture and programming",
+        "Sensors and transducers",
+        "Database management system and rdbms",
+        "E-commerce",
+        "Computer graphics",
+      ],
+    },
+    'Semester 5': {
+      "BBA": [
+        "Human resources management",
+        "Business research methods",
+        "Operations management",
+      ],
+      "BCA": [
+        "Computer organisation and architechture",
+        "Web programming using php",
+        "Java programming",
+        "Principle of software engineering",
+      ],
+    },
+    'Semester 6': {
+      "BBA": [
+        "Organizational behaviour",
+        "Management science",
+        "Project management",
+      ],
+      "BCA": [
+        "Android programming",
+        "Computer networks",
+        "Operating system",
+        "Software testing and quality assurance",
+      ],
+    }
+  };
+
   bool isSubmitLoading = false;
   bool isImageLoading = false;
+  ContributionStatus contributionStatus = ContributionStatus.initial;
 
   Future<void> setContributiontoFirestore(
       {required List<ContributionDatum> contributionList}) async {
-    final userId = _auth.currentUser?.uid;
+    // final userId = _auth.currentUser?.uid;
+
+    final userCourseId = userProfilecntrl.userData?.course;
     setSubmitLoad(true);
     try {
       List<Map<String, dynamic>> serializedList =
           contributionList.map((obj) => obj.toJson()).toList();
 
-      await _contribution.doc(userId).set(
+      await _contribution.doc(userCourseId).set(
         {'contribution_data': serializedList},
         SetOptions(merge: true),
       );
@@ -77,57 +162,20 @@ class ContributionController extends GetxController {
     update();
   }
 
-  Future<void> setSemesteContributiontoFirestore(
-      {required List<Semester> subjectList}) async {
-    final userId = _auth.currentUser?.uid;
-    // final newList = List.from(subjectList);
-    // newList.add(contributionData);
-    try {
-      List<Map<String, dynamic>> serializedList =
-          subjectList.map((obj) => obj.toJson()).toList();
-
-      await _contribution.doc(userId).update(
-        {'semester': serializedList},
-        // SetOptions(merge: true),
-      );
-      getContributionList();
-    } catch (e) {
-      CommonWidget.snackBar(
-        isSuccsess: false,
-        title: "Something Went wrong",
-        subtitle: e.toString(),
-      );
-    }
-  }
-
-  Future<void> setSubjectContributiontoFirestore(
-      {required List<Subject> itemsInsideSubjectList}) async {
-    final userId = _auth.currentUser?.uid;
-    try {
-      List<Map<String, dynamic>> serializedList =
-          itemsInsideSubjectList.map((obj) => obj.toJson()).toList();
-
-      await _contribution.doc(userId).update(
-        {'subject': serializedList},
-        // SetOptions(merge: true),
-      );
-      getContributionList();
-    } catch (e) {
-      CommonWidget.snackBar(
-        isSuccsess: false,
-        title: "Something Went wrong",
-        subtitle: e.toString(),
-      );
-    }
+  setContributionStatus({required ContributionStatus status}) {
+    contributionStatus = status;
+    update();
   }
 
   Future<void> getContributionList() async {
-    final userId = _auth.currentUser?.uid;
+    // final userId = _auth.currentUser?.uid;
+    final userCourseId = userProfilecntrl.userData?.course;
     ContributionDataModel? data;
 
     try {
-      if (userId != null) {
-        DocumentSnapshot querySnapshot = await _contribution.doc(userId).get();
+       setContributionStatus(status: ContributionStatus.loading);
+      if (userCourseId != null) {
+        DocumentSnapshot querySnapshot = await _contribution.doc(userCourseId).get();
         if (querySnapshot.data() != null) {
           data = ContributionDataModel.fromJson(
               querySnapshot.data() as Map<String, dynamic>);
@@ -135,9 +183,11 @@ class ContributionController extends GetxController {
 
         contributionList = data?.contributionData ?? [];
         log("rrrrrrrrr  ${querySnapshot.data()}");
+        setContributionStatus(status: ContributionStatus.loaded);
       }
     } catch (e) {
       log("erro $e");
+       setContributionStatus(status: ContributionStatus.error);
       CommonWidget.snackBar(
         isSuccsess: false,
         title: "Something Went wrong",
@@ -149,7 +199,7 @@ class ContributionController extends GetxController {
   void setSubjectList(int semindex) {
     subjectList.clear();
     for (var element in contributionList) {
-      if (int.tryParse(element.semesterName ?? "-1") == semindex) {
+      if (element.semesterName == "Semester $semindex") {
         subjectList.addAll(element.semester ?? []);
       }
     }

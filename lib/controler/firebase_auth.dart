@@ -80,6 +80,8 @@ class Authentication extends GetxController {
       Get.snackbar("Welcome", "Successfully logged in");
       //Get.offAll(() => const UserVav());
     } catch (e) {
+      log('credentials:\nemail:$email \npassword: $password');
+      log('eror in login: $e');
       Get.snackbar(
         "Error",
         "$e",
@@ -120,11 +122,22 @@ class Authentication extends GetxController {
     });
   }
 
-  Future<Usermodel> getUserDetails(String email) async {
-    final snapshot =
-        await _db.collection("Users").where("Email", isEqualTo: email).get();
-    final userdata = snapshot.docs.map(Usermodel.fromSnapshot).single;
-    return userdata;
+  Future<Usermodel?> getUserDetails(String email) async {
+    try {
+      final snapshot =
+          await _db.collection("Users").where("Email", isEqualTo: email).get();
+      if (snapshot.docs.isNotEmpty) {
+        // If there are documents matching the query, return the first one
+        final userdata = Usermodel.fromSnapshot(snapshot.docs.first);
+        return userdata;
+      } else {
+        // If no documents match the query criteria, return null or handle the case accordingly
+        return null;
+      }
+    } catch (e) {
+      log("Error: $e");
+      rethrow;
+    }
   }
 
   Future<void> updateUserRecord(Usermodel user) async {
@@ -132,7 +145,12 @@ class Authentication extends GetxController {
 
     String uuid = _auth.currentUser?.uid ?? '-';
     try {
-      await _db.collection("Users").doc(uuid).update(user.toJson()).then((_) {
+      await _auth.currentUser?.updatePassword(user.password);
+      await _db
+          .collection("Users")
+          .doc(uuid)
+          .update(user.toJson())
+          .then((_) async {
         Get.snackbar(
           "Success",
           "Your account has been changed",
@@ -160,7 +178,7 @@ class Authentication extends GetxController {
         );
       });
     } catch (e) {
-      debugPrint('error on updating user profile: $e');
+      log('error on updating user profile: $e');
     }
   }
 

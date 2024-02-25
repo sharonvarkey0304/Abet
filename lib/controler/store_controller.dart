@@ -39,11 +39,14 @@ class StoreController extends GetxController {
   Future<void> getProductsFromFB() async {
     try {
       String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
+      ProductModel? data;
       var fbRef = FirebaseFirestore.instance.collection('Products').doc(userId);
       DocumentSnapshot snapshot = await fbRef.get();
-      final data =
-          ProductModel.fromJson(snapshot.data() as Map<String, dynamic>);
-      productList = data.productDataList ?? [];
+      if (snapshot.data() != null) {
+        data = ProductModel.fromJson(snapshot.data() as Map<String, dynamic>);
+      }
+
+      productList = data?.productDataList ?? [];
       update();
     } catch (e) {
       log('error in getting products list: $e');

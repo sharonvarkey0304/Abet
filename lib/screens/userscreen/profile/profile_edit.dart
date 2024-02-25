@@ -18,65 +18,108 @@ class ProfileEdit extends StatefulWidget {
 
 class _ProfileEditState extends State<ProfileEdit> {
   GlobalKey<FormState> fomrKey = GlobalKey();
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
+  TextEditingController name = TextEditingController();
+  TextEditingController phone = TextEditingController();
+
+  final controller = Get.put(ProfileController());
+  Usermodel? userData;
+
+  @override
+  void initState() {
+    userData = controller.userData!;
+    email = TextEditingController(text: userData?.email);
+    password = TextEditingController(text: userData?.password);
+    name = TextEditingController(text: userData?.name);
+    phone = TextEditingController(text: userData?.phone);
+    controller.selectedImage = userData?.userImage;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(ProfileController());
     return Scaffold(
       appBar: AppBar(),
-      body: Container(
-        color: Colors.white,
-        child: SafeArea(
-          child: Form(
-            key: fomrKey,
-            child: ListView(physics: const BouncingScrollPhysics(), children: [
-              FutureBuilder(
-                future: controller.getUserData(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    if (snapshot.hasData) {
-                      Usermodel userData = snapshot.data as Usermodel;
-                      final email = TextEditingController(text: userData.email);
-                      final password =
-                          TextEditingController(text: userData.password);
-                      final name = TextEditingController(text: userData.name);
-                      final phone = TextEditingController(text: userData.phone);
-                      return Column(children: [
-                        Stack(
+      body: GetBuilder<ProfileController>(
+        builder: (controller) {
+          if (controller.userProfileStatus == UserProfileStatus.loading) {
+            return Center(
+              child: CommonWidget.loadingIndicator(color: Colors.amber),
+            );
+          } else if (controller.userProfileStatus == UserProfileStatus.error) {
+            return Center(
+              child: Text("Something went wrong"),
+            );
+          }
+          if (userData == null) {
+            return Center(
+              child: Text("Something went wrong"),
+            );
+          }
+
+          return Container(
+            color: Colors.white,
+            child: SafeArea(
+              child: SingleChildScrollView(
+                child: Form(
+                  key: fomrKey,
+                  child: Column(
+                    children: [
+                      Stack(
+                        children: [
+                          SizedBox(
+                            height: 190,
+                            width: 170,
+                            child: ClipRRect(
+                                borderRadius: BorderRadius.circular(300),
+                                child: controller.isImageLoading
+                                    ? Center(
+                                        child: CommonWidget.loadingIndicator(
+                                            color: Colors.amber))
+                                    : controller.selectedImage == null
+                                        ? Image.asset(
+                                            fit: BoxFit.cover,
+                                            'assets/images/default.png')
+                                        : Image.network(
+                                            controller.selectedImage ?? "",
+                                            fit: BoxFit.cover,
+                                            errorBuilder:
+                                                (context, error, stackTrace) {
+                                              return Image.asset(
+                                                  fit: BoxFit.cover,
+                                                  'assets/images/default.png');
+                                            },
+                                          )),
+                          ),
+                          Positioned(
+                              bottom: 0,
+                              right: -20,
+                              child: RawMaterialButton(
+                                onPressed: () {
+                                  controller.pickImage();
+                                },
+                                elevation: 2.0,
+                                fillColor: const Color(0xFFF5F6F9),
+                                padding: const EdgeInsets.all(10.0),
+                                shape: const CircleBorder(),
+                                child: const Icon(
+                                  Icons.camera_alt_outlined,
+                                  color: Colors.black,
+                                ),
+                              )),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Column(
                           children: [
-                            SizedBox(
-                              height: 190,
-                              width: 170,
-                              child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(300),
-                                  child: Image.asset(
-                                      fit: BoxFit.cover,
-                                      'assets/images/default.png')),
-                            ),
-                            Positioned(
-                                bottom: 0,
-                                right: -20,
-                                child: RawMaterialButton(
-                                  onPressed: () {},
-                                  elevation: 2.0,
-                                  fillColor: const Color(0xFFF5F6F9),
-                                  padding: const EdgeInsets.all(10.0),
-                                  shape: const CircleBorder(),
-                                  child: const Icon(
-                                    Icons.camera_alt_outlined,
-                                    color: Colors.black,
-                                  ),
-                                )),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Column(children: [
                             TextFormField(
                               //initialValue: userData.name,
                               controller: name,
@@ -98,6 +141,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                             TextFormField(
                               // initialValue: userData.email,
                               controller: email,
+                              readOnly: true,
                               keyboardType: TextInputType.emailAddress,
                               decoration: InputDecoration(
                                   prefixIcon: const Icon(
@@ -146,62 +190,65 @@ class _ProfileEditState extends State<ProfileEdit> {
                                   ),
                                   border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(15))),
-                              validator: controller.commonValidator,
+                              validator: (String? val) {
+                                if (val == null) {
+                                  return null;
+                                }
+                                if (val.isEmpty) {
+                                  return 'This field is required';
+                                }
+                                if (val.length < 6) {
+                                  return 'Password should be at least 6 characters';
+                                }
+                                return null;
+                              },
                             ),
                             const SizedBox(
                               height: 20,
                             ),
-                            GetBuilder<ProfileController>(
-                                builder: (controller) {
-                              return Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  ElevatedButton(
-                                    onPressed: controller.isLoadingUpdateProfile
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                ElevatedButton(
+                                    onPressed: controller.isSubmitLoading
                                         ? null
                                         : () async {
-                                            bool isvalidated = fomrKey
-                                                    .currentState
+                                            if (fomrKey.currentState
                                                     ?.validate() ??
-                                                true;
-                                            if (isvalidated) {
-                                              final userData = Usermodel(
-                                                email: email.text.trim(),
-                                                password: password.text.trim(),
-                                                name: name.text.trim(),
-                                                phone: phone.text.trim(),
-                                                id: FirebaseAuth
-                                                    .instance.currentUser?.uid,
-                                              );
+                                                true) {
+                                              final userdata = Usermodel(
+                                                  email: email.text.trim(),
+                                                  password:
+                                                      password.text.trim(),
+                                                  name: name.text.trim(),
+                                                  phone: phone.text.trim(),
+                                                  userImage:
+                                                      controller.selectedImage,
+                                                  id: FirebaseAuth.instance
+                                                      .currentUser?.uid,
+                                                  course:
+                                                      userData?.course ?? "");
                                               await controller
-                                                  .updateRecord(userData);
+                                                  .updateRecord(userdata);
                                             }
                                           },
                                     style: ElevatedButton.styleFrom(
                                         fixedSize: const Size(200, 50)),
-                                    child: controller.isLoadingUpdateProfile
+                                    child: controller.isSubmitLoading
                                         ? CommonWidget.loadingIndicator()
-                                        : const Text('submit'),
-                                  )
-                                ],
-                              );
-                            })
-                          ]),
+                                        : const Text('submit'))
+                              ],
+                            )
+                          ],
                         ),
-                      ]);
-                    } else if (snapshot.hasError) {
-                      return Center(child: Text(snapshot.error.toString()));
-                    } else {
-                      return const Center(child: Text('something went wrong'));
-                    }
-                  } else {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                },
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            ]),
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }

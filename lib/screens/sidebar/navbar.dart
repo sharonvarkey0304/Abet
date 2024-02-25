@@ -14,6 +14,9 @@ class Sidenav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      shape: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(0),
+          borderSide: BorderSide(width: 0)),
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
@@ -45,15 +48,21 @@ class Sidenav extends StatelessWidget {
             title: const Text('semester'),
             onTap: () {
               Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (ctx) => SemesterPage()));
+                  .push(MaterialPageRoute(builder: (ctx) => SemesterPage()))
+                  .then((value) {
+                Navigator.pop(context);
+              });
             },
           ),
           ListTile(
             leading: const Icon(Icons.store),
             title: const Text('Store'),
             onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (ctx) => NavigationScreen()));
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (ctx) => NavigationScreen()))
+                  .then((value) {
+                Navigator.pop(context);
+              });
             },
           ),
           ListTile(

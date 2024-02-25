@@ -80,7 +80,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/ug.jpeg
+    - assets/images/ug.jpg
     - assets/images/default.png
     - assets/images/sign.jpg
     - assets/images/login.jpg
@@ -102,6 +102,9 @@ flutter:
     - assets/images/nophoto.png
     - assets/images/bck.jpg
     - assets/images/exam.jpg
+    - assets/images/upload.jpg
+    - assets/images/job.jpg
+    - assets/images/aptitude.jpg
 
     # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
