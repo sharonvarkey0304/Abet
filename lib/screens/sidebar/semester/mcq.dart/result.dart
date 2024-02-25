@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loginpage/screens/sidebar/semester/mcq.dart/nextButton.dart';
-import 'package:loginpage/screens/sidebar/semester/mcq.dart/question.dart';
+import 'package:loginpage/screens/sidebar/semester/mcq.dart/questions/question.dart';
 import 'package:loginpage/screens/sidebar/semester/sem.dart';
 
 class ResultScreen extends StatelessWidget {
@@ -40,7 +40,7 @@ class ResultScreen extends StatelessWidget {
                   width: 250,
                   child: CircularProgressIndicator(
                     strokeWidth: 12,
-                    value: score / 9,
+                    value: score / 4,
                     color: Colors.lightGreen,
                     backgroundColor: Colors.white,
                   ),
@@ -48,7 +48,7 @@ class ResultScreen extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      "$score/10",
+                      "$score/5",
                       style: const TextStyle(
                         fontSize: 80,
                         color: Colors.black,
@@ -56,7 +56,7 @@ class ResultScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      '${(score / questions.length * 100).round()}%',
+                      '${(score / 5 * 100).round()}%',
                       style: const TextStyle(fontSize: 30, color: Colors.black),
                     )
                   ],

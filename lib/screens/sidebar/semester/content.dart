@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:loginpage/controler/contribution_controller.dart';
 import 'package:loginpage/screens/sidebar/semester/content_details.dart';
 import 'package:loginpage/screens/sidebar/semester/mcq.dart/mcqScreen.dart';
+import 'package:loginpage/screens/sidebar/semester/mcq.dart/questions/question.dart';
 
 class ContentScreen extends StatefulWidget {
   const ContentScreen({super.key, required this.subjectName});
@@ -130,7 +131,9 @@ class _ContentScreenState extends State<ContentScreen> {
                       );
                     },
                   ),
-                  McqScreen(),
+                  McqScreen(
+                    questions: bca11,
+                  ),
                 ],
               ),
             )
