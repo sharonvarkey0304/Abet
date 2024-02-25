@@ -12,6 +12,7 @@ enum UserProfileStatus { initial, loading, loaded, error }
 
 class ProfileController extends GetxController {
   static ProfileController get instance => Get.find();
+//
   Usermodel? userData;
   String? selectedImage;
   bool isSubmitLoading = false;
@@ -79,6 +80,12 @@ class ProfileController extends GetxController {
       setImageLoad(false);
       print('Error while picking an image: $e');
     }
+  }
+
+  String? commonValidator(String? value) {
+    if (value == null) return null;
+    if (value.isEmpty) return 'This Field is required';
+    return null;
   }
 
   setImageLoad(bool value) {

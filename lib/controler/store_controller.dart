@@ -23,9 +23,11 @@ class StoreController extends GetxController {
   TextEditingController productPriceController = TextEditingController();
   TextEditingController productContactNumController = TextEditingController();
   TextEditingController productEmailController = TextEditingController();
+  TextEditingController productSearchController = TextEditingController();
   final auth = FirebaseAuth.instance;
   final fbReference = FirebaseFirestore.instance.collection('Products');
   List<ProductDataList> productList = <ProductDataList>[];
+  List<ProductDataList> filteredProductList = <ProductDataList>[];
   List<String> images = <String>[];
   AddProductStatus addProductStatus = AddProductStatus.initial;
   bool imageLoading = false;
@@ -47,6 +49,8 @@ class StoreController extends GetxController {
       }
 
       productList = data?.productDataList ?? [];
+      filteredProductList = data?.productDataList ?? [];
+
       update();
     } catch (e) {
       log('error in getting products list: $e');
@@ -184,6 +188,7 @@ class StoreController extends GetxController {
     }
   }
 
+//
   Future<void> deleteProduct({required ProductDataList item}) async {
     try {
       var uid = auth.currentUser?.uid;
@@ -191,6 +196,7 @@ class StoreController extends GetxController {
           FirebaseFirestore.instance.collection('Products').doc(uid);
 
       productList.remove(item);
+      filteredProductList.remove(item);
 
       productRef.update(
         {
@@ -219,8 +225,30 @@ class StoreController extends GetxController {
     return null;
   }
 
+  void searchProduct(String query, {bool isCallingIninit = false}) {
+    if (query.isEmpty) {
+      filteredProductList = productList;
+    } else {
+      filteredProductList = productList.where((e) {
+        var itemName = e.name.toLowerCase();
+        var itemEmail = e.email.toLowerCase();
+        var itemContact = e.contactNumber.toLowerCase();
+        query = query.toLowerCase();
+
+        return itemName.contains(query) ||
+            itemEmail.contains(query) ||
+            itemContact.contains(query);
+      }).toList();
+    }
+    if (isCallingIninit == false) {
+      update();
+    }
+  }
+
   @override
   void onInit() {
+    searchProduct('', isCallingIninit: true);
+    productSearchController.clear();
     getProductsFromFB();
     super.onInit();
   }

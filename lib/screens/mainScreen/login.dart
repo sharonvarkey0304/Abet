@@ -117,7 +117,7 @@ class _ScreenLoginState extends State<ScreenLogin> {
                   SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: _signin,
+                        onPressed: isLoginLoading ? null : _signin,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors
                               .yellow, // Set the background color to yellow
