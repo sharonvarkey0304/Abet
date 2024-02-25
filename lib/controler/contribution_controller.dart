@@ -18,9 +18,11 @@ class ContributionController extends GetxController {
   static CollectionReference<Map<String, dynamic>> get _contribution =>
       FirebaseFirestore.instance.collection("contribution");
 
-      final userProfilecntrl = Get.put(ProfileController());
+  final userProfilecntrl = Get.put(ProfileController());
 
   List<ContributionDatum> contributionList = [];
+  // List<ContributionDatum> yourUploadsList = [];
+  List<Subject> yourUploadSubjectList = [];
   List<Semester> subjectList = [];
   List<Subject> itemsInsideSubjectList = [];
 
@@ -41,6 +43,7 @@ class ContributionController extends GetxController {
         "Mathematical foundation",
         "Discrete mathematics",
       ],
+      "BSC": ["Angiosperm anatomy reproductive botany &palynology"],
     },
     'Semester 2': {
       "BBA": [
@@ -51,6 +54,9 @@ class ContributionController extends GetxController {
         "Problem solving using c",
         "Financial and management accounting",
         "Operation research",
+      ],
+      "BSC": [
+        "Microbiology,mycrology, lichenology and plant pathology",
       ],
     },
     'Semester 3': {
@@ -65,6 +71,9 @@ class ContributionController extends GetxController {
         "Data communication and optical fibers",
         "Theory of computation",
       ],
+      "BSC": [
+        "Phycology, bryology and pteridology",
+      ],
     },
     'Semester 4': {
       "BBA": [
@@ -78,6 +87,7 @@ class ContributionController extends GetxController {
         "E-commerce",
         "Computer graphics",
       ],
+      "BSC": ["Methodology&perspective in plant science"],
     },
     'Semester 5': {
       "BBA": [
@@ -90,6 +100,12 @@ class ContributionController extends GetxController {
         "Web programming using php",
         "Java programming",
         "Principle of software engineering",
+      ],
+      "BSC": [
+        "Gymnosperms,palaeobotany phytogeography and evolution",
+        "Angiosperms morphology and plant systematics",
+        "Tissue culture horticulture Economic botany and ethnobotany",
+        "Cell biology and biochemistry",
       ],
     },
     'Semester 6': {
@@ -104,6 +120,12 @@ class ContributionController extends GetxController {
         "Operating system",
         "Software testing and quality assurance",
       ],
+      "BSC": [
+        "Genetics and plant breeding",
+        "Biotechnology moleculer Biology and bioinformatics",
+        "Plant physiology and metabolism",
+        "Environmental science",
+      ],
     }
   };
 
@@ -112,7 +134,8 @@ class ContributionController extends GetxController {
   ContributionStatus contributionStatus = ContributionStatus.initial;
 
   Future<void> setContributiontoFirestore(
-      {required List<ContributionDatum> contributionList}) async {
+      {required List<ContributionDatum> contributionList,
+      bool isSnackbarNeed = true}) async {
     // final userId = _auth.currentUser?.uid;
 
     final userCourseId = userProfilecntrl.userData?.course;
@@ -128,11 +151,13 @@ class ContributionController extends GetxController {
       await getContributionList();
       setSubmitLoad(false);
       clearAllController();
-      CommonWidget.snackBar(
-        isSuccsess: true,
-        title: "Succesfull",
-        subtitle: "Contribution added succesfully",
-      );
+      if (isSnackbarNeed) {
+        CommonWidget.snackBar(
+          isSuccsess: true,
+          title: "Succesfull",
+          subtitle: "Contribution added succesfully",
+        );
+      }
     } catch (e) {
       setSubmitLoad(false);
       CommonWidget.snackBar(
@@ -173,27 +198,52 @@ class ContributionController extends GetxController {
     ContributionDataModel? data;
 
     try {
-       setContributionStatus(status: ContributionStatus.loading);
+      setContributionStatus(status: ContributionStatus.loading);
       if (userCourseId != null) {
-        DocumentSnapshot querySnapshot = await _contribution.doc(userCourseId).get();
+        DocumentSnapshot querySnapshot =
+            await _contribution.doc(userCourseId).get();
         if (querySnapshot.data() != null) {
           data = ContributionDataModel.fromJson(
               querySnapshot.data() as Map<String, dynamic>);
         }
 
         contributionList = data?.contributionData ?? [];
+        setYourUploadsList(contributionList: contributionList);
         log("rrrrrrrrr  ${querySnapshot.data()}");
         setContributionStatus(status: ContributionStatus.loaded);
       }
     } catch (e) {
       log("erro $e");
-       setContributionStatus(status: ContributionStatus.error);
+      setContributionStatus(status: ContributionStatus.error);
       CommonWidget.snackBar(
         isSuccsess: false,
         title: "Something Went wrong",
         subtitle: e.toString(),
       );
     }
+  }
+
+  void setYourUploadsList({required List<ContributionDatum> contributionList}) {
+    yourUploadSubjectList.clear();
+    // yourUploadsList = contributionList.where((contribution) {
+    //   return contribution.semester!.any((semester) {
+    //     return semester.subject!.any((subject) {
+    //       if (subject.useruid == _auth.currentUser?.uid) {
+    //         yourUploadSubjectList.add(subject);
+    //       }
+    //       return subject.useruid == _auth.currentUser?.uid;
+    //     });
+    //   });
+    // }).toList();
+
+    // List<Subject> extractedSubjects = [];
+    yourUploadSubjectList = contributionList
+        .expand((contribution) => contribution.semester!)
+        .expand((semester) => semester.subject!)
+        .where((subject) => subject.useruid == _auth.currentUser!.uid)
+        .toList();
+
+    update();
   }
 
   void setSubjectList(int semindex) {
@@ -244,12 +294,15 @@ class ContributionController extends GetxController {
         final indexSub = contributionList[indexSem].semester!.indexWhere(
             (element) => element.subjectName == subjectController.text);
 
-        contributionList[indexSem].semester?[indexSub].subject?.add(Subject(
-              id: Uuid().v4(),
-              details: detailsController.text,
-              imageBase64: image,
-              title: titleController.text,
-            ));
+        contributionList[indexSem].semester?[indexSub].subject?.add(
+              Subject(
+                id: Uuid().v4(),
+                useruid: _auth.currentUser?.uid,
+                details: detailsController.text,
+                imageBase64: image,
+                title: titleController.text,
+              ),
+            );
       } else {
         contributionList[indexSem].semester?.add(
               Semester(
@@ -257,6 +310,7 @@ class ContributionController extends GetxController {
                 subject: [
                   Subject(
                     id: Uuid().v4(),
+                    useruid: _auth.currentUser?.uid,
                     details: detailsController.text,
                     imageBase64: image,
                     title: titleController.text,
@@ -276,6 +330,7 @@ class ContributionController extends GetxController {
               subject: [
                 Subject(
                   id: Uuid().v4(),
+                  useruid: _auth.currentUser?.uid,
                   details: detailsController.text,
                   imageBase64: image,
                   title: titleController.text,
@@ -288,5 +343,37 @@ class ContributionController extends GetxController {
     }
 
     await setContributiontoFirestore(contributionList: contributionList);
+  }
+
+  Future<void> deleteYourUploads({required String itemId}) async {
+    // Check if any element in contributionList matches the itemId
+
+    List<ContributionDatum> newList = List.from(contributionList);
+    if (newList.any((element) => element.semester!.any((semester) =>
+        semester.subject!.any((subject) => subject.id == itemId)))) {
+      // If itemId is found, delete it
+      for (var element in contributionList) {
+        for (var semester in element.semester!) {
+          semester.subject!.removeWhere((subject) => subject.id == itemId);
+        }
+      }
+    }
+    print("11111111111");
+
+    try {
+      await setContributiontoFirestore(
+          contributionList: newList, isSnackbarNeed: false);
+      CommonWidget.snackBar(
+          isSuccsess: true,
+          title: "Succesfull",
+          subtitle: "Item deleted succesfully");
+    } catch (e) {
+      CommonWidget.snackBar(
+        isSuccsess: false,
+        title: "Error",
+        subtitle: "Could not delete",
+      );
+    }
+    print("33333333333");
   }
 }
