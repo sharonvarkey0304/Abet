@@ -218,7 +218,7 @@ class _AddMaterialState extends State<AddMaterial> {
                                 left: 120,
                                 child: IconButton(
                                   onPressed: () async {
-                                    await contributionController.pickImage();
+                                    await contributionController.pickPdf();
                                   },
                                   icon: const Icon(
                                     FontAwesomeIcons.cameraRetro,

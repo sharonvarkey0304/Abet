@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -264,15 +265,20 @@ class ContributionController extends GetxController {
     }
   }
 
-  Future<void> pickImage() async {
-    final StoreController storeController = Get.put(StoreController());
-    final picker = ImagePicker();
+  Future<void> pickPdf() async {
+    //final StoreController storeController = Get.put(StoreController());
+    //final picker = ImagePicker();
     try {
-      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['pdf'],
+      );
+      //final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-      if (pickedFile != null) {
+      if (result != null) {
         setImageLoad(true);
-        image = await storeController.cloudinaryImage(File(pickedFile.path));
+
+        //image = await storeController.cloudinaryImage(File(pickedFile.path));
       }
       setImageLoad(false);
 
