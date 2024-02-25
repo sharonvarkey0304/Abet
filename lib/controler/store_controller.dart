@@ -188,6 +188,7 @@ class StoreController extends GetxController {
     }
   }
 
+//
   Future<void> deleteProduct({required ProductDataList item}) async {
     try {
       var uid = auth.currentUser?.uid;
