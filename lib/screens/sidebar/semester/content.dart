@@ -132,7 +132,7 @@ class _ContentScreenState extends State<ContentScreen> {
                     },
                   ),
                   McqScreen(
-                    questions: bca11,
+                    questions: questions(),
                   ),
                 ],
               ),
@@ -141,5 +141,19 @@ class _ContentScreenState extends State<ContentScreen> {
         ),
       ),
     );
+  }
+
+  List<QuestionModel> questions() {
+    switch (widget.subjectName) {
+      case 'Computer fundamentals and html':
+        return computerFundamentalsAndHtml;
+      case 'Mathematical foundation':
+        return mathematicalFoundation;
+      case 'Discrete mathematics':
+        return discreteMathematics;
+
+      default:
+        return [];
+    }
   }
 }
