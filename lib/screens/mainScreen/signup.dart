@@ -199,7 +199,7 @@ class _SignUpState extends State<SignUp> {
                             style: TextStyle(color: Colors.black38),
                             children: [
                               TextSpan(
-                                  text: 'Sign in',
+                                  text: 'Login',
                                   style: TextStyle(color: Colors.black)),
                             ]),
                       ),
