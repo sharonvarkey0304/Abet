@@ -16,7 +16,7 @@ class UserNav extends StatefulWidget {
 class _UserNavState extends State<UserNav> {
   int index = 0;
   List pages = [
-    const ScreenHome(),
+    ScreenHome(),
     const AddMaterial(),
     const ProfileDetail(),
   ];

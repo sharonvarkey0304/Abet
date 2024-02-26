@@ -227,18 +227,6 @@ class ContributionController extends GetxController {
 
   void setYourUploadsList({required List<ContributionDatum> contributionList}) {
     yourUploadSubjectList.clear();
-    // yourUploadsList = contributionList.where((contribution) {
-    //   return contribution.semester!.any((semester) {
-    //     return semester.subject!.any((subject) {
-    //       if (subject.useruid == _auth.currentUser?.uid) {
-    //         yourUploadSubjectList.add(subject);
-    //       }
-    //       return subject.useruid == _auth.currentUser?.uid;
-    //     });
-    //   });
-    // }).toList();
-
-    // List<Subject> extractedSubjects = [];
     yourUploadSubjectList = contributionList
         .expand((contribution) => contribution.semester!)
         .expand((semester) => semester.subject!)
