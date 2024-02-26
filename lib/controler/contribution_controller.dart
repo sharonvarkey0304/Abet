@@ -266,19 +266,14 @@ class ContributionController extends GetxController {
   }
 
   Future<void> pickPdf() async {
-    //final StoreController storeController = Get.put(StoreController());
-    //final picker = ImagePicker();
+    final StoreController storeController = Get.put(StoreController());
+    final picker = ImagePicker();
     try {
-      FilePickerResult? result = await FilePicker.platform.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: ['pdf'],
-      );
-      //final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-      if (result != null) {
+      if (pickedFile != null) {
         setImageLoad(true);
-
-        //image = await storeController.cloudinaryImage(File(pickedFile.path));
+        image = await storeController.cloudinaryImage(File(pickedFile.path));
       }
       setImageLoad(false);
 
@@ -288,6 +283,29 @@ class ContributionController extends GetxController {
       print('Error while picking an image: $e');
     }
   }
+  // Future<void> pickPdf() async {
+  //   final StoreController storeController = Get.put(StoreController());
+  //   final picker = ImagePicker();
+  //   try {
+  //     // FilePickerResult? result = await FilePicker.platform.pickFiles(
+  //     //   type: FileType.custom,
+  //     //   allowedExtensions: ['pdf'],
+  //     //);
+  //     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+  //     if (pickImage != null) {
+  //       setImageLoad(true);
+
+  //       image = await storeController.cloudinaryImage(File(pickedFile!.path));
+  //     }
+  //     setImageLoad(false);
+
+  //     update();
+  //   } catch (e) {
+  //     setImageLoad(false);
+  //     print('Error while picking an image: $e');
+  //   }
+  // }
 
   onSubmitButton() async {
     if (contributionList

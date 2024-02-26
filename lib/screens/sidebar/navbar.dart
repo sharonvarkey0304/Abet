@@ -1,15 +1,17 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:loginpage/controler/store_controller.dart';
+import 'package:flutter/services.dart';
+import 'package:loginpage/screens/sidebar/about/about.dart';
+import 'package:loginpage/screens/sidebar/contactdeveloper/contactdev.dart';
+
 import 'package:loginpage/screens/sidebar/semester/sem.dart';
 import 'package:loginpage/screens/sidebar/store/navigation.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Sidenav extends StatelessWidget {
-  Sidenav({super.key});
-
-  // injecting store controller
-  // ignore: unused_field
-  final _storeController = Get.put(StoreController());
+  Sidenav({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,24 +30,10 @@ class Sidenav extends StatelessWidget {
               ),
             ),
             child: null,
-            //accountName: Text('ABET'),
-            //accountEmail: Text('Learn With Us'),
-            // currentAccountPicture: Stack(
-            //   children: [
-            //     Container(
-            //       height: 190,
-            //       width: 170,
-            //       child: ClipRRect(
-            //           borderRadius: BorderRadius.circular(300),
-            //           child: Image.asset(
-            //               fit: BoxFit.cover, 'assets/images/logo.png')),
-            //     ),
-            //   ],
-            // ),
           ),
           ListTile(
             leading: const Icon(Icons.category_rounded),
-            title: const Text('semester'),
+            title: const Text('Semester'),
             onTap: () {
               Navigator.of(context)
                   .push(MaterialPageRoute(builder: (ctx) => SemesterPage()))
@@ -67,23 +55,87 @@ class Sidenav extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.book_online),
-            title: const Text('syllabus'),
-            onTap: () {},
+            title: const Text('Syllabus'),
+            onTap: () {
+              _openPDF(context);
+            },
           ),
           ListTile(
             leading: const Icon(Icons.telegram),
-            title: const Text('Join telegram'),
-            onTap: () {},
+            title: const Text('Join Telegram'),
+            onTap: () {
+              _launchTelegram(context);
+            },
           ),
           ListTile(
             leading: const Icon(Icons.info),
             title: const Text('About app'),
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (ctx) => About()))
+                  .then((value) {
+                Navigator.pop(context);
+              });
+            },
           ),
           ListTile(
             leading: const Icon(Icons.call),
             title: const Text('Contact Developers'),
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (ctx) => Contactdev()))
+                  .then((value) {
+                Navigator.pop(context);
+              });
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _launchTelegram(BuildContext context) async {
+    const url = 'https://t.me/+xpa4d_YKUd0xMzhl';
+    try {
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Error'),
+          content: Text('Failed to open Telegram. Please try again later.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text('OK'),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+}
+
+void _openPDF(BuildContext context) async {
+  try {
+    final ByteData data = await rootBundle
+        .load('assets/pdf/question.pdf'); // Path to your PDF file
+    final Uint8List bytes = data.buffer.asUint8List();
+    await launch('data:application/pdf;base64,${base64Encode(bytes)}');
+  } catch (e) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Error'),
+        content: Text('Failed to open PDF. Please try again later.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('OK'),
           ),
         ],
       ),
