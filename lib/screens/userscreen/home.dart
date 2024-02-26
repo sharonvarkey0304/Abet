@@ -7,15 +7,14 @@ import 'package:loginpage/chatbot/chatbot.dart';
 import 'package:loginpage/controler/contribution_controller.dart';
 import 'package:loginpage/controler/profile_ctr.dart';
 import 'package:loginpage/screens/sidebar/navbar.dart';
-import 'package:loginpage/screens/sidebar/semester/content.dart';
+
 import 'package:loginpage/screens/userscreen/banner/aptitude.dart';
 import 'package:loginpage/screens/userscreen/banner/job.dart';
 import 'package:loginpage/screens/userscreen/banner/ug_updates.dart';
-import 'package:loginpage/widgets/sliver_appbar.dart';
 
 class ScreenHome extends StatefulWidget {
-  const ScreenHome({Key? key, required this.semIndex}) : super(key: key);
-  final int semIndex;
+  const ScreenHome({super.key});
+  //final int semIndex;
 
   @override
   State<ScreenHome> createState() => _ScreenHomeState();
@@ -34,7 +33,7 @@ class _ScreenHomeState extends State<ScreenHome> {
     if (profileController.userProfileStatus != UserProfileStatus.loaded) {
       profileController.getUserData();
     }
-    contributionController.setSubjectList(widget.semIndex);
+    //contributionController.setSubjectList(widget.semIndex);
 
     super.initState();
   }
@@ -195,183 +194,183 @@ class _ScreenHomeState extends State<ScreenHome> {
                 ),
               ),
             ),
-            const SizedBox(height: 5), _sample(context),
+            const SizedBox(height: 5), //_sample(context),
 
             //Story cards starts here..
-            // Column(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: <Widget>[
-            //     Row(
-            //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //       children: <Widget>[
-            //         Expanded(
-            //           child: GestureDetector(
-            //             onTap: () {},
-            //             child: const StoryCard(
-            //                 //imagePath: 'assets/images/login.jpg',
-            //                 storyCardText: 'java script'),
-            //           ),
-            //         ),
-            //         Expanded(
-            //           child: GestureDetector(
-            //             onTap: () {},
-            //             child: const StoryCard(
-            //                 //imagePath: 'assets/images/login.jpg',
-            //                 storyCardText: 'sgdhd'),
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //     const SizedBox(height: 5),
-            //     Row(
-            //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //       children: <Widget>[
-            //         Expanded(
-            //           child: GestureDetector(
-            //             onTap: () {},
-            //             child: const StoryCard(
-            //                 // imagePath: 'assets/images/login.jpg',
-            //                 storyCardText: 'qqqqqqqq'),
-            //           ),
-            //         ),
-            //         Expanded(
-            //           child: GestureDetector(
-            //             onTap: () {},
-            //             child: const StoryCard(
-            //                 //imagePath: 'assets/images/login.jpg',
-            //                 storyCardText: 'sdffggg'),
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //     const SizedBox(
-            //       height: 5,
-            //     ),
-            //     Row(
-            //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //       children: <Widget>[
-            //         Expanded(
-            //           child: GestureDetector(
-            //             onTap: () {},
-            //             child: const StoryCard(
-            //                 //imagePath: 'assets/images/login.jpg',
-            //                 storyCardText: 'djgbfn'),
-            //           ),
-            //         ),
-            //         Expanded(
-            //           child: GestureDetector(
-            //             onTap: () {
-            //               // Function to be called when the card is tapped
-            //               // Navigator.of(context)
-            //               //     .push(MaterialPageRoute(builder: (context) {
-            //               //   return LearnAndEntertain();
-            //               // }));
-            //             },
-            //             child: const StoryCard(
-            //                 //imagePath: 'assets/images/login.jpg',
-            //                 storyCardText: 'eeeeee'),
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //   ],
-            // ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {},
+                        child: const StoryCard(
+                            //imagePath: 'assets/images/login.jpg',
+                            storyCardText: 'java script'),
+                      ),
+                    ),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {},
+                        child: const StoryCard(
+                            //imagePath: 'assets/images/login.jpg',
+                            storyCardText: 'sgdhd'),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 5),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {},
+                        child: const StoryCard(
+                            // imagePath: 'assets/images/login.jpg',
+                            storyCardText: 'qqqqqqqq'),
+                      ),
+                    ),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {},
+                        child: const StoryCard(
+                            //imagePath: 'assets/images/login.jpg',
+                            storyCardText: 'sdffggg'),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {},
+                        child: const StoryCard(
+                            //imagePath: 'assets/images/login.jpg',
+                            storyCardText: 'djgbfn'),
+                      ),
+                    ),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          // Function to be called when the card is tapped
+                          // Navigator.of(context)
+                          //     .push(MaterialPageRoute(builder: (context) {
+                          //   return LearnAndEntertain();
+                          // }));
+                        },
+                        child: const StoryCard(
+                            //imagePath: 'assets/images/login.jpg',
+                            storyCardText: 'eeeeee'),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _sample(BuildContext context) {
-    return GetBuilder<ContributionController>(
-      builder: (contributionCntrller) {
-        return Scaffold(
-          extendBodyBehindAppBar: true,
-          backgroundColor: Colors.white,
-          body: CustomScrollView(
-            physics: ScrollPhysics(),
-            slivers: [
-              SliverAppBarWidget(
-                image: "assets/images/bck.jpg",
-                title: 'SEMESTER ${widget.semIndex}',
-              ),
-              SliverToBoxAdapter(
-                child: Column(
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(30),
-                          topRight: Radius.circular(30),
-                        ),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.white24,
-                            blurRadius: 10,
-                            offset: Offset(2, -2),
-                          )
-                        ],
-                      ),
-                      child: contributionCntrller.subjectList.isEmpty
-                          ? Center(
-                              child: Text("NO SUBJECT"),
-                            )
-                          : GridView.builder(
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                childAspectRatio: 1.1,
-                                mainAxisSpacing: 25,
-                              ),
-                              shrinkWrap: true,
-                              physics: ScrollPhysics(),
-                              itemCount:
-                                  contributionCntrller.subjectList.length,
-                              itemBuilder: (context, index) {
-                                final item =
-                                    contributionCntrller.subjectList[index];
-                                return GestureDetector(
-                                  onTap: () {
-                                    Get.to(
-                                      ContentScreen(
-                                        subjectName:
-                                            item.subjectName.toString(),
-                                      ),
-                                    );
-                                  },
-                                  child: Container(
-                                    margin: EdgeInsets.symmetric(
-                                        vertical: 8, horizontal: 20),
-                                    decoration: BoxDecoration(
-                                      color: Color.fromARGB(255, 238, 241, 162),
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        item.subjectName ?? "No name",
-                                        textAlign: TextAlign.center,
-                                        maxLines: 4,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                            fontSize: 16, color: Colors.black),
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
-        );
-      },
-    );
-  }
+  // Widget _sample(BuildContext context) {
+  //   return GetBuilder<ContributionController>(
+  //     builder: (contributionCntrller) {
+  //       return Scaffold(
+  //         extendBodyBehindAppBar: true,
+  //         backgroundColor: Colors.white,
+  //         body: CustomScrollView(
+  //           physics: ScrollPhysics(),
+  //           slivers: [
+  //             SliverAppBarWidget(
+  //               image: "assets/images/bck.jpg",
+  //               title: 'SEMESTER ${widget.semIndex}',
+  //             ),
+  //             SliverToBoxAdapter(
+  //               child: Column(
+  //                 children: [
+  //                   Container(
+  //                     width: MediaQuery.of(context).size.width,
+  //                     decoration: BoxDecoration(
+  //                       color: Colors.white,
+  //                       borderRadius: BorderRadius.only(
+  //                         topLeft: Radius.circular(30),
+  //                         topRight: Radius.circular(30),
+  //                       ),
+  //                       boxShadow: const [
+  //                         BoxShadow(
+  //                           color: Colors.white24,
+  //                           blurRadius: 10,
+  //                           offset: Offset(2, -2),
+  //                         )
+  //                       ],
+  //                     ),
+  //                     child: contributionCntrller.subjectList.isEmpty
+  //                         ? Center(
+  //                             child: Text("NO SUBJECT"),
+  //                           )
+  //                         : GridView.builder(
+  //                             gridDelegate:
+  //                                 SliverGridDelegateWithFixedCrossAxisCount(
+  //                               crossAxisCount: 2,
+  //                               childAspectRatio: 1.1,
+  //                               mainAxisSpacing: 25,
+  //                             ),
+  //                             shrinkWrap: true,
+  //                             physics: ScrollPhysics(),
+  //                             itemCount:
+  //                                 contributionCntrller.subjectList.length,
+  //                             itemBuilder: (context, index) {
+  //                               final item =
+  //                                   contributionCntrller.subjectList[index];
+  //                               return GestureDetector(
+  //                                 onTap: () {
+  //                                   Get.to(
+  //                                     ContentScreen(
+  //                                       subjectName:
+  //                                           item.subjectName.toString(),
+  //                                     ),
+  //                                   );
+  //                                 },
+  //                                 child: Container(
+  //                                   margin: EdgeInsets.symmetric(
+  //                                       vertical: 8, horizontal: 20),
+  //                                   decoration: BoxDecoration(
+  //                                     color: Color.fromARGB(255, 238, 241, 162),
+  //                                     borderRadius: BorderRadius.circular(15),
+  //                                   ),
+  //                                   child: Center(
+  //                                     child: Text(
+  //                                       item.subjectName ?? "No name",
+  //                                       textAlign: TextAlign.center,
+  //                                       maxLines: 4,
+  //                                       overflow: TextOverflow.ellipsis,
+  //                                       style: TextStyle(
+  //                                           fontSize: 16, color: Colors.black),
+  //                                     ),
+  //                                   ),
+  //                                 ),
+  //                               );
+  //                             },
+  //                           ),
+  //                   ),
+  //                 ],
+  //               ),
+  //             )
+  //           ],
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 }
 
 class StoryCard extends StatelessWidget {
@@ -425,92 +424,3 @@ class ImageSlider extends StatelessWidget {
     );
   }
 }
-
-// Widget build(BuildContext context) {
-//   return GetBuilder<ContributionController>(
-//     builder: (contributionCntrller) {
-//       return Scaffold(
-//         extendBodyBehindAppBar: true,
-//         backgroundColor: Colors.white,
-//         body: CustomScrollView(
-//           physics: ScrollPhysics(),
-//           slivers: [
-//             SliverAppBarWidget(
-//               image: "assets/images/bck.jpg",
-//               title: 'SEMESTER ${widget.semIndex}',
-//             ),
-//             SliverToBoxAdapter(
-//               child: Column(
-//                 children: [
-//                   Container(
-//                     width: MediaQuery.of(context).size.width,
-//                     decoration: BoxDecoration(
-//                       color: Colors.white,
-//                       borderRadius: BorderRadius.only(
-//                         topLeft: Radius.circular(30),
-//                         topRight: Radius.circular(30),
-//                       ),
-//                       boxShadow: const [
-//                         BoxShadow(
-//                           color: Colors.white24,
-//                           blurRadius: 10,
-//                           offset: Offset(2, -2),
-//                         )
-//                       ],
-//                     ),
-//                     child: contributionCntrller.subjectList.isEmpty
-//                         ? Center(
-//                             child: Text("NO SUBJECT"),
-//                           )
-//                         : GridView.builder(
-//                             gridDelegate:
-//                                 SliverGridDelegateWithFixedCrossAxisCount(
-//                               crossAxisCount: 2,
-//                               childAspectRatio: 1.1,
-//                               mainAxisSpacing: 25,
-//                             ),
-//                             shrinkWrap: true,
-//                             physics: ScrollPhysics(),
-//                             itemCount: contributionCntrller.subjectList.length,
-//                             itemBuilder: (context, index) {
-//                               final item =
-//                                   contributionCntrller.subjectList[index];
-//                               return GestureDetector(
-//                                 onTap: () {
-//                                   Get.to(
-//                                     ContentScreen(
-//                                       subjectName: item.subjectName.toString(),
-//                                     ),
-//                                   );
-//                                 },
-//                                 child: Container(
-//                                   margin: EdgeInsets.symmetric(
-//                                       vertical: 8, horizontal: 20),
-//                                   decoration: BoxDecoration(
-//                                     color: Color.fromARGB(255, 238, 241, 162),
-//                                     borderRadius: BorderRadius.circular(15),
-//                                   ),
-//                                   child: Center(
-//                                     child: Text(
-//                                       item.subjectName ?? "No name",
-//                                       textAlign: TextAlign.center,
-//                                       maxLines: 4,
-//                                       overflow: TextOverflow.ellipsis,
-//                                       style: TextStyle(
-//                                           fontSize: 16, color: Colors.black),
-//                                     ),
-//                                   ),
-//                                 ),
-//                               );
-//                             },
-//                           ),
-//                   ),
-//                 ],
-//               ),
-//             )
-//           ],
-//         ),
-//       );
-//     },
-//   );
-// }

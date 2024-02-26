@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -20,6 +19,7 @@ class ContributionController extends GetxController {
       FirebaseFirestore.instance.collection("contribution");
 
   final userProfilecntrl = Get.put(ProfileController());
+  final fbReference = FirebaseFirestore.instance.collection('contribution');
 
   List<ContributionDatum> contributionList = [];
   // List<ContributionDatum> yourUploadsList = [];
@@ -31,6 +31,7 @@ class ContributionController extends GetxController {
   TextEditingController semesterController = TextEditingController();
   TextEditingController subjectController = TextEditingController();
   TextEditingController detailsController = TextEditingController();
+  TextEditingController contributionSearchController = TextEditingController();
   String? image;
 
   Map<String, Map<String, List<String>>> semesterMap = {
@@ -400,4 +401,31 @@ class ContributionController extends GetxController {
     }
     print("33333333333");
   }
+
+  void searchContribution(String query, {bool isCallingIninit = false}) {
+    if (query.isEmpty) {
+      itemsInsideSubjectList = yourUploadSubjectList;
+    } else {
+      itemsInsideSubjectList = yourUploadSubjectList.where((e) {
+        var itemTitle = e.title; //.toLowerCase();
+        var subName = e.details; //.toLowerCase();
+        // var semName = e.; //.toLowerCase();
+        query = query.toLowerCase();
+
+        return itemTitle!.contains(query) || subName!.contains(query);
+        // semName.contains(query);
+      }).toList();
+    }
+    if (isCallingIninit == false) {
+      update();
+    }
+  }
+
+  // @override
+  // void onInit() {
+  //   searchContribution('', isCallingIninit: true);
+  //   contributionSearchController.clear();
+  //   getProductsFromFB();
+  //   super.onInit();
+  // }
 }
