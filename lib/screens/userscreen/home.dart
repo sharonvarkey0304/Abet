@@ -7,11 +7,13 @@ import 'package:loginpage/chatbot/chatbot.dart';
 import 'package:loginpage/controler/contribution_controller.dart';
 import 'package:loginpage/controler/profile_ctr.dart';
 import 'package:loginpage/screens/sidebar/navbar.dart';
-import 'package:loginpage/screens/sidebar/semester/content_details.dart';
+import 'package:loginpage/screens/sidebar/semester/content.dart';
 import 'package:loginpage/screens/userscreen/banner/aptitude.dart';
 import 'package:loginpage/screens/userscreen/banner/job.dart';
 import 'package:loginpage/screens/userscreen/banner/ug_updates.dart';
 import 'package:loginpage/widgets/snackbar.dart';
+
+import '../sidebar/semester/content_details.dart';
 
 class ScreenHome extends StatefulWidget {
   const ScreenHome({
@@ -438,7 +440,128 @@ class StoryCard extends StatelessWidget {
       ),
     );
   }
+
+  // Widget _sample(BuildContext context) {
+  //   return GetBuilder<ContributionController>(
+  //     builder: (contributionCntrller) {
+  //       return Scaffold(
+  //         extendBodyBehindAppBar: true,
+  //         backgroundColor: Colors.white,
+  //         body: CustomScrollView(
+  //           physics: ScrollPhysics(),
+  //           slivers: [
+  //             SliverAppBarWidget(
+  //               image: "assets/images/bck.jpg",
+  //               title: 'SEMESTER ${widget.semIndex}',
+  //             ),
+  //             SliverToBoxAdapter(
+  //               child: Column(
+  //                 children: [
+  //                   Container(
+  //                     width: MediaQuery.of(context).size.width,
+  //                     decoration: BoxDecoration(
+  //                       color: Colors.white,
+  //                       borderRadius: BorderRadius.only(
+  //                         topLeft: Radius.circular(30),
+  //                         topRight: Radius.circular(30),
+  //                       ),
+  //                       boxShadow: const [
+  //                         BoxShadow(
+  //                           color: Colors.white24,
+  //                           blurRadius: 10,
+  //                           offset: Offset(2, -2),
+  //                         )
+  //                       ],
+  //                     ),
+  //                     child: contributionCntrller.subjectList.isEmpty
+  //                         ? Center(
+  //                             child: Text("NO SUBJECT"),
+  //                           )
+  //                         : GridView.builder(
+  //                             gridDelegate:
+  //                                 SliverGridDelegateWithFixedCrossAxisCount(
+  //                               crossAxisCount: 2,
+  //                               childAspectRatio: 1.1,
+  //                               mainAxisSpacing: 25,
+  //                             ),
+  //                             shrinkWrap: true,
+  //                             physics: ScrollPhysics(),
+  //                             itemCount:
+  //                                 contributionCntrller.subjectList.length,
+  //                             itemBuilder: (context, index) {
+  //                               final item =
+  //                                   contributionCntrller.subjectList[index];
+  //                               return GestureDetector(
+  //                                 onTap: () {
+  //                                   Get.to(
+  //                                     ContentScreen(
+  //                                       subjectName:
+  //                                           item.subjectName.toString(),
+  //                                     ),
+  //                                   );
+  //                                 },
+  //                                 child: Container(
+  //                                   margin: EdgeInsets.symmetric(
+  //                                       vertical: 8, horizontal: 20),
+  //                                   decoration: BoxDecoration(
+  //                                     color: Color.fromARGB(255, 238, 241, 162),
+  //                                     borderRadius: BorderRadius.circular(15),
+  //                                   ),
+  //                                   child: Center(
+  //                                     child: Text(
+  //                                       item.subjectName ?? "No name",
+  //                                       textAlign: TextAlign.center,
+  //                                       maxLines: 4,
+  //                                       overflow: TextOverflow.ellipsis,
+  //                                       style: TextStyle(
+  //                                           fontSize: 16, color: Colors.black),
+  //                                     ),
+  //                                   ),
+  //                                 ),
+  //                               );
+  //                             },
+  //                           ),
+  //                   ),
+  //                 ],
+  //               ),
+  //             )
+  //           ],
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 }
+
+// class StoryCard extends StatelessWidget {
+//   //final String imagePath;
+//   final String storyCardText;
+
+//   const StoryCard({
+//     super.key,
+//     //required this.imagePath,
+//     required this.storyCardText,
+//   });
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Card(
+//       child: Container(
+//         decoration: BoxDecoration(
+//           color: Colors.white,
+//           borderRadius: BorderRadius.circular(10.0),
+//         ),
+//         width: 150,
+//         height: 130,
+//         child: const Center(
+//           child: Padding(
+//             padding: EdgeInsets.all(8.0),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 class ImageSlider extends StatelessWidget {
   final String imgUrl;
@@ -461,92 +584,3 @@ class ImageSlider extends StatelessWidget {
     );
   }
 }
-
-// Widget build(BuildContext context) {
-//   return GetBuilder<ContributionController>(
-//     builder: (contributionCntrller) {
-//       return Scaffold(
-//         extendBodyBehindAppBar: true,
-//         backgroundColor: Colors.white,
-//         body: CustomScrollView(
-//           physics: ScrollPhysics(),
-//           slivers: [
-//             SliverAppBarWidget(
-//               image: "assets/images/bck.jpg",
-//               title: 'SEMESTER ${widget.semIndex}',
-//             ),
-//             SliverToBoxAdapter(
-//               child: Column(
-//                 children: [
-//                   Container(
-//                     width: MediaQuery.of(context).size.width,
-//                     decoration: BoxDecoration(
-//                       color: Colors.white,
-//                       borderRadius: BorderRadius.only(
-//                         topLeft: Radius.circular(30),
-//                         topRight: Radius.circular(30),
-//                       ),
-//                       boxShadow: const [
-//                         BoxShadow(
-//                           color: Colors.white24,
-//                           blurRadius: 10,
-//                           offset: Offset(2, -2),
-//                         )
-//                       ],
-//                     ),
-//                     child: contributionCntrller.subjectList.isEmpty
-//                         ? Center(
-//                             child: Text("NO SUBJECT"),
-//                           )
-//                         : GridView.builder(
-//                             gridDelegate:
-//                                 SliverGridDelegateWithFixedCrossAxisCount(
-//                               crossAxisCount: 2,
-//                               childAspectRatio: 1.1,
-//                               mainAxisSpacing: 25,
-//                             ),
-//                             shrinkWrap: true,
-//                             physics: ScrollPhysics(),
-//                             itemCount: contributionCntrller.subjectList.length,
-//                             itemBuilder: (context, index) {
-//                               final item =
-//                                   contributionCntrller.subjectList[index];
-//                               return GestureDetector(
-//                                 onTap: () {
-//                                   Get.to(
-//                                     ContentScreen(
-//                                       subjectName: item.subjectName.toString(),
-//                                     ),
-//                                   );
-//                                 },
-//                                 child: Container(
-//                                   margin: EdgeInsets.symmetric(
-//                                       vertical: 8, horizontal: 20),
-//                                   decoration: BoxDecoration(
-//                                     color: Color.fromARGB(255, 238, 241, 162),
-//                                     borderRadius: BorderRadius.circular(15),
-//                                   ),
-//                                   child: Center(
-//                                     child: Text(
-//                                       item.subjectName ?? "No name",
-//                                       textAlign: TextAlign.center,
-//                                       maxLines: 4,
-//                                       overflow: TextOverflow.ellipsis,
-//                                       style: TextStyle(
-//                                           fontSize: 16, color: Colors.black),
-//                                     ),
-//                                   ),
-//                                 ),
-//                               );
-//                             },
-//                           ),
-//                   ),
-//                 ],
-//               ),
-//             )
-//           ],
-//         ),
-//       );
-//     },
-//   );
-// }

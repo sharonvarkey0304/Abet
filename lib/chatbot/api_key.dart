@@ -13,7 +13,7 @@ class ApiClient {
           headers: {
             "Content-Type": "application/json",
             "Authorization":
-                "Bearer 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"
+                "Bearer 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"
           },
           body: jsonEncode({
             "model": "gpt-3.5-turbo",

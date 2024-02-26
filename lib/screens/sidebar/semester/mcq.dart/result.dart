@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:loginpage/screens/sidebar/semester/mcq.dart/nextButton.dart';
-import 'package:loginpage/screens/sidebar/semester/mcq.dart/questions/question.dart';
 import 'package:loginpage/screens/sidebar/semester/sem.dart';
 
 class ResultScreen extends StatelessWidget {
