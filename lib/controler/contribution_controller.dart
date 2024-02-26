@@ -421,11 +421,11 @@ class ContributionController extends GetxController {
     }
   }
 
-  // @override
-  // void onInit() {
-  //   searchContribution('', isCallingIninit: true);
-  //   contributionSearchController.clear();
-  //   getProductsFromFB();
-  //   super.onInit();
-  // }
+  @override
+  void onInit() {
+    searchContribution('', isCallingIninit: true);
+    contributionSearchController.clear();
+    getContributionList();
+    super.onInit();
+  }
 }
