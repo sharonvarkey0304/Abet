@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+//import 'package:flutter/material.dart';
+
 ProductModel productDataModelFromJson(String str) =>
     ProductModel.fromJson(json.decode(str));
 
@@ -35,6 +37,7 @@ class ProductDataList {
   List<String> image;
   bool isFavourite;
   String id;
+  bool isCart;
 
   ProductDataList({
     required this.contactNumber,
@@ -45,6 +48,7 @@ class ProductDataList {
     required this.image,
     required this.isFavourite,
     required this.id,
+    required this.isCart,
   });
 
   factory ProductDataList.fromJson(Map<String, dynamic> json) =>
@@ -55,7 +59,9 @@ class ProductDataList {
         contactNumber: json["contactNumber"],
         price: json["price"],
         id: json["id"],
-        isFavourite: json["isFavourite"],
+        isFavourite: json["isFavourite"] ??
+            false, // Provide a default value if it's null
+        isCart: json["isCart"] ?? false, // Provide a default value if it's null
         image: List<String>.from(json["image"].map((x) => x)),
       );
 
@@ -67,6 +73,7 @@ class ProductDataList {
         "price": price,
         "id": id,
         "isFavourite": isFavourite,
+        "isCart": isCart,
         "image": List<dynamic>.from(image.map((x) => x)),
       };
 }

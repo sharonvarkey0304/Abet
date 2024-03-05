@@ -116,6 +116,7 @@ class StoreController extends GetxController {
             id: Uuid().v4(),
             image: images,
             isFavourite: false,
+            isCart: false,
           ),
         );
 
@@ -176,6 +177,25 @@ class StoreController extends GetxController {
           FirebaseFirestore.instance.collection('Products').doc(uid);
 
       item.isFavourite = !item.isFavourite;
+
+      productRef.update(
+        {
+          'product_list': productList.map((x) => x.toJson()).toList(),
+        },
+      );
+      update();
+    } catch (e) {
+      log('Error in liking image: $e');
+    }
+  }
+
+  Future<void> cartProduct({required ProductDataList item}) async {
+    try {
+      var uid = auth.currentUser?.uid;
+      DocumentReference productRef =
+          FirebaseFirestore.instance.collection('Products').doc(uid);
+
+      item.isCart = !item.isCart;
 
       productRef.update(
         {
