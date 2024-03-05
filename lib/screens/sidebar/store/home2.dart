@@ -1,3 +1,4 @@
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loginpage/controler/store_controller.dart';
@@ -50,16 +51,30 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 50,
                       width: MediaQuery.of(context).size.width / 1.5,
                       decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.05),
-                        borderRadius: BorderRadius.circular(10),
-                        // boxShadow: [
-                        //   BoxShadow(
-                        //     color: Colors.black12.withOpacity(0.05),
-                        //     blurRadius: 1,
-                        //     spreadRadius: 1,
-                        //   )
-                        // ]
-                      ),
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(60),
+                          border: Border(
+                            top: BorderSide(
+                              color: Color.fromARGB(255, 243, 223, 38),
+                            ),
+                            bottom: BorderSide(
+                              color: Color.fromARGB(255, 243, 223, 38),
+                            ),
+                            left: BorderSide(
+                              color: Color.fromARGB(255, 243, 223, 38),
+                            ),
+                            right: BorderSide(
+                              color: Color.fromARGB(255, 243, 223, 38),
+                            ),
+                          )
+                          // boxShadow: [
+                          //   BoxShadow(
+                          //     color: Colors.black12.withOpacity(0.05),
+                          //     blurRadius: 1,
+                          //     spreadRadius: 1,
+                          //   )
+                          // ]
+                          ),
                       child: TextFormField(
                         controller: controller.productSearchController,
                         onChanged: (value) {
@@ -67,8 +82,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                         decoration: InputDecoration(
                           prefixIcon: Icon(
-                            Icons.search,
-                            color: Colors.amber.shade900,
+                            EvaIcons.searchOutline,
+                            color: Color.fromARGB(255, 243, 223, 38),
                             size: 20,
                           ),
                           border: InputBorder.none,
@@ -92,17 +107,17 @@ class _HomeScreenState extends State<HomeScreen> {
                         //   ),
                         // ],
                       ),
-                      child: Center(
-                        child: Icon(
-                          Icons.notifications,
-                          color: Colors.amber.shade900,
-                        ),
-                      ),
+                      // child: Center(
+                      //   child: Icon(
+                      //     Icons.notifications,
+                      //     color: Colors.amber.shade900,
+                      //   ),
+                      // ),
                     ),
                   ],
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 Container(
                   height: 150,
@@ -120,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   child: Image.asset("assets/images/image1.jpg"),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 10),
                 SizedBox(
                   height: 50,
                   child: ListView.builder(
@@ -153,7 +168,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   ),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 15),
                 /*  SizedBox(
                   height: 280,
                   child: ListView.builder(
@@ -318,47 +333,59 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   item.image[0],
                                                 )),
                                           ),
-                                          Positioned(
-                                            right: 0,
-                                            top: 0,
-                                            child: CircleAvatar(
-                                              backgroundColor:
-                                                  Colors.white.withOpacity(0.5),
-                                              radius: 19,
-                                              child: IconButton(
-                                                onPressed: () {
-                                                  controller.likeProduct(
-                                                      item: item);
-                                                },
-                                                icon: Icon(
-                                                  item.isFavourite
-                                                      ? Icons.favorite
-                                                      : Icons
-                                                          .favorite_outline_outlined,
+                                          Stack(
+                                            children: [
+                                              Positioned(
+                                                right: 0,
+                                                top: 0,
+                                                child: CircleAvatar(
+                                                  backgroundColor: Colors.white
+                                                      .withOpacity(0.5),
+                                                  radius: 19,
+                                                  child: IconButton(
+                                                    onPressed: () {
+                                                      controller.likeProduct(
+                                                          item: item);
+                                                    },
+                                                    icon: Icon(
+                                                      item.isFavourite
+                                                          ? Icons.favorite
+                                                          : Icons
+                                                              .favorite_outline_outlined,
+                                                    ),
+                                                    color: item.isFavourite
+                                                        ? Colors.red
+                                                        : Colors.black,
+                                                  ),
                                                 ),
-                                                color: item.isFavourite
-                                                    ? Colors.red
-                                                    : Colors.black,
                                               ),
-                                            ),
+                                            ],
                                           ),
-                                          Positioned(
-                                            right: 0,
-                                            top: 50,
-                                            child: CircleAvatar(
-                                              backgroundColor:
-                                                  Colors.white.withOpacity(0.5),
-                                              radius: 19,
-                                              child: IconButton(
-                                                onPressed: () {
-                                                  controller.deleteProduct(
-                                                      item: item);
-                                                },
-                                                icon: Icon(
-                                                  Icons.delete,
+                                          Stack(
+                                            children: [
+                                              Positioned(
+                                                right: 0,
+                                                top: 70,
+                                                child: CircleAvatar(
+                                                  backgroundColor: Colors.white
+                                                      .withOpacity(0.5),
+                                                  radius: 19,
+                                                  child: IconButton(
+                                                    onPressed: () {
+                                                      controller.cartProduct(
+                                                          item: item);
+                                                    },
+                                                    icon: Icon(item.isCart
+                                                        ? EvaIcons.shoppingCart
+                                                        : EvaIcons
+                                                            .shoppingCartOutline),
+                                                    color: item.isCart
+                                                        ? Colors.yellow
+                                                        : Colors.black,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
+                                            ],
                                           ),
                                         ],
                                       ),
