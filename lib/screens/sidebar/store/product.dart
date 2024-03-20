@@ -162,7 +162,12 @@ class ProductScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    ProductDetails()
+                    ProductDetails(
+                      name: item.name,
+                      email: item.email,
+                      phoneNumber: item.contactNumber,
+                      price: item.price,
+                    )
                   ],
                 )
               ],
