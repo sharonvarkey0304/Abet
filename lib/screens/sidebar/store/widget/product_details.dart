@@ -6,13 +6,13 @@ import 'package:loginpage/model/user_model.dart';
 import 'package:loginpage/screens/sidebar/store/widget/container_button.dart';
 
 class ProductDetails extends StatelessWidget {
-  final String name;
+  final String sellername;
   final String email;
   final String phoneNumber;
   final String price;
   final controller = Get.put(ProfileController());
   ProductDetails({
-    required this.name,
+    required this.sellername,
     required this.email,
     required this.phoneNumber,
     required this.price,
@@ -23,10 +23,9 @@ class ProductDetails extends StatelessWidget {
     fontWeight: FontWeight.w600,
     fontSize: 18,
   );
-  // Usermodel? userData = controller.userData;
+
   @override
   Widget build(BuildContext context) {
-    Usermodel? userData = controller.userData;
     return InkWell(
       onTap: () {
         showModalBottomSheet(
@@ -77,7 +76,7 @@ class ProductDetails extends StatelessWidget {
                           Row(
                             children: [
                               SizedBox(width: 10),
-                              Text(userData!.name, style: iStyle),
+                              Text(sellername, style: iStyle),
                             ],
                           ),
                           SizedBox(height: 20),

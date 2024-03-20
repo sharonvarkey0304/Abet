@@ -70,6 +70,24 @@ class _AddProductState extends State<AddProduct> {
                         ),
                       ),
                       const SizedBox(
+                        height: 4,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 30, right: 25, left: 25),
+                        child: TextFormField(
+                          controller:
+                              _storeController.productsellerNameController,
+                          validator: _storeController.commonValidator,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          decoration: InputDecoration(
+                            labelText: 'Seller name',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
                         height: 20,
                       ),
                       Padding(

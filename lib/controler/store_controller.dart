@@ -19,6 +19,7 @@ enum AddProductStatus {
 
 class StoreController extends GetxController {
   TextEditingController productNameController = TextEditingController();
+  TextEditingController productsellerNameController = TextEditingController();
   TextEditingController productDetailsController = TextEditingController();
   TextEditingController productPriceController = TextEditingController();
   TextEditingController productContactNumController = TextEditingController();
@@ -112,6 +113,7 @@ class StoreController extends GetxController {
             details: productDetailsController.text.trim(),
             email: productEmailController.text.trim(),
             name: productNameController.text.trim(),
+            sellername: productsellerNameController.text.trim(),
             price: productPriceController.text.trim(),
             id: Uuid().v4(),
             image: images,
@@ -231,6 +233,7 @@ class StoreController extends GetxController {
 
   void clearProductForm() {
     productNameController.clear();
+    productsellerNameController.clear();
     productDetailsController.clear();
     productPriceController.clear();
     productContactNumController.clear();
