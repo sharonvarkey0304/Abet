@@ -11,8 +11,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final List tabs = ["All", "Category", "Top", "Recommend"];
-  var controller = Get.put(StoreController());
+  // final List tabs = ["All", "Category", "Top", "Recommend"];
+  // var controller = Get.put(StoreController());
 
   @override
   Widget build(BuildContext context) {
@@ -141,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: ListView.builder(
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
-                    itemCount: tabs.length,
+                    //itemCount: tabs.length,
                     itemBuilder: (context, index) {
                       return FittedBox(
                         child: Container(
@@ -149,20 +149,20 @@ class _HomeScreenState extends State<HomeScreen> {
                           margin: EdgeInsets.all(8),
                           padding: EdgeInsets.only(left: 15, right: 15),
                           decoration: BoxDecoration(
-                            color: Colors.black12.withOpacity(0.05),
+                            color: Color.fromARGB(255, 245, 151, 29),
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          child: Center(
-                              child: FittedBox(
-                            child: Text(
-                              tabs[index],
-                              style: TextStyle(
-                                color: Colors.black38,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
-                            ),
-                          )),
+                          // child: Center(
+                          //     child: FittedBox(
+                          //   child: Text(
+                          //     tabs[index],
+                          //     style: TextStyle(
+                          //       color: Colors.black38,
+                          //       fontWeight: FontWeight.bold,
+                          //       fontSize: 16,
+                          //     ),
+                          //   ),
+                          // )),
                         ),
                       );
                     },

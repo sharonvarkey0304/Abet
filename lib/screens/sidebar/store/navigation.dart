@@ -24,7 +24,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
     HomeScreen(),
     CartScreen(),
     FavoritesScreen(),
-    ProductUploads(),
+    ProductUploasds()
   ];
   @override
   Widget build(BuildContext context) {
