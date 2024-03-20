@@ -32,6 +32,7 @@ class ContributionController extends GetxController {
   TextEditingController subjectController = TextEditingController();
   TextEditingController detailsController = TextEditingController();
   TextEditingController contributionSearchController = TextEditingController();
+
   String? image;
 
   Map<String, Map<String, List<String>>> semesterMap = {

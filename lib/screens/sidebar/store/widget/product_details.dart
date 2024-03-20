@@ -1,15 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:loginpage/controler/profile_ctr.dart';
+import 'package:loginpage/model/user_model.dart';
 import 'package:loginpage/screens/sidebar/store/widget/container_button.dart';
 
 class ProductDetails extends StatelessWidget {
+  final String name;
+  final String email;
+  final String phoneNumber;
+  final String price;
+  final controller = Get.put(ProfileController());
+  ProductDetails({
+    required this.name,
+    required this.email,
+    required this.phoneNumber,
+    required this.price,
+  });
+
   final iStyle = TextStyle(
     color: Colors.black87,
     fontWeight: FontWeight.w600,
     fontSize: 18,
   );
-
+  // Usermodel? userData = controller.userData;
   @override
   Widget build(BuildContext context) {
+    Usermodel? userData = controller.userData;
     return InkWell(
       onTap: () {
         showModalBottomSheet(
@@ -60,21 +77,21 @@ class ProductDetails extends StatelessWidget {
                           Row(
                             children: [
                               SizedBox(width: 10),
-                              Text("Abin", style: iStyle),
+                              Text(userData!.name, style: iStyle),
                             ],
                           ),
                           SizedBox(height: 20),
                           Row(
                             children: [
                               SizedBox(width: 10),
-                              Text("abin325@gmail.com", style: iStyle),
+                              Text(email, style: iStyle),
                             ],
                           ),
                           SizedBox(height: 20),
                           Row(
                             children: [
                               SizedBox(width: 10),
-                              Text("+91983671825", style: iStyle),
+                              Text(phoneNumber, style: iStyle),
                             ],
                           ),
                         ],
@@ -87,7 +104,7 @@ class ProductDetails extends StatelessWidget {
                     children: [
                       Text("Total Payment", style: iStyle),
                       Text(
-                        "Rs 200",
+                        "$price",
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
