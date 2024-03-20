@@ -30,6 +30,7 @@ class _SybullsState extends State<Sybulls> {
             color: Colors.white,
           ),
         ),
+        centerTitle: true,
         backgroundColor: Colors.red,
       ),
       body: _buildUI(),
@@ -49,7 +50,7 @@ class _SybullsState extends State<Sybulls> {
               onPressed: () {
                 pdfControllerPinch.previousPage(
                   duration: const Duration(
-                    milliseconds: 500,
+                    milliseconds: 200,
                   ),
                   curve: Curves.linear,
                 );

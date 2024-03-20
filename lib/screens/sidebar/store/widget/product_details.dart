@@ -21,7 +21,7 @@ class ProductDetails extends StatelessWidget {
   final iStyle = TextStyle(
     color: Colors.black87,
     fontWeight: FontWeight.w600,
-    fontSize: 18,
+    fontSize: 16,
   );
   // Usermodel? userData = controller.userData;
   @override
@@ -32,95 +32,98 @@ class ProductDetails extends StatelessWidget {
         showModalBottomSheet(
           backgroundColor: Colors.transparent,
           context: context,
-          builder: (context) => Container(
-            height: MediaQuery.of(context).size.height / 2.5,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(40),
-                topRight: Radius.circular(40),
+          builder: (context) => SingleChildScrollView(
+            child: Container(
+              height: MediaQuery.of(context).size.height / 2.5,
+              width: MediaQuery.of(context).size.width / 0.9,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(40),
+                  topRight: Radius.circular(40),
+                ),
               ),
-            ),
-            child: Padding(
-              padding: EdgeInsets.all(30),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Name:",
-                            style: iStyle,
-                          ),
-                          SizedBox(height: 20),
-                          Text(
-                            "E-mail:",
-                            style: iStyle,
-                          ),
-                          SizedBox(height: 20),
-                          Text(
-                            "Ph No:",
-                            style: iStyle,
-                          ),
-                          SizedBox(height: 20),
-                        ],
-                      ),
-                      SizedBox(width: 30),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              SizedBox(width: 10),
-                              Text(userData!.name, style: iStyle),
-                            ],
-                          ),
-                          SizedBox(height: 20),
-                          Row(
-                            children: [
-                              SizedBox(width: 10),
-                              Text(email, style: iStyle),
-                            ],
-                          ),
-                          SizedBox(height: 20),
-                          Row(
-                            children: [
-                              SizedBox(width: 10),
-                              Text(phoneNumber, style: iStyle),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Total Payment", style: iStyle),
-                      Text(
-                        "$price",
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black45),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  InkWell(
-                    child: ContainerButton(
-                      containerWidth: MediaQuery.of(context).size.width,
-                      itext: "Contact",
-                      bgcolor: Colors.amber,
+              child: Padding(
+                padding: EdgeInsets.all(30),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Name:",
+                              style: iStyle,
+                            ),
+                            SizedBox(height: 20),
+                            Text(
+                              "E-mail:",
+                              style: iStyle,
+                            ),
+                            SizedBox(height: 20),
+                            Text(
+                              "Ph No:",
+                              style: iStyle,
+                            ),
+                            SizedBox(height: 20),
+                          ],
+                        ),
+                        SizedBox(width: 30),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                SizedBox(width: 10),
+                                Text(userData!.name, style: iStyle),
+                              ],
+                            ),
+                            SizedBox(height: 20),
+                            Row(
+                              children: [
+                                SizedBox(width: 10),
+                                Text(email, style: iStyle),
+                              ],
+                            ),
+                            SizedBox(height: 20),
+                            Row(
+                              children: [
+                                SizedBox(width: 10),
+                                Text(phoneNumber, style: iStyle),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                  ),
-                ],
+                    SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Total Payment", style: iStyle),
+                        Text(
+                          "$price",
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black45),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    InkWell(
+                      child: ContainerButton(
+                        containerWidth: MediaQuery.of(context).size.width,
+                        itext: "Contact",
+                        bgcolor: Colors.amber,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
