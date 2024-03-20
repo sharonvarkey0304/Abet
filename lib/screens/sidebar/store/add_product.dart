@@ -73,6 +73,23 @@ class _AddProductState extends State<AddProduct> {
                         height: 20,
                       ),
                       Padding(
+                        padding: EdgeInsets.only(top: 30, right: 25, left: 25),
+                        child: TextFormField(
+                          controller: _storeController.sellerNameController,
+                          validator: _storeController.commonValidator,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          decoration: InputDecoration(
+                            labelText: 'Seller name',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Padding(
                         padding: EdgeInsets.symmetric(horizontal: 25),
                         child: TextFormField(
                           controller: _storeController.productDetailsController,

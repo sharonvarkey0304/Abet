@@ -163,7 +163,7 @@ class ProductScreen extends StatelessWidget {
                       ),
                     ),
                     ProductDetails(
-                      name: item.name,
+                      sellername: item.sellername,
                       email: item.email,
                       phoneNumber: item.contactNumber,
                       price: item.price,

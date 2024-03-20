@@ -30,6 +30,7 @@ class ProductModel {
 
 class ProductDataList {
   String name;
+  String sellername;
   String details;
   String price;
   String contactNumber;
@@ -43,6 +44,7 @@ class ProductDataList {
     required this.contactNumber,
     required this.details,
     required this.email,
+    required this.sellername,
     required this.name,
     required this.price,
     required this.image,
@@ -54,6 +56,7 @@ class ProductDataList {
   factory ProductDataList.fromJson(Map<String, dynamic> json) =>
       ProductDataList(
         name: json["name"],
+        sellername: json["sellername"],
         email: json["email"],
         details: json["details"],
         contactNumber: json["contactNumber"],
@@ -67,6 +70,7 @@ class ProductDataList {
 
   Map<String, dynamic> toJson() => {
         "name": name,
+        "sellername": sellername,
         "email": email,
         "details": details,
         "contactNumber": contactNumber,
