@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loginpage/controler/firebase_auth.dart';
@@ -186,16 +187,18 @@ class _ProfileDetailState extends State<ProfileDetail> {
                             color: Colors.yellow),
                         child: const Icon(Icons.help),
                       ),
-                      title: Text('help and support'),
+                      title: Text('Rating'),
                       trailing: Container(
                         width: 30,
                         height: 30,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(100),
                             color: Colors.white30),
-                        child: const Icon(Icons.arrow_forward_sharp),
+                        //child: const Icon(Icons.arrow_forward_sharp),
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        _showRatingBottomSheet(context);
+                      },
                     ),
                     SizedBox(
                       height: 10,
@@ -209,16 +212,18 @@ class _ProfileDetailState extends State<ProfileDetail> {
                             color: Colors.yellow),
                         child: const Icon(Icons.feedback),
                       ),
-                      title: Text('feedback'),
+                      title: Text('Feedback'),
                       trailing: Container(
                         width: 30,
                         height: 30,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(100),
                             color: Colors.white30),
-                        child: const Icon(Icons.arrow_forward_sharp),
+                        //child: const Icon(Icons.arrow_forward_sharp),
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        _showFeedbackBottomSheet(context);                      
+                      },
                     ),
                     SizedBox(
                       height: 20,
@@ -298,3 +303,89 @@ class _ProfileDetailState extends State<ProfileDetail> {
     );
   }
 }
+
+void _showFeedbackBottomSheet(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return Dialog(
+        child: Container(
+          padding: EdgeInsets.all(20),
+          constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.8),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                'Provide Feedback',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 20),
+              TextField(
+                decoration: InputDecoration(
+                  hintText: 'Enter your feedback here',
+                  border: OutlineInputBorder(),
+                ),
+                maxLines: 3,
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  // Implement submission logic here
+                  Navigator.of(context).pop();
+                },
+                child: Text('Submit'),
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
+}
+
+void _showRatingBottomSheet(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return Dialog(
+        child: Container(
+          padding: EdgeInsets.all(20),
+          constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.8),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                'Rate Your Experience',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 20),
+              Align(
+                alignment: Alignment.center,
+                child: RatingBar.builder(
+                  initialRating: 2.5,
+                  minRating: 1,
+                  direction: Axis.horizontal,
+                  allowHalfRating: true,
+                  itemCount: 5,
+                  itemSize: 25,
+                  itemPadding: EdgeInsets.symmetric(horizontal: 10.0),
+                  itemBuilder: (context, _) => Icon(
+                    Icons.star,
+                    color: Colors.amber,
+                  ),
+                  onRatingUpdate: (rating) {},
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
+}
+
+
