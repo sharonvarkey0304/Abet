@@ -80,7 +80,7 @@ class ProductScreen extends StatelessWidget {
                         ),
                         SizedBox(height: 5),
                         Text(
-                          "Maths Test Books",
+                          "",
                           style: TextStyle(
                             color: Colors.black54,
                             fontWeight: FontWeight.w500,
