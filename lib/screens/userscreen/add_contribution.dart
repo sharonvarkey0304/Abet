@@ -250,6 +250,8 @@ class _AddMaterialState extends State<AddMaterial> {
                               onPressed: () {
                                 if (_formKey.currentState?.validate() ?? true) {
                                   contributionController.onSubmitButton();
+                                  // Reset the form after successful submission
+                                  _formKey.currentState?.reset();
                                 }
                               },
                               child: contributionController.isSubmitLoading

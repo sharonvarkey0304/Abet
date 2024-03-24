@@ -128,7 +128,16 @@ class _AddProductState extends State<AddProduct> {
                         child: TextFormField(
                           controller:
                               _storeController.productContactNumController,
-                          validator: _storeController.commonValidator,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter a phone number';
+                            }
+                            if (value.length != 10 ||
+                                !RegExp(r'^[0-9]+$').hasMatch(value)) {
+                              return 'Phone number must be 10 digits';
+                            }
+                            return null;
+                          },
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           keyboardType: TextInputType.phone,
                           decoration: InputDecoration(
@@ -143,7 +152,16 @@ class _AddProductState extends State<AddProduct> {
                         padding: EdgeInsets.only(top: 30, right: 25, left: 25),
                         child: TextFormField(
                           controller: _storeController.productEmailController,
-                          validator: _storeController.commonValidator,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter an email';
+                            }
+                            if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                                .hasMatch(value)) {
+                              return 'Please enter a valid email';
+                            }
+                            return null;
+                          },
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(

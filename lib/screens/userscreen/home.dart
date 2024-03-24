@@ -121,7 +121,6 @@ class _ScreenHomeState extends State<ScreenHome> {
                   ),
                 ),
               ),
-
               SizedBox(
                 height: 220,
                 child: CarouselSlider(
@@ -141,7 +140,6 @@ class _ScreenHomeState extends State<ScreenHome> {
                   ),
                 ),
               ),
-
               Container(
                 height: 50,
                 margin: const EdgeInsets.only(left: 2, right: 2),
@@ -217,7 +215,6 @@ class _ScreenHomeState extends State<ScreenHome> {
                 ),
               ),
               const SizedBox(height: 5),
-
               contributionController.contributionStatus ==
                       ContributionStatus.loading
                   ? Center(
@@ -227,86 +224,6 @@ class _ScreenHomeState extends State<ScreenHome> {
                           ContributionStatus.error
                       ? Center(child: Text("Something went wrong"))
                       : _sample(context),
-
-              //Story cards starts here..
-              // Column(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: <Widget>[
-              //     Row(
-              //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //       children: <Widget>[
-              //         Expanded(
-              //           child: GestureDetector(
-              //             onTap: () {},
-              //             child: const StoryCard(
-              //                 //imagePath: 'assets/images/login.jpg',
-              //                 storyCardText: 'java script'),
-              //           ),
-              //         ),
-              //         Expanded(
-              //           child: GestureDetector(
-              //             onTap: () {},
-              //             child: const StoryCard(
-              //                 //imagePath: 'assets/images/login.jpg',
-              //                 storyCardText: 'sgdhd'),
-              //           ),
-              //         ),
-              //       ],
-              //     ),
-              //     const SizedBox(height: 5),
-              //     Row(
-              //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //       children: <Widget>[
-              //         Expanded(
-              //           child: GestureDetector(
-              //             onTap: () {},
-              //             child: const StoryCard(
-              //                 // imagePath: 'assets/images/login.jpg',
-              //                 storyCardText: 'qqqqqqqq'),
-              //           ),
-              //         ),
-              //         Expanded(
-              //           child: GestureDetector(
-              //             onTap: () {},
-              //             child: const StoryCard(
-              //                 //imagePath: 'assets/images/login.jpg',
-              //                 storyCardText: 'sdffggg'),
-              //           ),
-              //         ),
-              //       ],
-              //     ),
-              //     const SizedBox(
-              //       height: 5,
-              //     ),
-              //     Row(
-              //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //       children: <Widget>[
-              //         Expanded(
-              //           child: GestureDetector(
-              //             onTap: () {},
-              //             child: const StoryCard(
-              //                 //imagePath: 'assets/images/login.jpg',
-              //                 storyCardText: 'djgbfn'),
-              //           ),
-              //         ),
-              //         Expanded(
-              //           child: GestureDetector(
-              //             onTap: () {
-              //               // Function to be called when the card is tapped
-              //               // Navigator.of(context)
-              //               //     .push(MaterialPageRoute(builder: (context) {
-              //               //   return LearnAndEntertain();
-              //               // }));
-              //             },
-              //             child: const StoryCard(
-              //                 //imagePath: 'assets/images/login.jpg',
-              //                 storyCardText: 'eeeeee'),
-              //           ),
-              //         ),
-              //       ],
-              //     ),
-              //   ],
-              // ),
             ],
           ),
         ),
@@ -348,10 +265,10 @@ class _ScreenHomeState extends State<ScreenHome> {
                       shrinkWrap: true,
                       physics: ScrollPhysics(),
                       itemCount:
-                          contributionCntrller.yourUploadSubjectList.length,
+                          contributionCntrller.itemsInsideSubjectList.length,
                       itemBuilder: (context, index) {
                         final item =
-                            contributionCntrller.yourUploadSubjectList[index];
+                            contributionCntrller.itemsInsideSubjectList[index];
                         return GestureDetector(
                           onTap: () {
                             Get.to(
@@ -444,128 +361,7 @@ class StoryCard extends StatelessWidget {
       ),
     );
   }
-
-  // Widget _sample(BuildContext context) {
-  //   return GetBuilder<ContributionController>(
-  //     builder: (contributionCntrller) {
-  //       return Scaffold(
-  //         extendBodyBehindAppBar: true,
-  //         backgroundColor: Colors.white,
-  //         body: CustomScrollView(
-  //           physics: ScrollPhysics(),
-  //           slivers: [
-  //             SliverAppBarWidget(
-  //               image: "assets/images/bck.jpg",
-  //               title: 'SEMESTER ${widget.semIndex}',
-  //             ),
-  //             SliverToBoxAdapter(
-  //               child: Column(
-  //                 children: [
-  //                   Container(
-  //                     width: MediaQuery.of(context).size.width,
-  //                     decoration: BoxDecoration(
-  //                       color: Colors.white,
-  //                       borderRadius: BorderRadius.only(
-  //                         topLeft: Radius.circular(30),
-  //                         topRight: Radius.circular(30),
-  //                       ),
-  //                       boxShadow: const [
-  //                         BoxShadow(
-  //                           color: Colors.white24,
-  //                           blurRadius: 10,
-  //                           offset: Offset(2, -2),
-  //                         )
-  //                       ],
-  //                     ),
-  //                     child: contributionCntrller.subjectList.isEmpty
-  //                         ? Center(
-  //                             child: Text("NO SUBJECT"),
-  //                           )
-  //                         : GridView.builder(
-  //                             gridDelegate:
-  //                                 SliverGridDelegateWithFixedCrossAxisCount(
-  //                               crossAxisCount: 2,
-  //                               childAspectRatio: 1.1,
-  //                               mainAxisSpacing: 25,
-  //                             ),
-  //                             shrinkWrap: true,
-  //                             physics: ScrollPhysics(),
-  //                             itemCount:
-  //                                 contributionCntrller.subjectList.length,
-  //                             itemBuilder: (context, index) {
-  //                               final item =
-  //                                   contributionCntrller.subjectList[index];
-  //                               return GestureDetector(
-  //                                 onTap: () {
-  //                                   Get.to(
-  //                                     ContentScreen(
-  //                                       subjectName:
-  //                                           item.subjectName.toString(),
-  //                                     ),
-  //                                   );
-  //                                 },
-  //                                 child: Container(
-  //                                   margin: EdgeInsets.symmetric(
-  //                                       vertical: 8, horizontal: 20),
-  //                                   decoration: BoxDecoration(
-  //                                     color: Color.fromARGB(255, 238, 241, 162),
-  //                                     borderRadius: BorderRadius.circular(15),
-  //                                   ),
-  //                                   child: Center(
-  //                                     child: Text(
-  //                                       item.subjectName ?? "No name",
-  //                                       textAlign: TextAlign.center,
-  //                                       maxLines: 4,
-  //                                       overflow: TextOverflow.ellipsis,
-  //                                       style: TextStyle(
-  //                                           fontSize: 16, color: Colors.black),
-  //                                     ),
-  //                                   ),
-  //                                 ),
-  //                               );
-  //                             },
-  //                           ),
-  //                   ),
-  //                 ],
-  //               ),
-  //             )
-  //           ],
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
 }
-
-// class StoryCard extends StatelessWidget {
-//   //final String imagePath;
-//   final String storyCardText;
-
-//   const StoryCard({
-//     super.key,
-//     //required this.imagePath,
-//     required this.storyCardText,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Card(
-//       child: Container(
-//         decoration: BoxDecoration(
-//           color: Colors.white,
-//           borderRadius: BorderRadius.circular(10.0),
-//         ),
-//         width: 150,
-//         height: 130,
-//         child: const Center(
-//           child: Padding(
-//             padding: EdgeInsets.all(8.0),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
 
 class ImageSlider extends StatelessWidget {
   final String imgUrl;

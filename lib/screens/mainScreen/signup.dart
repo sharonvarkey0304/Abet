@@ -88,19 +88,18 @@ class _SignUpState extends State<SignUp> {
                           prefixIcon: const Icon(
                             Icons.phone,
                           ),
-                          label: Text(
-                            'phone number',
-                            style: GoogleFonts.poppins(),
-                          ),
+                          labelText: 'Phone Number',
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15))),
-                      // validator: (value) {
-                      //   if (value == null || value.isEmpty) {
-                      //     return 'value is empty';
-                      //   } else {
-                      //     return null;
-                      //   }
-                      // },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Phone number is required';
+                        } else if (value.length != 10 ||
+                            !RegExp(r'^[0-9]+$').hasMatch(value)) {
+                          return 'Phone number must be 10 digits';
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(
                       height: 20,
